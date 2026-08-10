@@ -5,11 +5,11 @@
         "build": "turbo run build",
         "dev": "turbo run dev",
         "lint": "turbo run lint",
-        "format": "prettier --write \"**/*.{ts,tsx,md}\"",
         "check-types": "turbo run check-types"
     },
     "devDependencies": {
-        "prettier": "^3.7.4",
+        "@types/node": "^26.2.0",
+        "tsx": "^4.23.12",
         "turbo": "^2.10.9",
         "typescript": "5.9.2"
     },
@@ -19,10 +19,13 @@
     "devEngines": {
         "packageManager": {
             "name": "npm",
-            "version": "11.5.2"
+            "version": "^11.5.2"
         }
     },
     "workspaces": [
         "packages/*"
-    ]
+    ],
+    "dependencies": {
+        "zod": "^4.4.3"
+    }
 }
