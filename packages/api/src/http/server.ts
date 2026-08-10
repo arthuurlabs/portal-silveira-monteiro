@@ -8,6 +8,7 @@ import {
 } from 'fastify-type-provider-zod';
 
 import { env } from '../env.js';
+import { authPlugin } from './plugins/auth.js';
 import { cookiePlugin } from './plugins/cookie.js';
 import { corsPlugin } from './plugins/cors.js';
 import { docsPlugin } from './plugins/docs.js';
@@ -25,6 +26,7 @@ server.setErrorHandler(errorHandlerPlugin);
 await server.register(corsPlugin);
 await server.register(cookiePlugin);
 await server.register(rateLimitPlugin);
+await server.register(authPlugin);
 await server.register(docsPlugin);
 
 server.get('/health', () => ({ status: 'ok' }));
