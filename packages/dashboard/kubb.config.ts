@@ -4,8 +4,10 @@ import { pluginTs } from '@kubb/plugin-ts';
 import { pluginZod } from '@kubb/plugin-zod';
 import { defineConfig } from 'kubb/config';
 
+const apiUrl = process.env.VITE_API_URL || 'http://localhost:3080/docs/json';
+
 export default defineConfig({
-    input: 'http://localhost:3080/docs/json',
+    input: apiUrl,
 
     output: {
         path: './src/http',
