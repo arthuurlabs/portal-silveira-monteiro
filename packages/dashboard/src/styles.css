@@ -5,3 +5,158 @@
 @plugin '@tailwindcss/typography';
 
 @import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Fraunces', Georgia, serif;
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+    --color-warning: var(--warning);
+    --color-warning-foreground: var(--warning-foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+    --radius-2xl: calc(var(--radius) + 8px);
+
+    --shadow-soft: 0 1px 2px rgb(18 35 44 / 4%), 0 10px 30px rgb(18 35 44 / 6%);
+    --shadow-raised: 0 2px 4px rgb(18 35 44 / 6%), 0 18px 48px rgb(18 35 44 / 10%);
+}
+
+:root {
+    color-scheme: light;
+    --radius: 0.625rem;
+    --background: #f4f7f7;
+    --foreground: #16272f;
+    --card: #ffffff;
+    --card-foreground: #16272f;
+    --popover: #ffffff;
+    --popover-foreground: #16272f;
+    --primary: #123d4a;
+    --primary-foreground: #f8fbfb;
+    --secondary: #e6eef0;
+    --secondary-foreground: #183b46;
+    --muted: #eaf0f1;
+    --muted-foreground: #61747b;
+    --accent: #a7653f;
+    --accent-foreground: #ffffff;
+    --destructive: #b63d3d;
+    --destructive-foreground: #ffffff;
+    --success: #26705a;
+    --success-foreground: #ffffff;
+    --warning: #9b681d;
+    --warning-foreground: #ffffff;
+    --border: #d6e0e2;
+    --input: #c7d4d7;
+    --ring: #39798a;
+    --sidebar: #102e38;
+    --sidebar-foreground: #e8f0f1;
+    --sidebar-primary: #d2946e;
+    --sidebar-primary-foreground: #18313a;
+    --sidebar-accent: #1a414c;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: #2d5059;
+    --sidebar-ring: #88b7c1;
+}
+
+.dark {
+    color-scheme: dark;
+    --background: #0c2027;
+    --foreground: #edf3f3;
+    --card: #122c35;
+    --card-foreground: #edf3f3;
+    --popover: #16333c;
+    --popover-foreground: #edf3f3;
+    --primary: #8fc0c9;
+    --primary-foreground: #0c242c;
+    --secondary: #21424b;
+    --secondary-foreground: #edf3f3;
+    --muted: #193740;
+    --muted-foreground: #a7babf;
+    --accent: #d2946e;
+    --accent-foreground: #27160e;
+    --destructive: #df6c68;
+    --destructive-foreground: #2c0b0b;
+    --success: #69b99d;
+    --success-foreground: #08271e;
+    --warning: #dfb468;
+    --warning-foreground: #2b1b05;
+    --border: #2b4a53;
+    --input: #385761;
+    --ring: #8fc0c9;
+    --sidebar: #081b21;
+    --sidebar-foreground: #edf3f3;
+    --sidebar-primary: #d2946e;
+    --sidebar-primary-foreground: #27160e;
+    --sidebar-accent: #163640;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: #24444d;
+    --sidebar-ring: #8fc0c9;
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    html {
+        @apply bg-background;
+    }
+
+    body {
+        @apply min-h-screen bg-background font-sans text-foreground antialiased;
+    }
+
+    ::selection {
+        @apply bg-accent/25 text-foreground;
+    }
+}
+
+@layer components {
+    .sm-eyebrow {
+        @apply text-[0.6875rem] font-bold uppercase tracking-[0.16em] text-muted-foreground;
+    }
+
+    .sm-display {
+        @apply font-display text-4xl leading-[1.05] font-medium tracking-[-0.025em] text-foreground md:text-5xl;
+    }
+
+    .sm-rule {
+        position: relative;
+        height: 5px;
+        width: 4rem;
+        border-top: 1px solid var(--accent);
+        border-bottom: 1px solid color-mix(in oklab, var(--accent) 45%, transparent);
+    }
+}
