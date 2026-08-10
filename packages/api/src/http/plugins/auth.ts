@@ -11,14 +11,12 @@ import { UnauthorizedError } from '../_errors/unauthorized.js';
 
 declare module '@fastify/jwt' {
     interface FastifyJWT {
-        payload:
-            { sub: string } | { clientId: string; templateId: string; purpose: 'document-share' };
         user: {
             id: string;
             name: string;
             email: string;
             role: UserRole;
-            active: boolean;
+            isActive: boolean;
         };
     }
 }
@@ -49,10 +47,10 @@ export const authPlugin = fp(async (app: FastifyInstance) => {
 
         const user = await db.user.findUnique({
             where: { id: payload.sub },
-            select: { id: true, name: true, email: true, role: true, active: true },
+            select: { id: true, name: true, email: true, role: true, isActive: true },
         });
 
-        if (!user || !user.active) throw new UnauthorizedError();
+        if (!user || !user.isActive) throw new UnauthorizedError();
 
         this.user = user;
     });

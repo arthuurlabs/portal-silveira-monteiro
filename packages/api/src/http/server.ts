@@ -14,6 +14,9 @@ import { corsPlugin } from './plugins/cors.js';
 import { docsPlugin } from './plugins/docs.js';
 import { errorHandlerPlugin } from './plugins/error-handler.js';
 import { rateLimitPlugin } from './plugins/rate-limit.js';
+import { getMe } from './routes/get-me.js';
+import { signIn } from './routes/sign-in.js';
+import { signOut } from './routes/sign-out.js';
 
 const server = Fastify({
     logger: true,
@@ -21,13 +24,17 @@ const server = Fastify({
 
 server.setValidatorCompiler(validatorCompiler);
 server.setSerializerCompiler(serializerCompiler);
-server.setErrorHandler(errorHandlerPlugin);
 
+await server.register(errorHandlerPlugin);
 await server.register(corsPlugin);
 await server.register(cookiePlugin);
 await server.register(rateLimitPlugin);
 await server.register(authPlugin);
 await server.register(docsPlugin);
+
+signIn(server);
+signOut(server);
+getMe(server);
 
 server.get('/health', () => ({ status: 'ok' }));
 

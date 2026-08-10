@@ -1,5 +1,5 @@
 {
-  "name": "dashboard",
+  "name": "@portalsm/dashboard",
   "private": true,
   "type": "module",
   "imports": {
@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "vite dev --port 3000",
+    "generate": "kubb generate",
     "generate-routes": "tsr generate",
     "build": "vite build",
     "preview": "vite preview",
@@ -15,6 +16,7 @@
     "check": "biome check"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.7.1",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-devtools": "latest",
     "@tanstack/react-query": "latest",
@@ -30,9 +32,12 @@
     "nitro": "3.0.260610-beta",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-hook-form": "^7.85.0",
+    "sonner": "^2.0.8",
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.1.18",
-    "tw-animate-css": "^1.3.6"
+    "tw-animate-css": "^1.3.6",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.5",
