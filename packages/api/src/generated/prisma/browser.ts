@@ -27,3 +27,8 @@ export type User = Prisma.UserModel
  * 
  */
 export type Client = Prisma.ClientModel
+/**
+ * Model Intake
+ * 
+ */
+export type Intake = Prisma.IntakeModel

@@ -22,6 +22,8 @@ model User {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
+  intakes Intake[]
+
   @@map("users")
 }
 
@@ -40,6 +42,64 @@ model Client {
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
+  intakes Intake[]
+
   @@index([fullName])
   @@map("clients")
+}
+
+enum PracticeArea {
+  PREVIDENCIARIO
+  TRABALHISTA
+  CIVEL
+  FAMILIA
+  CONSUMIDOR
+  EMPRESARIAL
+  CONTRATOS
+  OUTRO
+}
+
+enum NextStep {
+  SOLICITAR_DOCUMENTOS
+  ELABORAR_PARECER
+  AGENDAR_RETORNO
+  ELABORAR_CONTRATO
+  PROTOCOLAR_ACAO
+  TENTATIVA_ACORDO
+  OUTRO
+}
+
+enum ReferralSource {
+  INDICACAO
+  INSTAGRAM
+  FACEBOOK
+  GOOGLE
+  SITE
+  OUTRO
+}
+
+model Intake {
+  id                  String          @id @default(cuid())
+  clientId            String          @map("client_id")
+  userId              String          @map("user_id")
+  practiceAreas       PracticeArea[]  @map("practice_areas")
+  practiceAreaOther   String?         @map("practice_area_other")
+  clientReport        String?         @map("client_report")
+  lawyerAnalysis      String?         @map("lawyer_analysis")
+  nextSteps           NextStep[]      @map("next_steps")
+  nextStepsOther      String?         @map("next_steps_other")
+  feeAmount           Float?          @map("fee_amount")
+  paymentMethod       String?         @map("payment_method")
+  referralSource      ReferralSource? @map("referral_source")
+  referredByName      String?         @map("referred_by_name")
+  referralSourceOther String?         @map("referral_source_other")
+  lgpdConsent         Boolean         @default(false) @map("lgpd_consent")
+  createdAt           DateTime        @default(now()) @map("created_at")
+  updatedAt           DateTime        @updatedAt @map("updated_at")
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@index([clientId, createdAt(sort: Desc)])
+  @@map("intakes")
 }

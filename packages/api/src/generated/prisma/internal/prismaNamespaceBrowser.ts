@@ -52,7 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  Client: 'Client'
+  Client: 'Client',
+  Intake: 'Intake'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -102,6 +103,29 @@ export const ClientScalarFieldEnum = {
 } as const
 
 export type ClientScalarFieldEnum = (typeof ClientScalarFieldEnum)[keyof typeof ClientScalarFieldEnum]
+
+
+export const IntakeScalarFieldEnum = {
+  id: 'id',
+  clientId: 'clientId',
+  userId: 'userId',
+  practiceAreas: 'practiceAreas',
+  practiceAreaOther: 'practiceAreaOther',
+  clientReport: 'clientReport',
+  lawyerAnalysis: 'lawyerAnalysis',
+  nextSteps: 'nextSteps',
+  nextStepsOther: 'nextStepsOther',
+  feeAmount: 'feeAmount',
+  paymentMethod: 'paymentMethod',
+  referralSource: 'referralSource',
+  referredByName: 'referredByName',
+  referralSourceOther: 'referralSourceOther',
+  lgpdConsent: 'lgpdConsent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type IntakeScalarFieldEnum = (typeof IntakeScalarFieldEnum)[keyof typeof IntakeScalarFieldEnum]
 
 
 export const SortOrder = {

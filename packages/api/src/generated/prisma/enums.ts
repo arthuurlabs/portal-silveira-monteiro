@@ -15,3 +15,42 @@ export const UserRole = {
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const PracticeArea = {
+  PREVIDENCIARIO: 'PREVIDENCIARIO',
+  TRABALHISTA: 'TRABALHISTA',
+  CIVEL: 'CIVEL',
+  FAMILIA: 'FAMILIA',
+  CONSUMIDOR: 'CONSUMIDOR',
+  EMPRESARIAL: 'EMPRESARIAL',
+  CONTRATOS: 'CONTRATOS',
+  OUTRO: 'OUTRO'
+} as const
+
+export type PracticeArea = (typeof PracticeArea)[keyof typeof PracticeArea]
+
+
+export const NextStep = {
+  SOLICITAR_DOCUMENTOS: 'SOLICITAR_DOCUMENTOS',
+  ELABORAR_PARECER: 'ELABORAR_PARECER',
+  AGENDAR_RETORNO: 'AGENDAR_RETORNO',
+  ELABORAR_CONTRATO: 'ELABORAR_CONTRATO',
+  PROTOCOLAR_ACAO: 'PROTOCOLAR_ACAO',
+  TENTATIVA_ACORDO: 'TENTATIVA_ACORDO',
+  OUTRO: 'OUTRO'
+} as const
+
+export type NextStep = (typeof NextStep)[keyof typeof NextStep]
+
+
+export const ReferralSource = {
+  INDICACAO: 'INDICACAO',
+  INSTAGRAM: 'INSTAGRAM',
+  FACEBOOK: 'FACEBOOK',
+  GOOGLE: 'GOOGLE',
+  SITE: 'SITE',
+  OUTRO: 'OUTRO'
+} as const
+
+export type ReferralSource = (typeof ReferralSource)[keyof typeof ReferralSource]

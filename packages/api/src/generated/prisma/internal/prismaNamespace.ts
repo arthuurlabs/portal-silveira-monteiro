@@ -398,7 +398,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
-  Client: 'Client'
+  Client: 'Client',
+  Intake: 'Intake'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -414,7 +415,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "client"
+    modelProps: "user" | "client" | "intake"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -566,6 +567,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Intake: {
+      payload: Prisma.$IntakePayload<ExtArgs>
+      fields: Prisma.IntakeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.IntakeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IntakePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.IntakeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IntakePayload>
+        }
+        findFirst: {
+          args: Prisma.IntakeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IntakePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.IntakeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IntakePayload>
+        }
+        findMany: {
+          args: Prisma.IntakeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IntakePayload>[]
+        }
+        create: {
+          args: Prisma.IntakeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IntakePayload>
+        }
+        createMany: {
+          args: Prisma.IntakeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.IntakeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IntakePayload>[]
+        }
+        delete: {
+          args: Prisma.IntakeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IntakePayload>
+        }
+        update: {
+          args: Prisma.IntakeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IntakePayload>
+        }
+        deleteMany: {
+          args: Prisma.IntakeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.IntakeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.IntakeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IntakePayload>[]
+        }
+        upsert: {
+          args: Prisma.IntakeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IntakePayload>
+        }
+        aggregate: {
+          args: Prisma.IntakeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateIntake>
+        }
+        groupBy: {
+          args: Prisma.IntakeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.IntakeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.IntakeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.IntakeCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -636,6 +711,29 @@ export const ClientScalarFieldEnum = {
 } as const
 
 export type ClientScalarFieldEnum = (typeof ClientScalarFieldEnum)[keyof typeof ClientScalarFieldEnum]
+
+
+export const IntakeScalarFieldEnum = {
+  id: 'id',
+  clientId: 'clientId',
+  userId: 'userId',
+  practiceAreas: 'practiceAreas',
+  practiceAreaOther: 'practiceAreaOther',
+  clientReport: 'clientReport',
+  lawyerAnalysis: 'lawyerAnalysis',
+  nextSteps: 'nextSteps',
+  nextStepsOther: 'nextStepsOther',
+  feeAmount: 'feeAmount',
+  paymentMethod: 'paymentMethod',
+  referralSource: 'referralSource',
+  referredByName: 'referredByName',
+  referralSourceOther: 'referralSourceOther',
+  lgpdConsent: 'lgpdConsent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type IntakeScalarFieldEnum = (typeof IntakeScalarFieldEnum)[keyof typeof IntakeScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -714,6 +812,62 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PracticeArea[]'
+ */
+export type ListEnumPracticeAreaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PracticeArea[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PracticeArea'
+ */
+export type EnumPracticeAreaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PracticeArea'>
+    
+
+
+/**
+ * Reference to a field of type 'NextStep[]'
+ */
+export type ListEnumNextStepFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NextStep[]'>
+    
+
+
+/**
+ * Reference to a field of type 'NextStep'
+ */
+export type EnumNextStepFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NextStep'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ReferralSource'
+ */
+export type EnumReferralSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReferralSource'>
+    
+
+
+/**
+ * Reference to a field of type 'ReferralSource[]'
+ */
+export type ListEnumReferralSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReferralSource[]'>
     
 
 
@@ -883,6 +1037,7 @@ export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaC
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   client?: Prisma.ClientOmit
+  intake?: Prisma.IntakeOmit
 }
 
 /* Types for Logging */
