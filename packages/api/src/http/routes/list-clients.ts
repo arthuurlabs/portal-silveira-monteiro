@@ -3,6 +3,12 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { z } from 'zod';
 
 import { db } from '../../db/prisma.js';
+import {
+    CLIENT_DETAIL_SELECT,
+    type ClientDetailRow,
+    clientDetailSchema,
+    serializeClientDetail,
+} from './client-schemas.js';
 
 const listClientsQuerySchema = z.object({
     page: z.coerce.number().int().min(1).default(1),
@@ -10,36 +16,6 @@ const listClientsQuerySchema = z.object({
     search: z.string().trim().min(1).optional(),
     isActive: z.enum(['true', 'false']).optional(),
 });
-
-const clientListItemSchema = z.object({
-    id: z.string(),
-    fullName: z.string(),
-    cpf: z.string(),
-    rg: z.string().nullable(),
-    birthDate: z.iso.date().nullable(),
-    maritalStatus: z.string().nullable(),
-    profession: z.string().nullable(),
-    phone: z.string().nullable(),
-    email: z.string().nullable(),
-    address: z.string().nullable(),
-    isActive: z.boolean(),
-    createdAt: z.iso.datetime(),
-});
-
-type ClientListRow = {
-    id: string;
-    fullName: string;
-    cpf: string;
-    rg: string | null;
-    birthDate: Date | null;
-    maritalStatus: string | null;
-    profession: string | null;
-    phone: string | null;
-    email: string | null;
-    address: string | null;
-    isActive: boolean;
-    createdAt: Date;
-};
 
 export const listClients = (app: FastifyInstance) =>
     app.withTypeProvider<ZodTypeProvider>().get(
@@ -53,7 +29,7 @@ export const listClients = (app: FastifyInstance) =>
                 querystring: listClientsQuerySchema,
                 response: {
                     200: z.object({
-                        data: z.array(clientListItemSchema),
+                        data: z.array(clientDetailSchema),
                         pagination: z.object({
                             page: z.number(),
                             pageSize: z.number(),
@@ -83,33 +59,16 @@ export const listClients = (app: FastifyInstance) =>
             const [rows, total] = (await db.$transaction([
                 db.client.findMany({
                     where,
-                    select: {
-                        id: true,
-                        fullName: true,
-                        cpf: true,
-                        rg: true,
-                        birthDate: true,
-                        maritalStatus: true,
-                        profession: true,
-                        phone: true,
-                        email: true,
-                        address: true,
-                        isActive: true,
-                        createdAt: true,
-                    },
+                    select: CLIENT_DETAIL_SELECT,
                     orderBy: { fullName: 'asc' },
                     skip: (page - 1) * pageSize,
                     take: pageSize,
                 }),
                 db.client.count({ where }),
-            ])) as [ClientListRow[], number];
+            ])) as [ClientDetailRow[], number];
 
             return reply.status(200).send({
-                data: rows.map((row) => ({
-                    ...row,
-                    birthDate: row.birthDate ? row.birthDate.toISOString().slice(0, 10) : null,
-                    createdAt: row.createdAt.toISOString(),
-                })),
+                data: rows.map(serializeClientDetail),
                 pagination: {
                     page,
                     pageSize,

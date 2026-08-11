@@ -12,7 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppLayoutRouteImport } from './routes/_app/layout'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AppClientsIndexRouteImport } from './routes/_app/clients/index'
+import { Route as AppClientsClient_idLayoutRouteImport } from './routes/_app/clients/$client_id/layout'
 import { Route as AuthSignInIndexRouteImport } from './routes/_auth/sign-in/index'
+import { Route as AppClientsClient_idIndexRouteImport } from './routes/_app/clients/$client_id/index'
+import { Route as AppClientsClient_idFilesIndexRouteImport } from './routes/_app/clients/$client_id/files/index'
+import { Route as AppClientsClient_idIntakesIndexRouteImport } from './routes/_app/clients/$client_id/intakes/index'
+import { Route as AppClientsClient_idTemplatesIndexRouteImport } from './routes/_app/clients/$client_id/templates/index'
 
 const AppLayoutRoute = AppLayoutRouteImport.update({
   id: '/_app',
@@ -28,35 +33,104 @@ const AppClientsIndexRoute = AppClientsIndexRouteImport.update({
   path: '/clients/',
   getParentRoute: () => AppLayoutRoute,
 } as any)
+const AppClientsClient_idLayoutRoute =
+  AppClientsClient_idLayoutRouteImport.update({
+    id: '/clients/$client_id',
+    path: '/clients/$client_id',
+    getParentRoute: () => AppLayoutRoute,
+  } as any)
 const AuthSignInIndexRoute = AuthSignInIndexRouteImport.update({
   id: '/_auth/sign-in/',
   path: '/sign-in/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppClientsClient_idIndexRoute =
+  AppClientsClient_idIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AppClientsClient_idLayoutRoute,
+  } as any)
+const AppClientsClient_idFilesIndexRoute =
+  AppClientsClient_idFilesIndexRouteImport.update({
+    id: '/files/',
+    path: '/files/',
+    getParentRoute: () => AppClientsClient_idLayoutRoute,
+  } as any)
+const AppClientsClient_idIntakesIndexRoute =
+  AppClientsClient_idIntakesIndexRouteImport.update({
+    id: '/intakes/',
+    path: '/intakes/',
+    getParentRoute: () => AppClientsClient_idLayoutRoute,
+  } as any)
+const AppClientsClient_idTemplatesIndexRoute =
+  AppClientsClient_idTemplatesIndexRouteImport.update({
+    id: '/templates/',
+    path: '/templates/',
+    getParentRoute: () => AppClientsClient_idLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
+  '/clients/$client_id': typeof AppClientsClient_idLayoutRouteWithChildren
   '/clients/': typeof AppClientsIndexRoute
   '/sign-in/': typeof AuthSignInIndexRoute
+  '/clients/$client_id/': typeof AppClientsClient_idIndexRoute
+  '/clients/$client_id/files/': typeof AppClientsClient_idFilesIndexRoute
+  '/clients/$client_id/intakes/': typeof AppClientsClient_idIntakesIndexRoute
+  '/clients/$client_id/templates/': typeof AppClientsClient_idTemplatesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AppIndexRoute
   '/clients': typeof AppClientsIndexRoute
   '/sign-in': typeof AuthSignInIndexRoute
+  '/clients/$client_id': typeof AppClientsClient_idIndexRoute
+  '/clients/$client_id/files': typeof AppClientsClient_idFilesIndexRoute
+  '/clients/$client_id/intakes': typeof AppClientsClient_idIntakesIndexRoute
+  '/clients/$client_id/templates': typeof AppClientsClient_idTemplatesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppLayoutRouteWithChildren
   '/_app/': typeof AppIndexRoute
+  '/_app/clients/$client_id': typeof AppClientsClient_idLayoutRouteWithChildren
   '/_app/clients/': typeof AppClientsIndexRoute
   '/_auth/sign-in/': typeof AuthSignInIndexRoute
+  '/_app/clients/$client_id/': typeof AppClientsClient_idIndexRoute
+  '/_app/clients/$client_id/files/': typeof AppClientsClient_idFilesIndexRoute
+  '/_app/clients/$client_id/intakes/': typeof AppClientsClient_idIntakesIndexRoute
+  '/_app/clients/$client_id/templates/': typeof AppClientsClient_idTemplatesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/clients/' | '/sign-in/'
+  fullPaths:
+    | '/'
+    | '/clients/$client_id'
+    | '/clients/'
+    | '/sign-in/'
+    | '/clients/$client_id/'
+    | '/clients/$client_id/files/'
+    | '/clients/$client_id/intakes/'
+    | '/clients/$client_id/templates/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/clients' | '/sign-in'
-  id: '__root__' | '/_app' | '/_app/' | '/_app/clients/' | '/_auth/sign-in/'
+  to:
+    | '/'
+    | '/clients'
+    | '/sign-in'
+    | '/clients/$client_id'
+    | '/clients/$client_id/files'
+    | '/clients/$client_id/intakes'
+    | '/clients/$client_id/templates'
+  id:
+    | '__root__'
+    | '/_app'
+    | '/_app/'
+    | '/_app/clients/$client_id'
+    | '/_app/clients/'
+    | '/_auth/sign-in/'
+    | '/_app/clients/$client_id/'
+    | '/_app/clients/$client_id/files/'
+    | '/_app/clients/$client_id/intakes/'
+    | '/_app/clients/$client_id/templates/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -87,6 +161,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppClientsIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
+    '/_app/clients/$client_id': {
+      id: '/_app/clients/$client_id'
+      path: '/clients/$client_id'
+      fullPath: '/clients/$client_id'
+      preLoaderRoute: typeof AppClientsClient_idLayoutRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
     '/_auth/sign-in/': {
       id: '/_auth/sign-in/'
       path: '/sign-in'
@@ -94,16 +175,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignInIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/clients/$client_id/': {
+      id: '/_app/clients/$client_id/'
+      path: '/'
+      fullPath: '/clients/$client_id/'
+      preLoaderRoute: typeof AppClientsClient_idIndexRouteImport
+      parentRoute: typeof AppClientsClient_idLayoutRoute
+    }
+    '/_app/clients/$client_id/files/': {
+      id: '/_app/clients/$client_id/files/'
+      path: '/files'
+      fullPath: '/clients/$client_id/files/'
+      preLoaderRoute: typeof AppClientsClient_idFilesIndexRouteImport
+      parentRoute: typeof AppClientsClient_idLayoutRoute
+    }
+    '/_app/clients/$client_id/intakes/': {
+      id: '/_app/clients/$client_id/intakes/'
+      path: '/intakes'
+      fullPath: '/clients/$client_id/intakes/'
+      preLoaderRoute: typeof AppClientsClient_idIntakesIndexRouteImport
+      parentRoute: typeof AppClientsClient_idLayoutRoute
+    }
+    '/_app/clients/$client_id/templates/': {
+      id: '/_app/clients/$client_id/templates/'
+      path: '/templates'
+      fullPath: '/clients/$client_id/templates/'
+      preLoaderRoute: typeof AppClientsClient_idTemplatesIndexRouteImport
+      parentRoute: typeof AppClientsClient_idLayoutRoute
+    }
   }
 }
 
+interface AppClientsClient_idLayoutRouteChildren {
+  AppClientsClient_idIndexRoute: typeof AppClientsClient_idIndexRoute
+  AppClientsClient_idFilesIndexRoute: typeof AppClientsClient_idFilesIndexRoute
+  AppClientsClient_idIntakesIndexRoute: typeof AppClientsClient_idIntakesIndexRoute
+  AppClientsClient_idTemplatesIndexRoute: typeof AppClientsClient_idTemplatesIndexRoute
+}
+
+const AppClientsClient_idLayoutRouteChildren: AppClientsClient_idLayoutRouteChildren =
+  {
+    AppClientsClient_idIndexRoute: AppClientsClient_idIndexRoute,
+    AppClientsClient_idFilesIndexRoute: AppClientsClient_idFilesIndexRoute,
+    AppClientsClient_idIntakesIndexRoute: AppClientsClient_idIntakesIndexRoute,
+    AppClientsClient_idTemplatesIndexRoute:
+      AppClientsClient_idTemplatesIndexRoute,
+  }
+
+const AppClientsClient_idLayoutRouteWithChildren =
+  AppClientsClient_idLayoutRoute._addFileChildren(
+    AppClientsClient_idLayoutRouteChildren,
+  )
+
 interface AppLayoutRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
+  AppClientsClient_idLayoutRoute: typeof AppClientsClient_idLayoutRouteWithChildren
   AppClientsIndexRoute: typeof AppClientsIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppIndexRoute: AppIndexRoute,
+  AppClientsClient_idLayoutRoute: AppClientsClient_idLayoutRouteWithChildren,
   AppClientsIndexRoute: AppClientsIndexRoute,
 }
 
