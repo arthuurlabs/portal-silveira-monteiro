@@ -23,6 +23,7 @@ model User {
   updatedAt    DateTime @updatedAt @map("updated_at")
 
   intakes Intake[]
+  tasks   Task[]
 
   @@map("users")
 }
@@ -114,4 +115,27 @@ model Template {
   updatedAt   DateTime @updatedAt @map("updated_at")
 
   @@map("templates")
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  userId      String     @map("user_id")
+  title       String
+  description String?
+  status      TaskStatus @default(TODO)
+  position    Int
+  dueDate     DateTime?  @map("due_date") @db.Date
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status, position])
+  @@map("tasks")
 }

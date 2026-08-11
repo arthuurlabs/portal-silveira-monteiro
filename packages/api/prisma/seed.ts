@@ -175,6 +175,14 @@ const SEED_TEMPLATES: { name: string; description: string; title: string; conten
     },
 ];
 
+const SEED_TASKS: { title: string; description?: string; status: 'TODO' | 'IN_PROGRESS' | 'DONE'; position: number }[] = [
+    { title: 'Revisar petição inicial', description: 'Conferir fundamentação antes do protocolo', status: 'TODO', position: 1000 },
+    { title: 'Separar documentos para audiência', status: 'TODO', position: 2000 },
+    { title: 'Responder e-mail do cliente', status: 'IN_PROGRESS', position: 1000 },
+    { title: 'Elaborar contrato de honorários', description: 'Novo cliente da área cível', status: 'IN_PROGRESS', position: 2000 },
+    { title: 'Protocolar recurso', status: 'DONE', position: 1000 },
+];
+
 async function seedAdmin() {
     const password = process.env.ADMIN_SEED_PASSWORD;
 
@@ -227,10 +235,33 @@ async function seedTemplates() {
     console.info(`${SEED_TEMPLATES.length} modelos de documento configurados`);
 }
 
+async function seedTasks() {
+    const admin = await db.user.findUniqueOrThrow({
+        where: { email: ADMIN_EMAIL },
+        select: { id: true },
+    });
+
+    for (const task of SEED_TASKS) {
+        const existingTask = await db.task.findFirst({
+            where: { userId: admin.id, title: task.title },
+            select: { id: true },
+        });
+
+        if (!existingTask) {
+            await db.task.create({
+                data: { ...task, userId: admin.id },
+            });
+        }
+    }
+
+    console.info(`${SEED_TASKS.length} tarefas de exemplo configuradas`);
+}
+
 async function main() {
     await seedAdmin();
     await seedClients();
     await seedTemplates();
+    await seedTasks();
 }
 
 main()

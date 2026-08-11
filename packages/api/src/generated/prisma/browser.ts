@@ -37,3 +37,8 @@ export type Intake = Prisma.IntakeModel
  * 
  */
 export type Template = Prisma.TemplateModel
+/**
+ * Model Task
+ * 
+ */
+export type Task = Prisma.TaskModel

@@ -17,19 +17,24 @@ import { rateLimitPlugin } from './plugins/rate-limit.js';
 import { createClient } from './routes/create-client.js';
 import { createIntake } from './routes/create-intake.js';
 import { createIntakePreviewLink } from './routes/create-intake-preview-link.js';
+import { createTask } from './routes/create-task.js';
 import { deleteIntake } from './routes/delete-intake.js';
+import { deleteTask } from './routes/delete-task.js';
 import { getClient } from './routes/get-client.js';
 import { getMe } from './routes/get-me.js';
 import { getPublicPreview } from './routes/get-public-preview.js';
 import { getTemplate } from './routes/get-template.js';
 import { listClients } from './routes/list-clients.js';
 import { listIntakes } from './routes/list-intakes.js';
+import { listTasks } from './routes/list-tasks.js';
 import { listTemplates } from './routes/list-templates.js';
+import { moveTask } from './routes/move-task.js';
 import { sendIntakeEmail } from './routes/send-intake-email.js';
 import { signIn } from './routes/sign-in.js';
 import { signOut } from './routes/sign-out.js';
 import { updateClient } from './routes/update-client.js';
 import { updateIntake } from './routes/update-intake.js';
+import { updateTask } from './routes/update-task.js';
 
 const server = Fastify({
     logger: true,
@@ -61,6 +66,11 @@ await server.register(sendIntakeEmail);
 await server.register(getPublicPreview);
 await server.register(listTemplates);
 await server.register(getTemplate);
+await server.register(listTasks);
+await server.register(createTask);
+await server.register(updateTask);
+await server.register(moveTask);
+await server.register(deleteTask);
 
 server.get('/health', () => ({ status: 'ok' }));
 
