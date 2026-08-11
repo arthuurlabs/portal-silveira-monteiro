@@ -1,5 +1,5 @@
 import { Link, useMatchRoute } from '@tanstack/react-router';
-import { LayoutDashboard, Scale, UserSearch } from 'lucide-react';
+import { FolderIcon, LayoutDashboard, Scale, UserSearch } from 'lucide-react';
 
 import {
     Sidebar,
@@ -21,6 +21,7 @@ import { NavUser } from './nav-user';
 const NAV_ITEMS = [
     { title: 'Painel', to: '/', icon: LayoutDashboard },
     { title: 'Clientes', to: '/clients', icon: UserSearch },
+    { title: 'Tarefas', to: '/tasks', icon: FolderIcon },
 ] as const;
 
 type AppSidebarProps = {
