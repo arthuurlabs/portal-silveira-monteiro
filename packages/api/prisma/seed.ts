@@ -9,70 +9,12 @@ import type { TemplateContent } from '../src/http/routes/template-schemas.js';
 const ADMIN_EMAIL = 'admin@portalsilveiramonteiro.com.br';
 const ADMIN_NAME = 'Admin';
 
-const SEED_CLIENTS = [
-    {
-        fullName: 'Ana Beatriz Ferreira Lima',
-        cpf: '111.222.333-44',
-        rg: '12.345.678-9',
-        birthDate: new Date('1988-04-12'),
-        maritalStatus: 'Casada',
-        profession: 'Professora',
-        phone: '(21) 99887-1122',
-        email: 'ana.lima@example.com',
-        address: 'Rua das Flores, 120 - Copacabana, Rio de Janeiro - RJ',
-        isActive: true,
-    },
-    {
-        fullName: 'Carlos Eduardo Souza Martins',
-        cpf: '222.333.444-55',
-        rg: '23.456.789-0',
-        birthDate: new Date('1979-11-03'),
-        maritalStatus: 'Solteiro',
-        profession: 'Engenheiro Civil',
-        phone: '(21) 98765-4321',
-        email: 'carlos.martins@example.com',
-        address: 'Avenida Ataulfo de Paiva, 500 - Leblon, Rio de Janeiro - RJ',
-        isActive: true,
-    },
-    {
-        fullName: 'Fernanda Costa Ribeiro',
-        cpf: '333.444.555-66',
-        rg: '34.567.890-1',
-        birthDate: new Date('1992-07-22'),
-        maritalStatus: 'Divorciada',
-        profession: 'Empresária',
-        phone: '(21) 97654-3210',
-        email: 'fernanda.ribeiro@example.com',
-        address: 'Rua Barão da Torre, 300 - Ipanema, Rio de Janeiro - RJ',
-        isActive: true,
-    },
-    {
-        fullName: 'João Pedro Almeida Santos',
-        cpf: '444.555.666-77',
-        rg: '45.678.901-2',
-        birthDate: new Date('1975-01-30'),
-        maritalStatus: 'Casado',
-        profession: 'Motorista de aplicativo',
-        phone: '(21) 96543-2109',
-        email: 'joao.santos@example.com',
-        address: 'Rua Voluntários da Pátria, 45 - Botafogo, Rio de Janeiro - RJ',
-        isActive: false,
-    },
-    {
-        fullName: 'Mariana Alves Pereira',
-        cpf: '555.666.777-88',
-        rg: '56.789.012-3',
-        birthDate: new Date('1960-09-18'),
-        maritalStatus: 'Viúva',
-        profession: 'Aposentada',
-        phone: '(21) 95432-1098',
-        email: 'mariana.pereira@example.com',
-        address: 'Rua Marquês de Abrantes, 88 - Flamengo, Rio de Janeiro - RJ',
-        isActive: true,
-    },
-];
-
-const SEED_TEMPLATES: { name: string; description: string; title: string; content: TemplateContent }[] = [
+const SEED_TEMPLATES: {
+    name: string;
+    description: string;
+    title: string;
+    content: TemplateContent;
+}[] = [
     {
         name: 'Procuração',
         description: 'Outorga de poderes ao escritório para atuação judicial e extrajudicial',
@@ -88,7 +30,10 @@ const SEED_TEMPLATES: { name: string; description: string; title: string; conten
                     type: 'paragraph',
                     text: '**PODERES:** Pelo presente Instrumento Particular de Procuração, o outorgante nomeia e constitui como seus bastantes procuradores os outorgados, conferindo-lhes os poderes da cláusula ad judicia et extra, para o foro em geral, em qualquer Juízo, Instância ou Tribunal, especialmente para propor e acompanhar ações cíveis, podendo promover ações indenizatórias, apresentar petições, contestar, recorrer, produzir provas, participar de audiências, firmar acordos, receber citações, intimações e notificações, requerer justiça gratuita, levantar alvarás, receber valores e dar quitação, bem como praticar todos os demais atos necessários ao fiel cumprimento deste mandato, podendo ainda substabelecer com ou sem reserva de poderes.',
                 },
-                { type: 'paragraph', text: 'São Gonçalo/RJ, _____ de ____________________ de 20____.' },
+                {
+                    type: 'paragraph',
+                    text: 'São Gonçalo/RJ, _____ de ____________________ de 20____.',
+                },
                 { type: 'signature-line', label: 'Assinatura do(a) cliente' },
             ],
         },
@@ -132,7 +77,10 @@ const SEED_TEMPLATES: { name: string; description: string; title: string; conten
                     type: 'paragraph',
                     text: '**CLÁUSULA 7ª – DO FORO.** Fica eleito o foro da Comarca de São Gonçalo/RJ para dirimir quaisquer controvérsias decorrentes deste contrato.',
                 },
-                { type: 'paragraph', text: 'São Gonçalo/RJ, ____ de ___________________ de ______.' },
+                {
+                    type: 'paragraph',
+                    text: 'São Gonçalo/RJ, ____ de ___________________ de ______.',
+                },
                 { type: 'paragraph', text: '**CONTRATANTE**' },
                 { type: 'signature-line' },
                 { type: 'paragraph', text: '{{client.fullName}}' },
@@ -159,7 +107,10 @@ const SEED_TEMPLATES: { name: string; description: string; title: string; conten
                     type: 'paragraph',
                     text: '**OUTORGADO SUBSTABELECIDO:** Diego Juliar da Silva, brasileiro, advogado, inscrito na OAB/RJ sob o nº 242.392.',
                 },
-                { type: 'paragraph', text: '**CLIENTE (OUTORGANTE ORIGINÁRIA):** {{client.qualification}}' },
+                {
+                    type: 'paragraph',
+                    text: '**CLIENTE (OUTORGANTE ORIGINÁRIA):** {{client.qualification}}',
+                },
                 {
                     type: 'paragraph',
                     text: 'O advogado substabelecente, acima qualificado, substabelece, com reserva de poderes, ao advogado substabelecido, todos os poderes que lhe foram conferidos por meio da procuração outorgada pela cliente acima indicada, especialmente aqueles constantes da cláusula ad judicia et extra, para atuar em qualquer juízo, instância ou tribunal, podendo promover a defesa em processos judiciais e administrativos, apresentar peças processuais, interpor recursos, produzir provas, requerer medidas cabíveis, inclusive habeas corpus, e praticar todos os atos necessários ao fiel cumprimento do mandato.',
@@ -173,14 +124,6 @@ const SEED_TEMPLATES: { name: string; description: string; title: string; conten
             ],
         },
     },
-];
-
-const SEED_TASKS: { title: string; description?: string; status: 'TODO' | 'IN_PROGRESS' | 'DONE'; position: number }[] = [
-    { title: 'Revisar petição inicial', description: 'Conferir fundamentação antes do protocolo', status: 'TODO', position: 1000 },
-    { title: 'Separar documentos para audiência', status: 'TODO', position: 2000 },
-    { title: 'Responder e-mail do cliente', status: 'IN_PROGRESS', position: 1000 },
-    { title: 'Elaborar contrato de honorários', description: 'Novo cliente da área cível', status: 'IN_PROGRESS', position: 2000 },
-    { title: 'Protocolar recurso', status: 'DONE', position: 1000 },
 ];
 
 async function seedAdmin() {
@@ -211,18 +154,6 @@ async function seedAdmin() {
     console.info(`Usuário administrador configurado: ${ADMIN_EMAIL}`);
 }
 
-async function seedClients() {
-    for (const client of SEED_CLIENTS) {
-        await db.client.upsert({
-            where: { cpf: client.cpf },
-            create: client,
-            update: client,
-        });
-    }
-
-    console.info(`${SEED_CLIENTS.length} clientes de teste configurados`);
-}
-
 async function seedTemplates() {
     for (const template of SEED_TEMPLATES) {
         await db.template.upsert({
@@ -235,33 +166,9 @@ async function seedTemplates() {
     console.info(`${SEED_TEMPLATES.length} modelos de documento configurados`);
 }
 
-async function seedTasks() {
-    const admin = await db.user.findUniqueOrThrow({
-        where: { email: ADMIN_EMAIL },
-        select: { id: true },
-    });
-
-    for (const task of SEED_TASKS) {
-        const existingTask = await db.task.findFirst({
-            where: { userId: admin.id, title: task.title },
-            select: { id: true },
-        });
-
-        if (!existingTask) {
-            await db.task.create({
-                data: { ...task, userId: admin.id },
-            });
-        }
-    }
-
-    console.info(`${SEED_TASKS.length} tarefas de exemplo configuradas`);
-}
-
 async function main() {
     await seedAdmin();
-    await seedClients();
     await seedTemplates();
-    await seedTasks();
 }
 
 main()
