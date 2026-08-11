@@ -12,7 +12,7 @@ function AppLayout() {
         return <div>Carregando...</div>;
     }
 
-    if (!data) return <Navigate to="/sign-in" replace/>;
+    if (!data) return <Navigate to="/sign-in" replace />;
 
     return <Outlet />;
 }

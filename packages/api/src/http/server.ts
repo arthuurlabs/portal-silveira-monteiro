@@ -28,13 +28,13 @@ server.setSerializerCompiler(serializerCompiler);
 await server.register(errorHandlerPlugin);
 await server.register(corsPlugin);
 await server.register(cookiePlugin);
-await server.register(rateLimitPlugin);
 await server.register(authPlugin);
+await server.register(rateLimitPlugin);
 await server.register(docsPlugin);
 
-signIn(server);
-signOut(server);
-getMe(server);
+await server.register(signIn);
+await server.register(signOut);
+await server.register(getMe);
 
 server.get('/health', () => ({ status: 'ok' }));
 

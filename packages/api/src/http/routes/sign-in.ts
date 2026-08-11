@@ -13,7 +13,7 @@ const signInBodySchema = z.object({
     password: z.string().min(1, 'Informe a senha'),
 });
 
-export const signIn = (app: FastifyInstance) =>
+export const signIn = async (app: FastifyInstance) =>
     app.withTypeProvider<ZodTypeProvider>().post(
         '/auth/sign-in',
         {
@@ -60,19 +60,12 @@ export const signIn = (app: FastifyInstance) =>
 
             const token = await reply.jwtSign({ sub: user.id });
 
-            return reply
-                .setCookie('token', token, {
-                    httpOnly: true,
-                    sameSite: 'lax',
-                    path: '/',
-                })
-                .status(200)
-                .send({
-                    id: user.id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role,
-                    isActive: user.isActive,
-                });
+            return reply.setCookie('token', token).status(200).send({
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                isActive: user.isActive,
+            });
         }
     );

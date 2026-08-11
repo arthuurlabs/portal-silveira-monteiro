@@ -1,19 +1,20 @@
 # Contexto das rotas do dashboard
 
-Esta pasta contém as páginas e layouts file-based do TanStack Router para o portal Silveira & Monteiro.
+Esta pasta contém as páginas e os layouts file-based do TanStack Router para o portal Silveira & Monteiro. Use este documento como referência para criar rotas, consumir a API, montar formulários e organizar componentes.
 
 ## Convenções do projeto
 
-- Use `createFileRoute` para páginas e `createRootRouteWithContext` somente em `__root.tsx`.
-- O plugin está configurado com `routeToken: "layout"`; arquivos `layout.tsx` representam layouts e renderizam `<Outlet />`.
-- Grupos iniciados por `_`, como `_auth` e `_app`, organizam layouts sem adicionar esse trecho à URL pública.
-- Use o alias `#/` para imports a partir de `src/`.
-- Não edite `src/routeTree.gen.ts`; execute o gerador de rotas.
-- Defina títulos e outras metatags no campo `head` da rota.
-- Componentes reutilizáveis pertencem a `src/components`, não ao arquivo da rota.
-- Regras de negócio e autorização pertencem à API.
+- Use `createFileRoute` para páginas
+- Use `createRootRouteWithContext` somente em `__root.tsx`
+- Use o alias `#/` para imports a partir de `src/`
+- Não edite `src/routeTree.gen.ts`; execute o gerador de rotas
+- Defina títulos e outras metatags no campo `head` da rota
+- Mantenha componentes reutilizáveis em `src/components`
+- Mantenha regras de negócio e autorização na API
 
-## Estrutura atual
+## Estrutura das rotas
+
+O plugin usa `routeToken: "layout"`. Por isso, arquivos `layout.tsx` representam layouts e renderizam `<Outlet />`. Grupos iniciados por `_`, como `_auth` e `_app`, organizam layouts sem adicionar esse trecho à URL pública.
 
 ```text
 routes/
@@ -26,11 +27,15 @@ routes/
         └── index.tsx
 ```
 
-- `__root.tsx`: documento HTML global, estilos, providers, scripts e metatags padrão.
-- `_auth`: páginas públicas relacionadas à autenticação.
-- `_app`: área interna da plataforma e ponto adequado para aplicar proteção de sessão e o shell do dashboard.
+Cada parte da estrutura tem uma responsabilidade:
 
-## Exemplo de página
+- `__root.tsx`: documento HTML global, estilos, providers, scripts e metatags padrão
+- `_auth`: páginas públicas relacionadas à autenticação
+- `_app`: área interna, proteção de sessão e shell do dashboard
+
+## Criação de páginas
+
+Crie cada página com `createFileRoute` e mantenha o arquivo da rota focado na composição da tela.
 
 ```tsx
 import { createFileRoute } from '@tanstack/react-router';
@@ -47,71 +52,67 @@ function ProfileRoute() {
 }
 ```
 
-O caminho passado a `createFileRoute` é mantido pelo gerador. Se o TypeScript ainda não reconhecer uma rota nova, execute `npm run generate-routes`.
+O gerador mantém o caminho passado a `createFileRoute`. Se o TypeScript não reconhecer uma rota nova, execute `npm run generate-routes`.
 
-## Dados da API
+### Metatags das páginas
 
-Consuma a API pelos hooks ou clientes gerados em `#/http`. Não escreva tipos de resposta manualmente dentro da rota e não edite o código gerado.
-
-Quando usar TanStack Query:
-
-- prefira hooks gerados pelo Kubb;
-- represente carregamento, erro e ausência de dados;
-- invalide as queries relacionadas depois de mutações;
-- não faça chamadas HTTP diretamente durante a renderização;
-- mantenha a configuração global do cliente em `src/integrations/tanstack-query`.
-
-## Autenticação
-
-Páginas públicas, como login, permanecem em `_auth`. Páginas que exigem sessão pertencem a `_app`.
-
-O layout `_app/layout.tsx` é o ponto central para:
-
-- consultar a sessão atual;
-- redirecionar visitantes não autenticados;
-- renderizar navegação, cabeçalho e `<Outlet />`;
-- compartilhar dados do usuário com as rotas filhas.
-
-O redirecionamento no frontend melhora a experiência, mas cada endpoint privado também deve ser protegido pela API.
-
-## Metatags
-
-Cada página relevante deve fornecer um título específico. Descrições podem ser adicionadas quando fizerem sentido para a tela.
+Cada página relevante deve fornecer um título específico. Adicione uma descrição quando ela ajudar a identificar o conteúdo da tela.
 
 ```ts
 head: () => ({
     meta: [
         { title: 'Usuários | Silveira & Monteiro' },
-        { name: 'description', content: 'Gerencie os usuários do portal.' },
+        {
+            name: 'description',
+            content: 'Gerencie os usuários do portal.',
+        },
     ],
 });
 ```
 
-Mantenha no `__root.tsx` apenas os metadados e recursos globais.
+Mantenha em `__root.tsx` apenas os metadados e recursos globais.
 
-## Interface
+## Autenticação e autorização
 
-- Use os componentes de `#/components/ui`.
-- Use tokens semânticos definidos em `styles.css`.
-- Mantenha textos em português e ações com verbos diretos.
-- Garanta foco visível, labels acessíveis e navegação por teclado.
-- Considere telas pequenas desde o início.
-- Não concentre componentes grandes e reutilizáveis no arquivo da rota.
+Mantenha páginas públicas, como o login, em `_auth`. Coloque páginas que exigem sessão em `_app`.
 
-## Padrão de formulários
+Use `_app/layout.tsx` para:
 
-Os formulários do dashboard seguem este conjunto de ferramentas:
+- consultar a sessão atual
+- redirecionar visitantes não autenticados
+- renderizar navegação, cabeçalho e `<Outlet />`
+- compartilhar dados do usuário com as rotas filhas
 
-- `react-hook-form` para estado, submissão e erros;
-- Zod para declarar o schema e inferir o tipo dos valores;
-- `@hookform/resolvers/zod` para conectar Zod ao formulário;
-- componentes `Form`, `FormField`, `FormItem`, `FormLabel`, `FormControl` e `FormMessage` do design system;
-- hooks de mutation gerados pelo Kubb;
-- TanStack Query para atualizar ou invalidar o cache após sucesso;
-- Sonner para feedback de erro e sucesso;
-- `getApiErrorMessage` para extrair mensagens de erro da API.
+O redirecionamento no frontend melhora a experiência. Proteja também cada endpoint privado na API.
 
-Declare o schema fora do componente e derive o tipo com `z.infer`. Defina todos os `defaultValues`, use `form.handleSubmit`, desabilite a ação principal durante `isPending` e mantenha labels, `autoComplete` e `aria-invalid` configurados.
+## Dados da API
+
+Consuma a API pelos hooks ou clientes gerados em `#/http`. Não declare tipos de resposta manualmente dentro da rota e não edite o código gerado.
+
+Ao usar TanStack Query:
+
+- prefira os hooks gerados pelo Kubb
+- represente carregamento, erro e ausência de dados
+- invalide as queries relacionadas depois de mutações
+- não faça chamadas HTTP durante a renderização
+- mantenha a configuração global em `src/integrations/tanstack-query`
+
+Os imports dos hooks devem seguir o diretório gerado pelo Kubb em `#/http`. Se a configuração de saída mudar, use o novo caminho e atualize este documento.
+
+## Formulários
+
+Os formulários do dashboard usam as seguintes ferramentas:
+
+- `react-hook-form` para estado, submissão e erros
+- Zod para declarar o schema e inferir o tipo dos valores
+- `@hookform/resolvers/zod` para conectar Zod ao formulário
+- componentes de formulário do shadcn/ui
+- hooks de mutation gerados pelo Kubb
+- TanStack Query para atualizar ou invalidar o cache
+- Sonner para feedback de erro e sucesso
+- `getApiErrorMessage` para extrair mensagens de erro da API
+
+Declare o schema fora do componente e derive o tipo com `z.infer`. Defina todos os `defaultValues`, use `form.handleSubmit` e desabilite a ação principal durante `isPending`. Configure também `label`, `autoComplete` e `aria-invalid`.
 
 ```tsx
 const loginSchema = z.object({
@@ -133,11 +134,16 @@ export const LoginForm = () => {
     const { mutate, isPending } = useLogin({
         mutation: {
             onSuccess: (user) => {
-                queryClient.setQueryData(getMeQueryOptions().queryKey, user);
+                const queryKey = getMeQueryOptions().queryKey;
+                queryClient.setQueryData(queryKey, user);
                 navigate({ to: '/' });
             },
             onError: (error) => {
-                toast.error(getApiErrorMessage(error, 'Não foi possível entrar'));
+                const message = getApiErrorMessage(
+                    error,
+                    'Não foi possível entrar',
+                );
+                toast.error(message);
             },
         },
     });
@@ -148,7 +154,10 @@ export const LoginForm = () => {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex flex-col gap-4"
+            >
                 <FormField
                     control={form.control}
                     name="email"
@@ -160,7 +169,9 @@ export const LoginForm = () => {
                                     id="email"
                                     type="email"
                                     autoComplete="email"
-                                    aria-invalid={Boolean(form.formState.errors.email)}
+                                    aria-invalid={Boolean(
+                                        form.formState.errors.email,
+                                    )}
                                     {...field}
                                 />
                             </FormControl>
@@ -169,8 +180,8 @@ export const LoginForm = () => {
                     )}
                 />
 
-                <Button type="submit" disabled={isPending} className="mt-2">
-                    {isPending ? 'Entrando...' : 'Entrar'}
+                <Button type="submit" disabled={isPending}>
+                    {isPending ? 'Entrando…' : 'Entrar'}
                 </Button>
             </form>
         </Form>
@@ -178,56 +189,71 @@ export const LoginForm = () => {
 };
 ```
 
-Regras adicionais:
+Siga estas regras em todos os formulários:
 
-1. Use um `FormField` por campo controlado.
-2. Mostre o erro do campo com `FormMessage`, sem duplicar mensagens manualmente.
-3. Use mensagens de validação em português e orientadas à correção.
-4. Use o hook gerado pelo Kubb em vez de criar mutations HTTP manualmente.
-5. Em `onSuccess`, atualize o cache diretamente quando a resposta já contém o dado completo; caso contrário, invalide a query relacionada.
-6. Em `onError`, prefira a mensagem retornada pela API e mantenha um fallback compreensível.
-7. Não acrescente propriedades artificiais ao cache que não existam no contrato retornado pela API.
-8. Separe formulários reutilizáveis da rota, mantendo a página responsável apenas pela composição.
+1. Use um `FormField` por campo controlado
+2. Mostre o erro com `FormMessage`, sem duplicar a mensagem manualmente
+3. Escreva mensagens de validação em português e orientadas à correção
+4. Use o hook gerado pelo Kubb em vez de criar mutations HTTP manualmente
+5. Atualize o cache diretamente quando a resposta contiver o dado completo
+6. Invalide a query relacionada quando a resposta não contiver o dado completo
+7. Em `onError`, prefira a mensagem da API e mantenha um fallback compreensível
+8. Não acrescente ao cache propriedades que não existam no contrato da API
+9. Extraia formulários reutilizáveis e mantenha a rota focada na composição
 
-Os imports dos hooks devem seguir o diretório atualmente gerado pelo Kubb em `#/http`. Se a configuração de saída mudar, use o novo caminho gerado e atualize este contexto.
+## Interface e componentes shadcn/ui
 
-## Componentes específicos da página
+Use os componentes do shadcn/ui instalados no projeto antes de criar qualquer componente visual novo. Eles ficam em `#/components/ui` e definem a base de aparência, comportamento e acessibilidade do dashboard.
 
-Não vão para `src/components/` — ficam co-localizados dentro da própria pasta da rota, em uma subpasta prefixada com `-` (o TanStack Router ignora qualquer arquivo ou pasta prefixado com `-` na geração de rotas):
+Siga esta ordem ao implementar uma interface:
 
-```
+1. Use um componente shadcn/ui já disponível em `#/components/ui`
+2. Componha os componentes shadcn/ui existentes para atender à tela
+3. Adicione ao projeto um componente oficial do shadcn/ui quando ele existir
+4. Crie um componente visual próprio somente em último caso
+
+Não recrie manualmente controles que o shadcn/ui já oferece, como botões, campos, labels, cards, badges, diálogos ou menus. Preserve a API e os estilos dos componentes instalados ao estendê-los.
+
+Além disso:
+
+- use tokens semânticos definidos em `styles.css`
+- mantenha os textos em português e use verbos diretos nas ações
+- garanta foco visível, labels acessíveis e navegação por teclado
+- projete a interface para telas pequenas desde o início
+- evite componentes grandes dentro do arquivo da rota
+
+## Organização dos componentes da página
+
+Componentes específicos de uma página ficam co-localizados na pasta da rota. Coloque-os em uma subpasta prefixada com `-`, que o TanStack Router ignora ao gerar as rotas.
+
+```text
 routes/
 └── clients/
-    ├── index.tsx              # rota /clients
-    ├── $clientId.tsx           # rota /clients/:clientId
+    ├── index.tsx
+    ├── $clientId.tsx
     └── -components/
         ├── client-list.tsx
         ├── client-form.tsx
         └── client-status-badge.tsx
 ```
 
-Use também `-hooks/`, `-queries/` dentro da pasta da rota quando fizer sentido isolar lógica específica daquela página.
+Use também `-hooks/` e `-queries/` para isolar lógica exclusiva da página. Mova para `src/components/` apenas o que for reutilizável fora daquela rota.
 
-## Quando criar um componente
+## Quando criar um componente próprio
 
-Crie um componente quando ocorrer pelo menos um destes casos:
+Crie um componente próprio somente quando os componentes shadcn/ui instalados ou disponíveis não atenderem ao caso. Mesmo assim, o novo componente deve cumprir pelo menos um destes critérios:
 
-**Tem uma única responsabilidade bem definida**
-Exemplo: `DocumentHeader` cuida somente do cabeçalho A4; `ClientCard` exibe somente o resumo de um cliente. Isso reduz acoplamento e facilita alterações.
+- **Responsabilidade definida**: representa uma parte identificável da interface, como `DocumentHeader` ou `ClientCard`
+- **Reutilização**: aparece em mais de um local e precisa manter aparência e comportamento consistentes
+- **Complexidade independente**: possui estado, eventos, regras ou cálculos próprios, como um `A4Document`
 
-**É reutilizado em vários locais**
-Exemplo: `Button`, `PageHeader`, `ClientShell` ou `DocumentFooter`. Centralizar evita duplicação e mantém aparência e comportamento consistentes.
+Use esta regra prática:
 
-**Possui lógica, estado ou complexidade própria**
-Mesmo usado em um único lugar, vale extrair quando possui regras independentes, eventos ou cálculos. Exemplo: `A4Document`, que mede blocos, pagina o conteúdo e controla cabeçalho e rodapé.
-
-Regra prática:
-
-```
-Responsabilidade própria
+```text
+responsabilidade própria
 OU reutilização
 OU complexidade independente
 = provável componente
 ```
 
-Evite criar componentes apenas para envolver poucas tags sem lógica, sem significado próprio e sem possibilidade de reutilização.
+Ao criar um componente próprio, componha os primitives do shadcn/ui sempre que possível. Não extraia componentes que apenas envolvam poucas tags sem lógica, significado próprio ou potencial de reutilização.
