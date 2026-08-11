@@ -23,7 +23,7 @@ const AppLayout = () => {
 			<AppSidebar user={user} />
 			<SidebarInset>
 				<AppHeader />
-				<div className="flex flex-1 flex-col gap-6 p-6">
+				<div className="flex flex-1 flex-col gap-6 p-6 print:gap-0 print:p-0">
 					<Outlet />
 				</div>
 			</SidebarInset>

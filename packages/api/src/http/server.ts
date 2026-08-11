@@ -21,8 +21,10 @@ import { deleteIntake } from './routes/delete-intake.js';
 import { getClient } from './routes/get-client.js';
 import { getMe } from './routes/get-me.js';
 import { getPublicPreview } from './routes/get-public-preview.js';
+import { getTemplate } from './routes/get-template.js';
 import { listClients } from './routes/list-clients.js';
 import { listIntakes } from './routes/list-intakes.js';
+import { listTemplates } from './routes/list-templates.js';
 import { sendIntakeEmail } from './routes/send-intake-email.js';
 import { signIn } from './routes/sign-in.js';
 import { signOut } from './routes/sign-out.js';
@@ -57,6 +59,8 @@ await server.register(deleteIntake);
 await server.register(createIntakePreviewLink);
 await server.register(sendIntakeEmail);
 await server.register(getPublicPreview);
+await server.register(listTemplates);
+await server.register(getTemplate);
 
 server.get('/health', () => ({ status: 'ok' }));
 

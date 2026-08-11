@@ -1,5 +1,6 @@
 import type { A4Item } from "#/components/shared/a4-document";
 import type { GetPublicPreviewStatus200 } from "#/http/types/GetPublicPreview";
+import { formatDate } from "#/lib/format-date";
 
 type PreviewIntake = GetPublicPreviewStatus200["intake"];
 type PreviewClient = GetPublicPreviewStatus200["client"];
@@ -32,11 +33,6 @@ const REFERRAL_SOURCE_LABEL: Record<string, string> = {
 	GOOGLE: "Google",
 	SITE: "Site",
 	OUTRO: "Outro",
-};
-
-const formatDate = (value: string | null) => {
-	if (!value) return null;
-	return new Date(value).toLocaleDateString("pt-BR", { timeZone: "UTC" });
 };
 
 const formatCurrency = (value: number) =>

@@ -56,3 +56,8 @@ export type Client = Prisma.ClientModel
  * 
  */
 export type Intake = Prisma.IntakeModel
+/**
+ * Model Template
+ * 
+ */
+export type Template = Prisma.TemplateModel

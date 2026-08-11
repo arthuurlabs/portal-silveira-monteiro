@@ -42,12 +42,12 @@ const ClientLayout = () => {
 		<div className="flex flex-col gap-6">
 			<Link
 				to="/clients"
-				className="w-fit text-sm text-muted-foreground hover:text-foreground"
+				className="w-fit text-sm text-muted-foreground hover:text-foreground print:hidden"
 			>
 				← Voltar para clientes
 			</Link>
 
-			<div className="flex items-center justify-between gap-4">
+			<div className="flex items-center justify-between gap-4 print:hidden">
 				<div className="flex flex-col gap-2">
 					<p className="sm-eyebrow">Cliente</p>
 					<h1 className="sm-display text-3xl md:text-4xl">{client.fullName}</h1>
@@ -65,7 +65,7 @@ const ClientLayout = () => {
 				</ClientUpsertDialog>
 			</div>
 
-			<Tabs value={activeTab}>
+			<Tabs value={activeTab} className="print:hidden">
 				<TabsList>
 					{CLIENT_TABS.map((tab) => (
 						<TabsTrigger key={tab.value} value={tab.value} asChild>
