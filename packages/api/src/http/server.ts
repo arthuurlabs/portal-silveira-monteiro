@@ -15,6 +15,7 @@ import { docsPlugin } from './plugins/docs.js';
 import { errorHandlerPlugin } from './plugins/error-handler.js';
 import { rateLimitPlugin } from './plugins/rate-limit.js';
 import { getMe } from './routes/get-me.js';
+import { listClients } from './routes/list-clients.js';
 import { signIn } from './routes/sign-in.js';
 import { signOut } from './routes/sign-out.js';
 
@@ -35,6 +36,7 @@ await server.register(docsPlugin);
 await server.register(signIn);
 await server.register(signOut);
 await server.register(getMe);
+await server.register(listClients);
 
 server.get('/health', () => ({ status: 'ok' }));
 

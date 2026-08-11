@@ -24,3 +24,22 @@ model User {
 
   @@map("users")
 }
+
+model Client {
+  id            String    @id @default(cuid())
+  fullName      String    @map("full_name")
+  cpf           String    @unique
+  rg            String?
+  birthDate     DateTime? @map("birth_date") @db.Date
+  maritalStatus String?   @map("marital_status")
+  profession    String?
+  phone         String?
+  email         String?
+  address       String?
+  isActive      Boolean   @default(true) @map("is_active")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@index([fullName])
+  @@map("clients")
+}
