@@ -38,8 +38,18 @@ export type ListClientsStatus200 = {
         id: string;
         fullName: string;
         cpf: string;
+        rg: string | null;
+        /**
+         * @description
+         * Format: `date`
+         * @type string
+        */
+        birthDate: string | null;
+        maritalStatus: string | null;
+        profession: string | null;
         phone: string | null;
         email: string | null;
+        address: string | null;
         isActive: boolean;
         /**
          * @description

@@ -14,10 +14,12 @@ import { corsPlugin } from './plugins/cors.js';
 import { docsPlugin } from './plugins/docs.js';
 import { errorHandlerPlugin } from './plugins/error-handler.js';
 import { rateLimitPlugin } from './plugins/rate-limit.js';
+import { createClient } from './routes/create-client.js';
 import { getMe } from './routes/get-me.js';
 import { listClients } from './routes/list-clients.js';
 import { signIn } from './routes/sign-in.js';
 import { signOut } from './routes/sign-out.js';
+import { updateClient } from './routes/update-client.js';
 
 const server = Fastify({
     logger: true,
@@ -37,6 +39,8 @@ await server.register(signIn);
 await server.register(signOut);
 await server.register(getMe);
 await server.register(listClients);
+await server.register(createClient);
+await server.register(updateClient);
 
 server.get('/health', () => ({ status: 'ok' }));
 
