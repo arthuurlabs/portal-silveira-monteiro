@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppLayoutRouteImport } from './routes/_app/layout'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
+import { Route as PreviewTokenRouteImport } from './routes/preview/$token'
 import { Route as AppClientsIndexRouteImport } from './routes/_app/clients/index'
 import { Route as AppClientsClient_idLayoutRouteImport } from './routes/_app/clients/$client_id/layout'
 import { Route as AuthSignInIndexRouteImport } from './routes/_auth/sign-in/index'
@@ -27,6 +28,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppLayoutRoute,
+} as any)
+const PreviewTokenRoute = PreviewTokenRouteImport.update({
+  id: '/preview/$token',
+  path: '/preview/$token',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppClientsIndexRoute = AppClientsIndexRouteImport.update({
   id: '/clients/',
@@ -71,6 +77,7 @@ const AppClientsClient_idTemplatesIndexRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
+  '/preview/$token': typeof PreviewTokenRoute
   '/clients/$client_id': typeof AppClientsClient_idLayoutRouteWithChildren
   '/clients/': typeof AppClientsIndexRoute
   '/sign-in/': typeof AuthSignInIndexRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/clients/$client_id/templates/': typeof AppClientsClient_idTemplatesIndexRoute
 }
 export interface FileRoutesByTo {
+  '/preview/$token': typeof PreviewTokenRoute
   '/': typeof AppIndexRoute
   '/clients': typeof AppClientsIndexRoute
   '/sign-in': typeof AuthSignInIndexRoute
@@ -91,6 +99,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppLayoutRouteWithChildren
+  '/preview/$token': typeof PreviewTokenRoute
   '/_app/': typeof AppIndexRoute
   '/_app/clients/$client_id': typeof AppClientsClient_idLayoutRouteWithChildren
   '/_app/clients/': typeof AppClientsIndexRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/preview/$token'
     | '/clients/$client_id'
     | '/clients/'
     | '/sign-in/'
@@ -113,6 +123,7 @@ export interface FileRouteTypes {
     | '/clients/$client_id/templates/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/preview/$token'
     | '/'
     | '/clients'
     | '/sign-in'
@@ -123,6 +134,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_app'
+    | '/preview/$token'
     | '/_app/'
     | '/_app/clients/$client_id'
     | '/_app/clients/'
@@ -135,6 +147,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AppLayoutRoute: typeof AppLayoutRouteWithChildren
+  PreviewTokenRoute: typeof PreviewTokenRoute
   AuthSignInIndexRoute: typeof AuthSignInIndexRoute
 }
 
@@ -153,6 +166,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppLayoutRoute
+    }
+    '/preview/$token': {
+      id: '/preview/$token'
+      path: '/preview/$token'
+      fullPath: '/preview/$token'
+      preLoaderRoute: typeof PreviewTokenRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_app/clients/': {
       id: '/_app/clients/'
@@ -245,6 +265,7 @@ const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   AppLayoutRoute: AppLayoutRouteWithChildren,
+  PreviewTokenRoute: PreviewTokenRoute,
   AuthSignInIndexRoute: AuthSignInIndexRoute,
 }
 export const routeTree = rootRouteImport

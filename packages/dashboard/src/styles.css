@@ -11,6 +11,7 @@
 @theme inline {
     --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
     --font-display: 'Fraunces', Georgia, serif;
+    --font-document: Arial, Helvetica, sans-serif;
 
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -43,6 +44,9 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+    --color-paper: var(--paper);
+    --color-paper-foreground: var(--paper-foreground);
+    --color-ink: var(--ink);
 
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
@@ -88,6 +92,12 @@
     --sidebar-accent-foreground: #ffffff;
     --sidebar-border: #2d5059;
     --sidebar-ring: #88b7c1;
+
+    /* Papel de documento — não segue o tema. Uma folha impressa continua branca
+       mesmo com o app em dark mode, por isso os mesmos valores se repetem em .dark. */
+    --paper: #ffffff;
+    --paper-foreground: #16272f;
+    --ink: #16272f;
 }
 
 .dark {
@@ -123,6 +133,10 @@
     --sidebar-accent-foreground: #ffffff;
     --sidebar-border: #24444d;
     --sidebar-ring: #8fc0c9;
+
+    --paper: #ffffff;
+    --paper-foreground: #16272f;
+    --ink: #16272f;
 }
 
 @layer base {
@@ -158,5 +172,33 @@
         width: 4rem;
         border-top: 1px solid var(--accent);
         border-bottom: 1px solid color-mix(in oklab, var(--accent) 45%, transparent);
+    }
+}
+
+/*
+ * Impressão de documentos A4.
+ *
+ * As folhas geradas pelo `A4Document` já têm 210mm x 297mm exatos, então a
+ * página física entra com margem zero — a margem visual é o padding da própria
+ * folha. Sem isso, a margem do navegador se somaria à da folha e o conteúdo
+ * seria empurrado para uma página a mais.
+ */
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    body {
+        background: #fff;
+    }
+
+    [data-slot='sidebar'] {
+        display: none !important;
+    }
+
+    [data-slot='sidebar-inset'] {
+        margin: 0 !important;
+        box-shadow: none !important;
     }
 }

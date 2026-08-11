@@ -16,10 +16,14 @@ import { errorHandlerPlugin } from './plugins/error-handler.js';
 import { rateLimitPlugin } from './plugins/rate-limit.js';
 import { createClient } from './routes/create-client.js';
 import { createIntake } from './routes/create-intake.js';
+import { createIntakePreviewLink } from './routes/create-intake-preview-link.js';
+import { deleteIntake } from './routes/delete-intake.js';
 import { getClient } from './routes/get-client.js';
 import { getMe } from './routes/get-me.js';
+import { getPublicPreview } from './routes/get-public-preview.js';
 import { listClients } from './routes/list-clients.js';
 import { listIntakes } from './routes/list-intakes.js';
+import { sendIntakeEmail } from './routes/send-intake-email.js';
 import { signIn } from './routes/sign-in.js';
 import { signOut } from './routes/sign-out.js';
 import { updateClient } from './routes/update-client.js';
@@ -49,6 +53,10 @@ await server.register(updateClient);
 await server.register(listIntakes);
 await server.register(createIntake);
 await server.register(updateIntake);
+await server.register(deleteIntake);
+await server.register(createIntakePreviewLink);
+await server.register(sendIntakeEmail);
+await server.register(getPublicPreview);
 
 server.get('/health', () => ({ status: 'ok' }));
 

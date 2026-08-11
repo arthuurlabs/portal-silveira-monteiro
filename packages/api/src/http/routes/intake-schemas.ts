@@ -1,5 +1,7 @@
+import type { FastifyReply } from 'fastify';
 import { z } from 'zod';
 
+import { env } from '../../env.js';
 import { NextStep, PracticeArea, ReferralSource } from '../../generated/prisma/enums.js';
 
 export const intakeBodySchema = z.object({
@@ -95,3 +97,26 @@ export const serializeIntakeDetail = (intake: IntakeDetailRow) => ({
     createdAt: intake.createdAt.toISOString(),
     updatedAt: intake.updatedAt.toISOString(),
 });
+
+/**
+ * Payload do token de compartilhamento público. `type` já é uma união
+ * discriminada pensando no caso `template` futuro — só `intake` existe hoje.
+ */
+export type PreviewTokenPayload = {
+    type: 'intake';
+    intakeId: string;
+    purpose: 'preview';
+};
+
+const PREVIEW_LINK_EXPIRATION = '30d';
+
+/** Assina o token de compartilhamento e monta a URL pública — usado por
+ * `create-intake-preview-link.ts` e `send-intake-email.ts`, evita duplicar. */
+export const createIntakePreviewUrl = async (reply: FastifyReply, intakeId: string) => {
+    const token = await reply.jwtSign(
+        { type: 'intake', intakeId, purpose: 'preview' } satisfies PreviewTokenPayload,
+        { expiresIn: PREVIEW_LINK_EXPIRATION }
+    );
+
+    return { token, url: `${env.DASHBOARD_URL}/preview/${token}` };
+};

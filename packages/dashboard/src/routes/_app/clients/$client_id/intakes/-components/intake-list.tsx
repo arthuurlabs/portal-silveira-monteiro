@@ -1,7 +1,4 @@
-import { Pencil } from "lucide-react";
-
 import { Badge } from "#/components/ui/badge";
-import { Button } from "#/components/ui/button";
 import { Skeleton } from "#/components/ui/skeleton";
 import {
 	Table,
@@ -12,8 +9,8 @@ import {
 	TableRow,
 } from "#/components/ui/table";
 import type { ListIntakesStatus200 } from "#/http/types/ListIntakes";
+import { IntakeActionsMenu } from "./intake-actions-menu";
 import { PRACTICE_AREA_OPTIONS } from "./intake-form";
-import { IntakeUpsertDialog } from "./intake-upsert-dialog";
 
 type IntakeListItem = ListIntakesStatus200["data"][number];
 
@@ -105,15 +102,7 @@ export const IntakeList = ({
 								{intake.clientReport ?? "—"}
 							</TableCell>
 							<TableCell>
-								<IntakeUpsertDialog clientId={clientId} intake={intake}>
-									<Button
-										variant="ghost"
-										size="icon"
-										aria-label="Editar atendimento"
-									>
-										<Pencil />
-									</Button>
-								</IntakeUpsertDialog>
+								<IntakeActionsMenu clientId={clientId} intake={intake} />
 							</TableCell>
 						</TableRow>
 					))}
