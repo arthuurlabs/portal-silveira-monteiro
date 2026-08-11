@@ -1,5 +1,11 @@
 import { client } from "#/http/.kubb/client";
 
+if (!import.meta.env.VITE_API_URL) {
+	throw new Error(
+		"VITE_API_URL não está definida. Sem ela, as requisições caem na própria origem do app em vez da API — configure a variável de ambiente antes do build.",
+	);
+}
+
 client.setConfig({
 	baseURL: import.meta.env.VITE_API_URL,
 	options: {
