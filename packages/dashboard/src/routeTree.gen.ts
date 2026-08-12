@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppLayoutRouteImport } from './routes/_app/layout'
 import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as PreviewTokenRouteImport } from './routes/preview/$token'
+import { Route as AppCalendarIndexRouteImport } from './routes/_app/calendar/index'
 import { Route as AppClientsIndexRouteImport } from './routes/_app/clients/index'
 import { Route as AppClientsClient_idLayoutRouteImport } from './routes/_app/clients/$client_id/layout'
 import { Route as AppTasksIndexRouteImport } from './routes/_app/tasks/index'
@@ -40,6 +41,11 @@ const PreviewTokenRoute = PreviewTokenRouteImport.update({
   id: '/preview/$token',
   path: '/preview/$token',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppCalendarIndexRoute = AppCalendarIndexRouteImport.update({
+  id: '/calendar/',
+  path: '/calendar/',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
 const AppClientsIndexRoute = AppClientsIndexRouteImport.update({
   id: '/clients/',
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/preview/$token': typeof PreviewTokenRoute
   '/clients/$client_id': typeof AppClientsClient_idLayoutRouteWithChildren
   '/activate/$token': typeof AuthActivateTokenRoute
+  '/calendar/': typeof AppCalendarIndexRoute
   '/clients/': typeof AppClientsIndexRoute
   '/tasks/': typeof AppTasksIndexRoute
   '/users/': typeof AppUsersIndexRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/preview/$token': typeof PreviewTokenRoute
   '/': typeof AppIndexRoute
   '/activate/$token': typeof AuthActivateTokenRoute
+  '/calendar': typeof AppCalendarIndexRoute
   '/clients': typeof AppClientsIndexRoute
   '/tasks': typeof AppTasksIndexRoute
   '/users': typeof AppUsersIndexRoute
@@ -162,6 +170,7 @@ export interface FileRoutesById {
   '/_app/': typeof AppIndexRoute
   '/_app/clients/$client_id': typeof AppClientsClient_idLayoutRouteWithChildren
   '/_auth/activate/$token': typeof AuthActivateTokenRoute
+  '/_app/calendar/': typeof AppCalendarIndexRoute
   '/_app/clients/': typeof AppClientsIndexRoute
   '/_app/tasks/': typeof AppTasksIndexRoute
   '/_app/users/': typeof AppUsersIndexRoute
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
     | '/preview/$token'
     | '/clients/$client_id'
     | '/activate/$token'
+    | '/calendar/'
     | '/clients/'
     | '/tasks/'
     | '/users/'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/preview/$token'
     | '/'
     | '/activate/$token'
+    | '/calendar'
     | '/clients'
     | '/tasks'
     | '/users'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/_app/'
     | '/_app/clients/$client_id'
     | '/_auth/activate/$token'
+    | '/_app/calendar/'
     | '/_app/clients/'
     | '/_app/tasks/'
     | '/_app/users/'
@@ -260,6 +272,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/preview/$token'
       preLoaderRoute: typeof PreviewTokenRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_app/calendar/': {
+      id: '/_app/calendar/'
+      path: '/calendar'
+      fullPath: '/calendar/'
+      preLoaderRoute: typeof AppCalendarIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
     }
     '/_app/clients/': {
       id: '/_app/clients/'
@@ -410,6 +429,7 @@ const AppClientsClient_idLayoutRouteWithChildren =
 interface AppLayoutRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
   AppClientsClient_idLayoutRoute: typeof AppClientsClient_idLayoutRouteWithChildren
+  AppCalendarIndexRoute: typeof AppCalendarIndexRoute
   AppClientsIndexRoute: typeof AppClientsIndexRoute
   AppTasksIndexRoute: typeof AppTasksIndexRoute
   AppUsersIndexRoute: typeof AppUsersIndexRoute
@@ -418,6 +438,7 @@ interface AppLayoutRouteChildren {
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppIndexRoute: AppIndexRoute,
   AppClientsClient_idLayoutRoute: AppClientsClient_idLayoutRouteWithChildren,
+  AppCalendarIndexRoute: AppCalendarIndexRoute,
   AppClientsIndexRoute: AppClientsIndexRoute,
   AppTasksIndexRoute: AppTasksIndexRoute,
   AppUsersIndexRoute: AppUsersIndexRoute,

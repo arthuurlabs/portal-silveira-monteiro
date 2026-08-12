@@ -25,6 +25,7 @@ model User {
   intakes   Intake[]
   tasks     Task[]
   documents Document[]
+  events    Event[]
 
   @@map("users")
 }
@@ -183,4 +184,23 @@ model Task {
 
   @@index([userId, status, position])
   @@map("tasks")
+}
+
+model Event {
+  id                    String    @id @default(cuid())
+  userId                String    @map("user_id")
+  title                 String
+  description           String?
+  startAt               DateTime  @map("start_at")
+  isGlobal              Boolean   @default(false) @map("is_global")
+  reminderMinutesBefore Int?      @map("reminder_minutes_before")
+  reminderSentAt        DateTime? @map("reminder_sent_at")
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, startAt])
+  @@index([isGlobal, startAt])
+  @@map("events")
 }

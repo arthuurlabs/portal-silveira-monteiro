@@ -20,10 +20,12 @@ import { createClient } from './routes/create-client.js';
 import { createIntake } from './routes/create-intake.js';
 import { createIntakePreviewLink } from './routes/create-intake-preview-link.js';
 import { createCompany } from './routes/create-company.js';
+import { createEvent } from './routes/create-event.js';
 import { createTask } from './routes/create-task.js';
 import { createUser } from './routes/create-user.js';
 import { deleteCompany } from './routes/delete-company.js';
 import { deleteDocument } from './routes/delete-document.js';
+import { deleteEvent } from './routes/delete-event.js';
 import { deleteIntake } from './routes/delete-intake.js';
 import { deleteTask } from './routes/delete-task.js';
 import { downloadDocument } from './routes/download-document.js';
@@ -35,6 +37,7 @@ import { getTemplate } from './routes/get-template.js';
 import { listClients } from './routes/list-clients.js';
 import { listCompanies } from './routes/list-companies.js';
 import { listDocuments } from './routes/list-documents.js';
+import { listEvents } from './routes/list-events.js';
 import { listIntakes } from './routes/list-intakes.js';
 import { listTasks } from './routes/list-tasks.js';
 import { listTemplates } from './routes/list-templates.js';
@@ -45,10 +48,12 @@ import { signIn } from './routes/sign-in.js';
 import { signOut } from './routes/sign-out.js';
 import { updateClient } from './routes/update-client.js';
 import { updateCompany } from './routes/update-company.js';
+import { updateEvent } from './routes/update-event.js';
 import { updateIntake } from './routes/update-intake.js';
 import { updateTask } from './routes/update-task.js';
 import { uploadDocument } from './routes/upload-document.js';
 import { MAX_DOCUMENT_SIZE_BYTES } from './routes/document-schemas.js';
+import { startEventRemindersJob } from '../jobs/event-reminders-job.js';
 
 const server = Fastify({
     logger: true,
@@ -100,6 +105,10 @@ await server.register(listDocuments);
 await server.register(uploadDocument);
 await server.register(downloadDocument);
 await server.register(deleteDocument);
+await server.register(listEvents);
+await server.register(createEvent);
+await server.register(updateEvent);
+await server.register(deleteEvent);
 
 server.get('/health', () => ({ status: 'ok' }));
 
@@ -107,3 +116,5 @@ server.listen({ port: env.PORT, host: '0.0.0.0' }).catch((error) => {
     server.log.error(error);
     process.exit(1);
 });
+
+startEventRemindersJob();

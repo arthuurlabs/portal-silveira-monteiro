@@ -27,11 +27,13 @@
         "fastify": "^5.11.3",
         "fastify-plugin": "^6.0.0",
         "fastify-type-provider-zod": "^7.0.0",
+        "node-cron": "^4.6.0",
         "npm": "^11.5.2",
         "pg": "^8.23.0",
         "resend": "^6.19.0"
     },
     "devDependencies": {
+        "@types/node-cron": "^3.0.11",
         "@types/pg": "^8.21.0",
         "prisma": "^7.9.1"
     }

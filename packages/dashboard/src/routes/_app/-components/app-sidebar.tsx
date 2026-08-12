@@ -1,5 +1,6 @@
 import { Link, useMatchRoute } from "@tanstack/react-router";
 import {
+	CalendarDays,
 	FolderIcon,
 	LayoutDashboard,
 	Scale,
@@ -28,6 +29,12 @@ const NAV_ITEMS = [
 	{ title: "Painel", to: "/", icon: LayoutDashboard, adminOnly: false },
 	{ title: "Clientes", to: "/clients", icon: UserSearch, adminOnly: false },
 	{ title: "Tarefas", to: "/tasks", icon: FolderIcon, adminOnly: false },
+	{
+		title: "Calendário",
+		to: "/calendar",
+		icon: CalendarDays,
+		adminOnly: false,
+	},
 	{ title: "Usuários", to: "/users", icon: UserCog, adminOnly: true },
 ] as const;
 

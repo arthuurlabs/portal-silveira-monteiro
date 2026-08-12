@@ -76,3 +76,8 @@ export type Template = Prisma.TemplateModel
  * 
  */
 export type Task = Prisma.TaskModel
+/**
+ * Model Event
+ * 
+ */
+export type Event = Prisma.EventModel
