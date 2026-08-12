@@ -9,8 +9,8 @@ const envSchema = z.object({
     DATABASE_URL: z.string(),
     RESEND_API_KEY: z.string(),
     EMAIL_FROM: z.string().min(1),
-    DASHBOARD_URL: z.string().min(1).default('http://localhost:3000'),
-    ADMIN_SEED_PASSWORD: z.string().default('admin123456'),
+    DASHBOARD_URL: z.string().min(1),
+    DEFAULT_USER_PASSWORD: z.string().default('admin123456'),
 });
 
 export const env = envSchema.parse(process.env);

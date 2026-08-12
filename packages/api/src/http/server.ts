@@ -14,10 +14,12 @@ import { corsPlugin } from './plugins/cors.js';
 import { docsPlugin } from './plugins/docs.js';
 import { errorHandlerPlugin } from './plugins/error-handler.js';
 import { rateLimitPlugin } from './plugins/rate-limit.js';
+import { activateAccount } from './routes/activate-account.js';
 import { createClient } from './routes/create-client.js';
 import { createIntake } from './routes/create-intake.js';
 import { createIntakePreviewLink } from './routes/create-intake-preview-link.js';
 import { createTask } from './routes/create-task.js';
+import { createUser } from './routes/create-user.js';
 import { deleteIntake } from './routes/delete-intake.js';
 import { deleteTask } from './routes/delete-task.js';
 import { getClient } from './routes/get-client.js';
@@ -28,6 +30,7 @@ import { listClients } from './routes/list-clients.js';
 import { listIntakes } from './routes/list-intakes.js';
 import { listTasks } from './routes/list-tasks.js';
 import { listTemplates } from './routes/list-templates.js';
+import { listUsers } from './routes/list-users.js';
 import { moveTask } from './routes/move-task.js';
 import { sendIntakeEmail } from './routes/send-intake-email.js';
 import { signIn } from './routes/sign-in.js';
@@ -52,6 +55,7 @@ await server.register(docsPlugin);
 
 await server.register(signIn);
 await server.register(signOut);
+await server.register(activateAccount);
 await server.register(getMe);
 await server.register(listClients);
 await server.register(getClient);
@@ -71,6 +75,8 @@ await server.register(createTask);
 await server.register(updateTask);
 await server.register(moveTask);
 await server.register(deleteTask);
+await server.register(createUser);
+await server.register(listUsers);
 
 server.get('/health', () => ({ status: 'ok' }));
 

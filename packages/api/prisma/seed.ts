@@ -127,10 +127,10 @@ const SEED_TEMPLATES: {
 ];
 
 async function seedAdmin() {
-    const password = process.env.ADMIN_SEED_PASSWORD;
+    const password = process.env.DEFAULT_USER_PASSWORD;
 
     if (!password || password.length < 12) {
-        throw new Error('ADMIN_SEED_PASSWORD deve possuir pelo menos 12 caracteres');
+        throw new Error('DEFAULT_USER_PASSWORD deve possuir pelo menos 12 caracteres');
     }
 
     const passwordHash = await bcrypt.hash(password, 12);

@@ -15,6 +15,8 @@ import { Route as PreviewTokenRouteImport } from './routes/preview/$token'
 import { Route as AppClientsIndexRouteImport } from './routes/_app/clients/index'
 import { Route as AppClientsClient_idLayoutRouteImport } from './routes/_app/clients/$client_id/layout'
 import { Route as AppTasksIndexRouteImport } from './routes/_app/tasks/index'
+import { Route as AppUsersIndexRouteImport } from './routes/_app/users/index'
+import { Route as AuthActivateTokenRouteImport } from './routes/_auth/activate/$token'
 import { Route as AuthSignInIndexRouteImport } from './routes/_auth/sign-in/index'
 import { Route as AppClientsClient_idIndexRouteImport } from './routes/_app/clients/$client_id/index'
 import { Route as AppClientsClient_idFilesIndexRouteImport } from './routes/_app/clients/$client_id/files/index'
@@ -51,6 +53,16 @@ const AppTasksIndexRoute = AppTasksIndexRouteImport.update({
   id: '/tasks/',
   path: '/tasks/',
   getParentRoute: () => AppLayoutRoute,
+} as any)
+const AppUsersIndexRoute = AppUsersIndexRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+const AuthActivateTokenRoute = AuthActivateTokenRouteImport.update({
+  id: '/_auth/activate/$token',
+  path: '/activate/$token',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthSignInIndexRoute = AuthSignInIndexRouteImport.update({
   id: '/_auth/sign-in/',
@@ -92,8 +104,10 @@ export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/preview/$token': typeof PreviewTokenRoute
   '/clients/$client_id': typeof AppClientsClient_idLayoutRouteWithChildren
+  '/activate/$token': typeof AuthActivateTokenRoute
   '/clients/': typeof AppClientsIndexRoute
   '/tasks/': typeof AppTasksIndexRoute
+  '/users/': typeof AppUsersIndexRoute
   '/sign-in/': typeof AuthSignInIndexRoute
   '/clients/$client_id/': typeof AppClientsClient_idIndexRoute
   '/clients/$client_id/templates/$template_id': typeof AppClientsClient_idTemplatesTemplate_idRoute
@@ -104,8 +118,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/preview/$token': typeof PreviewTokenRoute
   '/': typeof AppIndexRoute
+  '/activate/$token': typeof AuthActivateTokenRoute
   '/clients': typeof AppClientsIndexRoute
   '/tasks': typeof AppTasksIndexRoute
+  '/users': typeof AppUsersIndexRoute
   '/sign-in': typeof AuthSignInIndexRoute
   '/clients/$client_id': typeof AppClientsClient_idIndexRoute
   '/clients/$client_id/templates/$template_id': typeof AppClientsClient_idTemplatesTemplate_idRoute
@@ -119,8 +135,10 @@ export interface FileRoutesById {
   '/preview/$token': typeof PreviewTokenRoute
   '/_app/': typeof AppIndexRoute
   '/_app/clients/$client_id': typeof AppClientsClient_idLayoutRouteWithChildren
+  '/_auth/activate/$token': typeof AuthActivateTokenRoute
   '/_app/clients/': typeof AppClientsIndexRoute
   '/_app/tasks/': typeof AppTasksIndexRoute
+  '/_app/users/': typeof AppUsersIndexRoute
   '/_auth/sign-in/': typeof AuthSignInIndexRoute
   '/_app/clients/$client_id/': typeof AppClientsClient_idIndexRoute
   '/_app/clients/$client_id/templates/$template_id': typeof AppClientsClient_idTemplatesTemplate_idRoute
@@ -134,8 +152,10 @@ export interface FileRouteTypes {
     | '/'
     | '/preview/$token'
     | '/clients/$client_id'
+    | '/activate/$token'
     | '/clients/'
     | '/tasks/'
+    | '/users/'
     | '/sign-in/'
     | '/clients/$client_id/'
     | '/clients/$client_id/templates/$template_id'
@@ -146,8 +166,10 @@ export interface FileRouteTypes {
   to:
     | '/preview/$token'
     | '/'
+    | '/activate/$token'
     | '/clients'
     | '/tasks'
+    | '/users'
     | '/sign-in'
     | '/clients/$client_id'
     | '/clients/$client_id/templates/$template_id'
@@ -160,8 +182,10 @@ export interface FileRouteTypes {
     | '/preview/$token'
     | '/_app/'
     | '/_app/clients/$client_id'
+    | '/_auth/activate/$token'
     | '/_app/clients/'
     | '/_app/tasks/'
+    | '/_app/users/'
     | '/_auth/sign-in/'
     | '/_app/clients/$client_id/'
     | '/_app/clients/$client_id/templates/$template_id'
@@ -173,6 +197,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   AppLayoutRoute: typeof AppLayoutRouteWithChildren
   PreviewTokenRoute: typeof PreviewTokenRoute
+  AuthActivateTokenRoute: typeof AuthActivateTokenRoute
   AuthSignInIndexRoute: typeof AuthSignInIndexRoute
 }
 
@@ -219,6 +244,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/tasks/'
       preLoaderRoute: typeof AppTasksIndexRouteImport
       parentRoute: typeof AppLayoutRoute
+    }
+    '/_app/users/': {
+      id: '/_app/users/'
+      path: '/users'
+      fullPath: '/users/'
+      preLoaderRoute: typeof AppUsersIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
+    '/_auth/activate/$token': {
+      id: '/_auth/activate/$token'
+      path: '/activate/$token'
+      fullPath: '/activate/$token'
+      preLoaderRoute: typeof AuthActivateTokenRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_auth/sign-in/': {
       id: '/_auth/sign-in/'
@@ -294,6 +333,7 @@ interface AppLayoutRouteChildren {
   AppClientsClient_idLayoutRoute: typeof AppClientsClient_idLayoutRouteWithChildren
   AppClientsIndexRoute: typeof AppClientsIndexRoute
   AppTasksIndexRoute: typeof AppTasksIndexRoute
+  AppUsersIndexRoute: typeof AppUsersIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
@@ -301,6 +341,7 @@ const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppClientsClient_idLayoutRoute: AppClientsClient_idLayoutRouteWithChildren,
   AppClientsIndexRoute: AppClientsIndexRoute,
   AppTasksIndexRoute: AppTasksIndexRoute,
+  AppUsersIndexRoute: AppUsersIndexRoute,
 }
 
 const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
@@ -310,6 +351,7 @@ const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   AppLayoutRoute: AppLayoutRouteWithChildren,
   PreviewTokenRoute: PreviewTokenRoute,
+  AuthActivateTokenRoute: AuthActivateTokenRoute,
   AuthSignInIndexRoute: AuthSignInIndexRoute,
 }
 export const routeTree = rootRouteImport
