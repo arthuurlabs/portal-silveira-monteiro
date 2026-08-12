@@ -11,6 +11,15 @@ const envSchema = z.object({
     EMAIL_FROM: z.string().min(1),
     DASHBOARD_URL: z.string().min(1),
     DEFAULT_USER_PASSWORD: z.string().default('admin123456'),
+    FTP_HOST: z.string().min(1),
+    FTP_PORT: z.coerce.number().default(21),
+    FTP_USER: z.string().min(1),
+    FTP_PASSWORD: z.string().min(1),
+    FTP_SECURE: z
+        .enum(['true', 'false'])
+        .default('false')
+        .transform((value) => value === 'true'),
+    FTP_BASE_PATH: z.string().min(1),
 });
 
 export const env = envSchema.parse(process.env);

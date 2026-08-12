@@ -19,10 +19,13 @@ import { Route as AppUsersIndexRouteImport } from './routes/_app/users/index'
 import { Route as AuthActivateTokenRouteImport } from './routes/_auth/activate/$token'
 import { Route as AuthSignInIndexRouteImport } from './routes/_auth/sign-in/index'
 import { Route as AppClientsClient_idIndexRouteImport } from './routes/_app/clients/$client_id/index'
+import { Route as AppClientsClient_idCompaniesCompany_idLayoutRouteImport } from './routes/_app/clients/$client_id/companies/$company_id/layout'
 import { Route as AppClientsClient_idFilesIndexRouteImport } from './routes/_app/clients/$client_id/files/index'
 import { Route as AppClientsClient_idIntakesIndexRouteImport } from './routes/_app/clients/$client_id/intakes/index'
 import { Route as AppClientsClient_idTemplatesIndexRouteImport } from './routes/_app/clients/$client_id/templates/index'
 import { Route as AppClientsClient_idTemplatesTemplate_idRouteImport } from './routes/_app/clients/$client_id/templates/$template_id'
+import { Route as AppClientsClient_idCompaniesCompany_idIndexRouteImport } from './routes/_app/clients/$client_id/companies/$company_id/index'
+import { Route as AppClientsClient_idCompaniesCompany_idFilesIndexRouteImport } from './routes/_app/clients/$client_id/companies/$company_id/files/index'
 
 const AppLayoutRoute = AppLayoutRouteImport.update({
   id: '/_app',
@@ -75,6 +78,12 @@ const AppClientsClient_idIndexRoute =
     path: '/',
     getParentRoute: () => AppClientsClient_idLayoutRoute,
   } as any)
+const AppClientsClient_idCompaniesCompany_idLayoutRoute =
+  AppClientsClient_idCompaniesCompany_idLayoutRouteImport.update({
+    id: '/companies/$company_id',
+    path: '/companies/$company_id',
+    getParentRoute: () => AppClientsClient_idLayoutRoute,
+  } as any)
 const AppClientsClient_idFilesIndexRoute =
   AppClientsClient_idFilesIndexRouteImport.update({
     id: '/files/',
@@ -99,6 +108,18 @@ const AppClientsClient_idTemplatesTemplate_idRoute =
     path: '/templates/$template_id',
     getParentRoute: () => AppClientsClient_idLayoutRoute,
   } as any)
+const AppClientsClient_idCompaniesCompany_idIndexRoute =
+  AppClientsClient_idCompaniesCompany_idIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AppClientsClient_idCompaniesCompany_idLayoutRoute,
+  } as any)
+const AppClientsClient_idCompaniesCompany_idFilesIndexRoute =
+  AppClientsClient_idCompaniesCompany_idFilesIndexRouteImport.update({
+    id: '/files/',
+    path: '/files/',
+    getParentRoute: () => AppClientsClient_idCompaniesCompany_idLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
@@ -110,10 +131,13 @@ export interface FileRoutesByFullPath {
   '/users/': typeof AppUsersIndexRoute
   '/sign-in/': typeof AuthSignInIndexRoute
   '/clients/$client_id/': typeof AppClientsClient_idIndexRoute
+  '/clients/$client_id/companies/$company_id': typeof AppClientsClient_idCompaniesCompany_idLayoutRouteWithChildren
   '/clients/$client_id/templates/$template_id': typeof AppClientsClient_idTemplatesTemplate_idRoute
   '/clients/$client_id/files/': typeof AppClientsClient_idFilesIndexRoute
   '/clients/$client_id/intakes/': typeof AppClientsClient_idIntakesIndexRoute
   '/clients/$client_id/templates/': typeof AppClientsClient_idTemplatesIndexRoute
+  '/clients/$client_id/companies/$company_id/': typeof AppClientsClient_idCompaniesCompany_idIndexRoute
+  '/clients/$client_id/companies/$company_id/files/': typeof AppClientsClient_idCompaniesCompany_idFilesIndexRoute
 }
 export interface FileRoutesByTo {
   '/preview/$token': typeof PreviewTokenRoute
@@ -128,6 +152,8 @@ export interface FileRoutesByTo {
   '/clients/$client_id/files': typeof AppClientsClient_idFilesIndexRoute
   '/clients/$client_id/intakes': typeof AppClientsClient_idIntakesIndexRoute
   '/clients/$client_id/templates': typeof AppClientsClient_idTemplatesIndexRoute
+  '/clients/$client_id/companies/$company_id': typeof AppClientsClient_idCompaniesCompany_idIndexRoute
+  '/clients/$client_id/companies/$company_id/files': typeof AppClientsClient_idCompaniesCompany_idFilesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -141,10 +167,13 @@ export interface FileRoutesById {
   '/_app/users/': typeof AppUsersIndexRoute
   '/_auth/sign-in/': typeof AuthSignInIndexRoute
   '/_app/clients/$client_id/': typeof AppClientsClient_idIndexRoute
+  '/_app/clients/$client_id/companies/$company_id': typeof AppClientsClient_idCompaniesCompany_idLayoutRouteWithChildren
   '/_app/clients/$client_id/templates/$template_id': typeof AppClientsClient_idTemplatesTemplate_idRoute
   '/_app/clients/$client_id/files/': typeof AppClientsClient_idFilesIndexRoute
   '/_app/clients/$client_id/intakes/': typeof AppClientsClient_idIntakesIndexRoute
   '/_app/clients/$client_id/templates/': typeof AppClientsClient_idTemplatesIndexRoute
+  '/_app/clients/$client_id/companies/$company_id/': typeof AppClientsClient_idCompaniesCompany_idIndexRoute
+  '/_app/clients/$client_id/companies/$company_id/files/': typeof AppClientsClient_idCompaniesCompany_idFilesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -158,10 +187,13 @@ export interface FileRouteTypes {
     | '/users/'
     | '/sign-in/'
     | '/clients/$client_id/'
+    | '/clients/$client_id/companies/$company_id'
     | '/clients/$client_id/templates/$template_id'
     | '/clients/$client_id/files/'
     | '/clients/$client_id/intakes/'
     | '/clients/$client_id/templates/'
+    | '/clients/$client_id/companies/$company_id/'
+    | '/clients/$client_id/companies/$company_id/files/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/preview/$token'
@@ -176,6 +208,8 @@ export interface FileRouteTypes {
     | '/clients/$client_id/files'
     | '/clients/$client_id/intakes'
     | '/clients/$client_id/templates'
+    | '/clients/$client_id/companies/$company_id'
+    | '/clients/$client_id/companies/$company_id/files'
   id:
     | '__root__'
     | '/_app'
@@ -188,10 +222,13 @@ export interface FileRouteTypes {
     | '/_app/users/'
     | '/_auth/sign-in/'
     | '/_app/clients/$client_id/'
+    | '/_app/clients/$client_id/companies/$company_id'
     | '/_app/clients/$client_id/templates/$template_id'
     | '/_app/clients/$client_id/files/'
     | '/_app/clients/$client_id/intakes/'
     | '/_app/clients/$client_id/templates/'
+    | '/_app/clients/$client_id/companies/$company_id/'
+    | '/_app/clients/$client_id/companies/$company_id/files/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -273,6 +310,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppClientsClient_idIndexRouteImport
       parentRoute: typeof AppClientsClient_idLayoutRoute
     }
+    '/_app/clients/$client_id/companies/$company_id': {
+      id: '/_app/clients/$client_id/companies/$company_id'
+      path: '/companies/$company_id'
+      fullPath: '/clients/$client_id/companies/$company_id'
+      preLoaderRoute: typeof AppClientsClient_idCompaniesCompany_idLayoutRouteImport
+      parentRoute: typeof AppClientsClient_idLayoutRoute
+    }
     '/_app/clients/$client_id/files/': {
       id: '/_app/clients/$client_id/files/'
       path: '/files'
@@ -301,11 +345,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppClientsClient_idTemplatesTemplate_idRouteImport
       parentRoute: typeof AppClientsClient_idLayoutRoute
     }
+    '/_app/clients/$client_id/companies/$company_id/': {
+      id: '/_app/clients/$client_id/companies/$company_id/'
+      path: '/'
+      fullPath: '/clients/$client_id/companies/$company_id/'
+      preLoaderRoute: typeof AppClientsClient_idCompaniesCompany_idIndexRouteImport
+      parentRoute: typeof AppClientsClient_idCompaniesCompany_idLayoutRoute
+    }
+    '/_app/clients/$client_id/companies/$company_id/files/': {
+      id: '/_app/clients/$client_id/companies/$company_id/files/'
+      path: '/files'
+      fullPath: '/clients/$client_id/companies/$company_id/files/'
+      preLoaderRoute: typeof AppClientsClient_idCompaniesCompany_idFilesIndexRouteImport
+      parentRoute: typeof AppClientsClient_idCompaniesCompany_idLayoutRoute
+    }
   }
 }
 
+interface AppClientsClient_idCompaniesCompany_idLayoutRouteChildren {
+  AppClientsClient_idCompaniesCompany_idIndexRoute: typeof AppClientsClient_idCompaniesCompany_idIndexRoute
+  AppClientsClient_idCompaniesCompany_idFilesIndexRoute: typeof AppClientsClient_idCompaniesCompany_idFilesIndexRoute
+}
+
+const AppClientsClient_idCompaniesCompany_idLayoutRouteChildren: AppClientsClient_idCompaniesCompany_idLayoutRouteChildren =
+  {
+    AppClientsClient_idCompaniesCompany_idIndexRoute:
+      AppClientsClient_idCompaniesCompany_idIndexRoute,
+    AppClientsClient_idCompaniesCompany_idFilesIndexRoute:
+      AppClientsClient_idCompaniesCompany_idFilesIndexRoute,
+  }
+
+const AppClientsClient_idCompaniesCompany_idLayoutRouteWithChildren =
+  AppClientsClient_idCompaniesCompany_idLayoutRoute._addFileChildren(
+    AppClientsClient_idCompaniesCompany_idLayoutRouteChildren,
+  )
+
 interface AppClientsClient_idLayoutRouteChildren {
   AppClientsClient_idIndexRoute: typeof AppClientsClient_idIndexRoute
+  AppClientsClient_idCompaniesCompany_idLayoutRoute: typeof AppClientsClient_idCompaniesCompany_idLayoutRouteWithChildren
   AppClientsClient_idTemplatesTemplate_idRoute: typeof AppClientsClient_idTemplatesTemplate_idRoute
   AppClientsClient_idFilesIndexRoute: typeof AppClientsClient_idFilesIndexRoute
   AppClientsClient_idIntakesIndexRoute: typeof AppClientsClient_idIntakesIndexRoute
@@ -315,6 +392,8 @@ interface AppClientsClient_idLayoutRouteChildren {
 const AppClientsClient_idLayoutRouteChildren: AppClientsClient_idLayoutRouteChildren =
   {
     AppClientsClient_idIndexRoute: AppClientsClient_idIndexRoute,
+    AppClientsClient_idCompaniesCompany_idLayoutRoute:
+      AppClientsClient_idCompaniesCompany_idLayoutRouteWithChildren,
     AppClientsClient_idTemplatesTemplate_idRoute:
       AppClientsClient_idTemplatesTemplate_idRoute,
     AppClientsClient_idFilesIndexRoute: AppClientsClient_idFilesIndexRoute,

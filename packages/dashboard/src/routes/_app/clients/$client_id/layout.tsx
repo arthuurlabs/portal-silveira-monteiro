@@ -4,6 +4,7 @@ import {
 	notFound,
 	Outlet,
 	useMatchRoute,
+	useRouterState,
 } from "@tanstack/react-router";
 import { Pencil } from "lucide-react";
 
@@ -37,6 +38,17 @@ const ClientLayout = () => {
 				fuzzy: false,
 			}),
 		)?.value ?? "overview";
+
+	const pathname = useRouterState({
+		select: (state) => state.location.pathname,
+	});
+	const isCompanyRoute = pathname.startsWith(
+		`/clients/${client.id}/companies/`,
+	);
+
+	if (isCompanyRoute) {
+		return <Outlet />;
+	}
 
 	return (
 		<div className="flex flex-col gap-6">

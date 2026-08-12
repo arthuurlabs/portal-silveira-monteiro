@@ -1,5 +1,6 @@
 import 'dotenv/config';
 
+import multipart from '@fastify/multipart';
 import Fastify from 'fastify';
 import {
     serializerCompiler,
@@ -18,15 +19,22 @@ import { activateAccount } from './routes/activate-account.js';
 import { createClient } from './routes/create-client.js';
 import { createIntake } from './routes/create-intake.js';
 import { createIntakePreviewLink } from './routes/create-intake-preview-link.js';
+import { createCompany } from './routes/create-company.js';
 import { createTask } from './routes/create-task.js';
 import { createUser } from './routes/create-user.js';
+import { deleteCompany } from './routes/delete-company.js';
+import { deleteDocument } from './routes/delete-document.js';
 import { deleteIntake } from './routes/delete-intake.js';
 import { deleteTask } from './routes/delete-task.js';
+import { downloadDocument } from './routes/download-document.js';
 import { getClient } from './routes/get-client.js';
+import { getCompany } from './routes/get-company.js';
 import { getMe } from './routes/get-me.js';
 import { getPublicPreview } from './routes/get-public-preview.js';
 import { getTemplate } from './routes/get-template.js';
 import { listClients } from './routes/list-clients.js';
+import { listCompanies } from './routes/list-companies.js';
+import { listDocuments } from './routes/list-documents.js';
 import { listIntakes } from './routes/list-intakes.js';
 import { listTasks } from './routes/list-tasks.js';
 import { listTemplates } from './routes/list-templates.js';
@@ -36,8 +44,11 @@ import { sendIntakeEmail } from './routes/send-intake-email.js';
 import { signIn } from './routes/sign-in.js';
 import { signOut } from './routes/sign-out.js';
 import { updateClient } from './routes/update-client.js';
+import { updateCompany } from './routes/update-company.js';
 import { updateIntake } from './routes/update-intake.js';
 import { updateTask } from './routes/update-task.js';
+import { uploadDocument } from './routes/upload-document.js';
+import { MAX_DOCUMENT_SIZE_BYTES } from './routes/document-schemas.js';
 
 const server = Fastify({
     logger: true,
@@ -52,6 +63,9 @@ await server.register(cookiePlugin);
 await server.register(authPlugin);
 await server.register(rateLimitPlugin);
 await server.register(docsPlugin);
+await server.register(multipart, {
+    limits: { fileSize: MAX_DOCUMENT_SIZE_BYTES },
+});
 
 await server.register(signIn);
 await server.register(signOut);
@@ -77,6 +91,15 @@ await server.register(moveTask);
 await server.register(deleteTask);
 await server.register(createUser);
 await server.register(listUsers);
+await server.register(listCompanies);
+await server.register(getCompany);
+await server.register(createCompany);
+await server.register(updateCompany);
+await server.register(deleteCompany);
+await server.register(listDocuments);
+await server.register(uploadDocument);
+await server.register(downloadDocument);
+await server.register(deleteDocument);
 
 server.get('/health', () => ({ status: 'ok' }));
 

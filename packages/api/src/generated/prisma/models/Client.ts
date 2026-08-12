@@ -247,6 +247,8 @@ export type ClientWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   intakes?: Prisma.IntakeListRelationFilter
+  companies?: Prisma.CompanyListRelationFilter
+  documents?: Prisma.DocumentListRelationFilter
 }
 
 export type ClientOrderByWithRelationInput = {
@@ -264,6 +266,8 @@ export type ClientOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   intakes?: Prisma.IntakeOrderByRelationAggregateInput
+  companies?: Prisma.CompanyOrderByRelationAggregateInput
+  documents?: Prisma.DocumentOrderByRelationAggregateInput
 }
 
 export type ClientWhereUniqueInput = Prisma.AtLeast<{
@@ -284,6 +288,8 @@ export type ClientWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   intakes?: Prisma.IntakeListRelationFilter
+  companies?: Prisma.CompanyListRelationFilter
+  documents?: Prisma.DocumentListRelationFilter
 }, "id" | "cpf">
 
 export type ClientOrderByWithAggregationInput = {
@@ -339,6 +345,8 @@ export type ClientCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   intakes?: Prisma.IntakeCreateNestedManyWithoutClientInput
+  companies?: Prisma.CompanyCreateNestedManyWithoutLegalRepresentativeInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateInput = {
@@ -356,6 +364,8 @@ export type ClientUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   intakes?: Prisma.IntakeUncheckedCreateNestedManyWithoutClientInput
+  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutLegalRepresentativeInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type ClientUpdateInput = {
@@ -373,6 +383,8 @@ export type ClientUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   intakes?: Prisma.IntakeUpdateManyWithoutClientNestedInput
+  companies?: Prisma.CompanyUpdateManyWithoutLegalRepresentativeNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateInput = {
@@ -390,6 +402,8 @@ export type ClientUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   intakes?: Prisma.IntakeUncheckedUpdateManyWithoutClientNestedInput
+  companies?: Prisma.CompanyUncheckedUpdateManyWithoutLegalRepresentativeNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type ClientCreateManyInput = {
@@ -501,6 +515,20 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
+export type ClientCreateNestedOneWithoutCompaniesInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutCompaniesInput, Prisma.ClientUncheckedCreateWithoutCompaniesInput>
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutCompaniesInput
+  connect?: Prisma.ClientWhereUniqueInput
+}
+
+export type ClientUpdateOneRequiredWithoutCompaniesNestedInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutCompaniesInput, Prisma.ClientUncheckedCreateWithoutCompaniesInput>
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutCompaniesInput
+  upsert?: Prisma.ClientUpsertWithoutCompaniesInput
+  connect?: Prisma.ClientWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClientUpdateToOneWithWhereWithoutCompaniesInput, Prisma.ClientUpdateWithoutCompaniesInput>, Prisma.ClientUncheckedUpdateWithoutCompaniesInput>
+}
+
 export type ClientCreateNestedOneWithoutIntakesInput = {
   create?: Prisma.XOR<Prisma.ClientCreateWithoutIntakesInput, Prisma.ClientUncheckedCreateWithoutIntakesInput>
   connectOrCreate?: Prisma.ClientCreateOrConnectWithoutIntakesInput
@@ -513,6 +541,108 @@ export type ClientUpdateOneRequiredWithoutIntakesNestedInput = {
   upsert?: Prisma.ClientUpsertWithoutIntakesInput
   connect?: Prisma.ClientWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ClientUpdateToOneWithWhereWithoutIntakesInput, Prisma.ClientUpdateWithoutIntakesInput>, Prisma.ClientUncheckedUpdateWithoutIntakesInput>
+}
+
+export type ClientCreateNestedOneWithoutDocumentsInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutDocumentsInput, Prisma.ClientUncheckedCreateWithoutDocumentsInput>
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutDocumentsInput
+  connect?: Prisma.ClientWhereUniqueInput
+}
+
+export type ClientUpdateOneRequiredWithoutDocumentsNestedInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutDocumentsInput, Prisma.ClientUncheckedCreateWithoutDocumentsInput>
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutDocumentsInput
+  upsert?: Prisma.ClientUpsertWithoutDocumentsInput
+  connect?: Prisma.ClientWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClientUpdateToOneWithWhereWithoutDocumentsInput, Prisma.ClientUpdateWithoutDocumentsInput>, Prisma.ClientUncheckedUpdateWithoutDocumentsInput>
+}
+
+export type ClientCreateWithoutCompaniesInput = {
+  id?: string
+  fullName: string
+  cpf: string
+  rg?: string | null
+  birthDate?: Date | string | null
+  maritalStatus?: string | null
+  profession?: string | null
+  phone?: string | null
+  email?: string | null
+  address?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  intakes?: Prisma.IntakeCreateNestedManyWithoutClientInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutClientInput
+}
+
+export type ClientUncheckedCreateWithoutCompaniesInput = {
+  id?: string
+  fullName: string
+  cpf: string
+  rg?: string | null
+  birthDate?: Date | string | null
+  maritalStatus?: string | null
+  profession?: string | null
+  phone?: string | null
+  email?: string | null
+  address?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  intakes?: Prisma.IntakeUncheckedCreateNestedManyWithoutClientInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutClientInput
+}
+
+export type ClientCreateOrConnectWithoutCompaniesInput = {
+  where: Prisma.ClientWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClientCreateWithoutCompaniesInput, Prisma.ClientUncheckedCreateWithoutCompaniesInput>
+}
+
+export type ClientUpsertWithoutCompaniesInput = {
+  update: Prisma.XOR<Prisma.ClientUpdateWithoutCompaniesInput, Prisma.ClientUncheckedUpdateWithoutCompaniesInput>
+  create: Prisma.XOR<Prisma.ClientCreateWithoutCompaniesInput, Prisma.ClientUncheckedCreateWithoutCompaniesInput>
+  where?: Prisma.ClientWhereInput
+}
+
+export type ClientUpdateToOneWithWhereWithoutCompaniesInput = {
+  where?: Prisma.ClientWhereInput
+  data: Prisma.XOR<Prisma.ClientUpdateWithoutCompaniesInput, Prisma.ClientUncheckedUpdateWithoutCompaniesInput>
+}
+
+export type ClientUpdateWithoutCompaniesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  cpf?: Prisma.StringFieldUpdateOperationsInput | string
+  rg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  intakes?: Prisma.IntakeUpdateManyWithoutClientNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutClientNestedInput
+}
+
+export type ClientUncheckedUpdateWithoutCompaniesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  cpf?: Prisma.StringFieldUpdateOperationsInput | string
+  rg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  intakes?: Prisma.IntakeUncheckedUpdateManyWithoutClientNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type ClientCreateWithoutIntakesInput = {
@@ -529,6 +659,8 @@ export type ClientCreateWithoutIntakesInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  companies?: Prisma.CompanyCreateNestedManyWithoutLegalRepresentativeInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateWithoutIntakesInput = {
@@ -545,6 +677,8 @@ export type ClientUncheckedCreateWithoutIntakesInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutLegalRepresentativeInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type ClientCreateOrConnectWithoutIntakesInput = {
@@ -577,6 +711,8 @@ export type ClientUpdateWithoutIntakesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  companies?: Prisma.CompanyUpdateManyWithoutLegalRepresentativeNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateWithoutIntakesInput = {
@@ -593,6 +729,96 @@ export type ClientUncheckedUpdateWithoutIntakesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  companies?: Prisma.CompanyUncheckedUpdateManyWithoutLegalRepresentativeNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutClientNestedInput
+}
+
+export type ClientCreateWithoutDocumentsInput = {
+  id?: string
+  fullName: string
+  cpf: string
+  rg?: string | null
+  birthDate?: Date | string | null
+  maritalStatus?: string | null
+  profession?: string | null
+  phone?: string | null
+  email?: string | null
+  address?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  intakes?: Prisma.IntakeCreateNestedManyWithoutClientInput
+  companies?: Prisma.CompanyCreateNestedManyWithoutLegalRepresentativeInput
+}
+
+export type ClientUncheckedCreateWithoutDocumentsInput = {
+  id?: string
+  fullName: string
+  cpf: string
+  rg?: string | null
+  birthDate?: Date | string | null
+  maritalStatus?: string | null
+  profession?: string | null
+  phone?: string | null
+  email?: string | null
+  address?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  intakes?: Prisma.IntakeUncheckedCreateNestedManyWithoutClientInput
+  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutLegalRepresentativeInput
+}
+
+export type ClientCreateOrConnectWithoutDocumentsInput = {
+  where: Prisma.ClientWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClientCreateWithoutDocumentsInput, Prisma.ClientUncheckedCreateWithoutDocumentsInput>
+}
+
+export type ClientUpsertWithoutDocumentsInput = {
+  update: Prisma.XOR<Prisma.ClientUpdateWithoutDocumentsInput, Prisma.ClientUncheckedUpdateWithoutDocumentsInput>
+  create: Prisma.XOR<Prisma.ClientCreateWithoutDocumentsInput, Prisma.ClientUncheckedCreateWithoutDocumentsInput>
+  where?: Prisma.ClientWhereInput
+}
+
+export type ClientUpdateToOneWithWhereWithoutDocumentsInput = {
+  where?: Prisma.ClientWhereInput
+  data: Prisma.XOR<Prisma.ClientUpdateWithoutDocumentsInput, Prisma.ClientUncheckedUpdateWithoutDocumentsInput>
+}
+
+export type ClientUpdateWithoutDocumentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  cpf?: Prisma.StringFieldUpdateOperationsInput | string
+  rg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  intakes?: Prisma.IntakeUpdateManyWithoutClientNestedInput
+  companies?: Prisma.CompanyUpdateManyWithoutLegalRepresentativeNestedInput
+}
+
+export type ClientUncheckedUpdateWithoutDocumentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  cpf?: Prisma.StringFieldUpdateOperationsInput | string
+  rg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  intakes?: Prisma.IntakeUncheckedUpdateManyWithoutClientNestedInput
+  companies?: Prisma.CompanyUncheckedUpdateManyWithoutLegalRepresentativeNestedInput
 }
 
 
@@ -602,10 +828,14 @@ export type ClientUncheckedUpdateWithoutIntakesInput = {
 
 export type ClientCountOutputType = {
   intakes: number
+  companies: number
+  documents: number
 }
 
 export type ClientCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   intakes?: boolean | ClientCountOutputTypeCountIntakesArgs
+  companies?: boolean | ClientCountOutputTypeCountCompaniesArgs
+  documents?: boolean | ClientCountOutputTypeCountDocumentsArgs
 }
 
 /**
@@ -625,6 +855,20 @@ export type ClientCountOutputTypeCountIntakesArgs<ExtArgs extends runtime.Types.
   where?: Prisma.IntakeWhereInput
 }
 
+/**
+ * ClientCountOutputType without action
+ */
+export type ClientCountOutputTypeCountCompaniesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CompanyWhereInput
+}
+
+/**
+ * ClientCountOutputType without action
+ */
+export type ClientCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DocumentWhereInput
+}
+
 
 export type ClientSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -641,6 +885,8 @@ export type ClientSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   createdAt?: boolean
   updatedAt?: boolean
   intakes?: boolean | Prisma.Client$intakesArgs<ExtArgs>
+  companies?: boolean | Prisma.Client$companiesArgs<ExtArgs>
+  documents?: boolean | Prisma.Client$documentsArgs<ExtArgs>
   _count?: boolean | Prisma.ClientCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["client"]>
 
@@ -695,6 +941,8 @@ export type ClientSelectScalar = {
 export type ClientOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "cpf" | "rg" | "birthDate" | "maritalStatus" | "profession" | "phone" | "email" | "address" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["client"]>
 export type ClientInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   intakes?: boolean | Prisma.Client$intakesArgs<ExtArgs>
+  companies?: boolean | Prisma.Client$companiesArgs<ExtArgs>
+  documents?: boolean | Prisma.Client$documentsArgs<ExtArgs>
   _count?: boolean | Prisma.ClientCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ClientIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -704,6 +952,8 @@ export type $ClientPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Client"
   objects: {
     intakes: Prisma.$IntakePayload<ExtArgs>[]
+    companies: Prisma.$CompanyPayload<ExtArgs>[]
+    documents: Prisma.$DocumentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1114,6 +1364,8 @@ readonly fields: ClientFieldRefs;
 export interface Prisma__ClientClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   intakes<T extends Prisma.Client$intakesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$intakesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IntakePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  companies<T extends Prisma.Client$companiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$companiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  documents<T extends Prisma.Client$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1570,6 +1822,54 @@ export type Client$intakesArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.IntakeScalarFieldEnum | Prisma.IntakeScalarFieldEnum[]
+}
+
+/**
+ * Client.companies
+ */
+export type Client$companiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Company
+   */
+  select?: Prisma.CompanySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Company
+   */
+  omit?: Prisma.CompanyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CompanyInclude<ExtArgs> | null
+  where?: Prisma.CompanyWhereInput
+  orderBy?: Prisma.CompanyOrderByWithRelationInput | Prisma.CompanyOrderByWithRelationInput[]
+  cursor?: Prisma.CompanyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CompanyScalarFieldEnum | Prisma.CompanyScalarFieldEnum[]
+}
+
+/**
+ * Client.documents
+ */
+export type Client$documentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Document
+   */
+  select?: Prisma.DocumentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Document
+   */
+  omit?: Prisma.DocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentInclude<ExtArgs> | null
+  where?: Prisma.DocumentWhereInput
+  orderBy?: Prisma.DocumentOrderByWithRelationInput | Prisma.DocumentOrderByWithRelationInput[]
+  cursor?: Prisma.DocumentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DocumentScalarFieldEnum | Prisma.DocumentScalarFieldEnum[]
 }
 
 /**

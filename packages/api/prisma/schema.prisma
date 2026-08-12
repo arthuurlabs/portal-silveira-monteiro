@@ -22,8 +22,9 @@ model User {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
-  intakes Intake[]
-  tasks   Task[]
+  intakes   Intake[]
+  tasks     Task[]
+  documents Document[]
 
   @@map("users")
 }
@@ -43,10 +44,33 @@ model Client {
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
-  intakes Intake[]
+  intakes   Intake[]
+  companies Company[]
+  documents Document[]
 
   @@index([fullName])
   @@map("clients")
+}
+
+model Company {
+  id                    String   @id @default(cuid())
+  cnpj                  String   @unique
+  razaoSocial           String   @map("razao_social")
+  nomeFantasia          String?  @map("nome_fantasia")
+  phone                 String?
+  email                 String?
+  address               String?
+  isActive              Boolean  @default(true) @map("is_active")
+  legalRepresentativeId String   @map("legal_representative_id")
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @updatedAt @map("updated_at")
+
+  legalRepresentative Client     @relation(fields: [legalRepresentativeId], references: [id], onDelete: Restrict)
+  intakes             Intake[]
+  documents           Document[]
+
+  @@index([legalRepresentativeId])
+  @@map("companies")
 }
 
 enum PracticeArea {
@@ -82,6 +106,7 @@ enum ReferralSource {
 model Intake {
   id                  String          @id @default(cuid())
   clientId            String          @map("client_id")
+  companyId           String?         @map("company_id")
   userId              String          @map("user_id")
   practiceAreas       PracticeArea[]  @map("practice_areas")
   practiceAreaOther   String?         @map("practice_area_other")
@@ -98,11 +123,31 @@ model Intake {
   createdAt           DateTime        @default(now()) @map("created_at")
   updatedAt           DateTime        @updatedAt @map("updated_at")
 
-  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  user   User   @relation(fields: [userId], references: [id])
+  client  Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  company Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  user    User     @relation(fields: [userId], references: [id])
 
   @@index([clientId, createdAt(sort: Desc)])
   @@map("intakes")
+}
+
+model Document {
+  id           String   @id @default(cuid())
+  clientId     String   @map("client_id")
+  companyId    String?  @map("company_id")
+  userId       String   @map("user_id")
+  originalName String   @map("original_name")
+  remotePath   String   @map("remote_path")
+  mimeType     String   @map("mime_type")
+  size         Int
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  client  Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  company Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  user    User     @relation(fields: [userId], references: [id])
+
+  @@index([clientId, companyId, createdAt(sort: Desc)])
+  @@map("documents")
 }
 
 model Template {

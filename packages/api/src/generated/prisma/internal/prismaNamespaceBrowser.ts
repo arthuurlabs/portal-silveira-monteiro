@@ -53,7 +53,9 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Client: 'Client',
+  Company: 'Company',
   Intake: 'Intake',
+  Document: 'Document',
   Template: 'Template',
   Task: 'Task'
 } as const
@@ -107,9 +109,27 @@ export const ClientScalarFieldEnum = {
 export type ClientScalarFieldEnum = (typeof ClientScalarFieldEnum)[keyof typeof ClientScalarFieldEnum]
 
 
+export const CompanyScalarFieldEnum = {
+  id: 'id',
+  cnpj: 'cnpj',
+  razaoSocial: 'razaoSocial',
+  nomeFantasia: 'nomeFantasia',
+  phone: 'phone',
+  email: 'email',
+  address: 'address',
+  isActive: 'isActive',
+  legalRepresentativeId: 'legalRepresentativeId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
+
+
 export const IntakeScalarFieldEnum = {
   id: 'id',
   clientId: 'clientId',
+  companyId: 'companyId',
   userId: 'userId',
   practiceAreas: 'practiceAreas',
   practiceAreaOther: 'practiceAreaOther',
@@ -128,6 +148,21 @@ export const IntakeScalarFieldEnum = {
 } as const
 
 export type IntakeScalarFieldEnum = (typeof IntakeScalarFieldEnum)[keyof typeof IntakeScalarFieldEnum]
+
+
+export const DocumentScalarFieldEnum = {
+  id: 'id',
+  clientId: 'clientId',
+  companyId: 'companyId',
+  userId: 'userId',
+  originalName: 'originalName',
+  remotePath: 'remotePath',
+  mimeType: 'mimeType',
+  size: 'size',
+  createdAt: 'createdAt'
+} as const
+
+export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
 
 
 export const TemplateScalarFieldEnum = {
