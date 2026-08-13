@@ -14,7 +14,6 @@ import {
 	FormMessage,
 } from "#/components/ui/form";
 import { Input } from "#/components/ui/input";
-import { Switch } from "#/components/ui/switch";
 import { ResponseError } from "#/http/.kubb/client";
 import { useCreateClient } from "#/http/hooks/useCreateClient";
 import { useUpdateClient } from "#/http/hooks/useUpdateClient";
@@ -33,7 +32,6 @@ const clientFormSchema = z.object({
 	phone: z.string().trim(),
 	email: z.union([z.email("Informe um e-mail válido"), z.literal("")]),
 	address: z.string().trim(),
-	isActive: z.boolean(),
 });
 
 type ClientFormInput = z.infer<typeof clientFormSchema>;
@@ -58,7 +56,6 @@ export const ClientForm = ({ client, onSuccess }: ClientFormProps) => {
 			phone: client?.phone ?? "",
 			email: client?.email ?? "",
 			address: client?.address ?? "",
-			isActive: client?.isActive ?? true,
 		},
 	});
 
@@ -115,7 +112,6 @@ export const ClientForm = ({ client, onSuccess }: ClientFormProps) => {
 			phone: values.phone || undefined,
 			email: values.email || undefined,
 			address: values.address || undefined,
-			isActive: client ? values.isActive : undefined,
 		};
 
 		if (client) {
@@ -273,25 +269,6 @@ export const ClientForm = ({ client, onSuccess }: ClientFormProps) => {
 						)}
 					/>
 				</div>
-
-				{client ? (
-					<FormField
-						control={form.control}
-						name="isActive"
-						render={({ field }) => (
-							<FormItem className="flex flex-row items-center justify-between rounded-md border border-border px-3 py-2">
-								<FormLabel htmlFor="isActive">Cliente ativo</FormLabel>
-								<FormControl>
-									<Switch
-										id="isActive"
-										checked={field.value}
-										onCheckedChange={field.onChange}
-									/>
-								</FormControl>
-							</FormItem>
-						)}
-					/>
-				) : null}
 
 				<Button type="submit" disabled={isPending} className="mt-2">
 					{isPending ? "Salvando..." : "Salvar"}

@@ -1,19 +1,35 @@
+import { useQueryClient } from "@tanstack/react-query";
 import {
 	createFileRoute,
 	Link,
 	notFound,
 	Outlet,
 	useMatchRoute,
+	useNavigate,
 	useRouterState,
 } from "@tanstack/react-router";
-import { Pencil } from "lucide-react";
+import { Pencil, RotateCcw, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "#/components/ui/alert-dialog";
 import { Button, buttonVariants } from "#/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "#/components/ui/tabs";
 import { ResponseError } from "#/http/.kubb/client";
-import { getClientQueryOptions } from "#/http/hooks/useGetClient";
+import { getClientQueryOptions, useGetClient } from "#/http/hooks/useGetClient";
+import { listClientsQueryKey } from "#/http/hooks/useListClients";
+import { useUpdateClient } from "#/http/hooks/useUpdateClient";
+import { getApiErrorMessage } from "#/lib/api-error";
 
-import { ClientStatusBadge } from "../-components/client-status-badge";
 import { ClientUpsertDialog } from "../-components/client-upsert-dialog";
 
 const CLIENT_TABS = [
@@ -28,13 +44,35 @@ const CLIENT_TABS = [
 ] as const;
 
 const ClientLayout = () => {
-	const { client } = Route.useRouteContext();
+	const { client_id } = Route.useParams();
 	const matchRoute = useMatchRoute();
+	const navigate = useNavigate();
+	const queryClient = useQueryClient();
+
+	const { data: client } = useGetClient({ path: { id: client_id } });
+
+	const invalidateClients = () => {
+		queryClient.invalidateQueries({
+			queryKey: getClientQueryOptions({ path: { id: client_id } }).queryKey,
+		});
+		queryClient.invalidateQueries({ queryKey: listClientsQueryKey({}) });
+	};
+
+	const { mutate: updateClient, isPending: isUpdating } = useUpdateClient({
+		mutation: {
+			onError: (error) => {
+				toast.error(
+					getApiErrorMessage(error, "Não foi possível atualizar o cliente"),
+				);
+			},
+		},
+	});
+
 	const activeTab =
 		CLIENT_TABS.find((tab) =>
 			matchRoute({
 				to: tab.to,
-				params: { client_id: client.id },
+				params: { client_id },
 				fuzzy: false,
 			}),
 		)?.value ?? "overview";
@@ -43,12 +81,69 @@ const ClientLayout = () => {
 		select: (state) => state.location.pathname,
 	});
 	const isCompanyRoute = pathname.startsWith(
-		`/clients/${client.id}/companies/`,
+		`/clients/${client_id}/companies/`,
 	);
 
 	if (isCompanyRoute) {
 		return <Outlet />;
 	}
+
+	if (!client) {
+		return null;
+	}
+
+	const handleExclude = () => {
+		updateClient(
+			{
+				path: { id: client.id },
+				body: {
+					fullName: client.fullName,
+					cpf: client.cpf,
+					rg: client.rg ?? undefined,
+					birthDate: client.birthDate ?? undefined,
+					maritalStatus: client.maritalStatus ?? undefined,
+					profession: client.profession ?? undefined,
+					phone: client.phone ?? undefined,
+					email: client.email ?? undefined,
+					address: client.address ?? undefined,
+					isActive: false,
+				},
+			},
+			{
+				onSuccess: () => {
+					invalidateClients();
+					toast.success("Cliente excluído com sucesso");
+					navigate({ to: "/clients" });
+				},
+			},
+		);
+	};
+
+	const handleReactivate = () => {
+		updateClient(
+			{
+				path: { id: client.id },
+				body: {
+					fullName: client.fullName,
+					cpf: client.cpf,
+					rg: client.rg ?? undefined,
+					birthDate: client.birthDate ?? undefined,
+					maritalStatus: client.maritalStatus ?? undefined,
+					profession: client.profession ?? undefined,
+					phone: client.phone ?? undefined,
+					email: client.email ?? undefined,
+					address: client.address ?? undefined,
+					isActive: true,
+				},
+			},
+			{
+				onSuccess: () => {
+					invalidateClients();
+					toast.success("Cliente reativado com sucesso");
+				},
+			},
+		);
+	};
 
 	return (
 		<div className="flex flex-col gap-6">
@@ -65,23 +160,64 @@ const ClientLayout = () => {
 					<h1 className="sm-display text-3xl md:text-4xl">{client.fullName}</h1>
 					<div className="flex items-center gap-2 text-sm text-muted-foreground">
 						<span>{client.cpf}</span>
-						<ClientStatusBadge isActive={client.isActive} />
 					</div>
 				</div>
 
-				<ClientUpsertDialog client={client}>
-					<Button variant="outline">
-						<Pencil />
-						Editar
-					</Button>
-				</ClientUpsertDialog>
+				<div className="flex items-center gap-2">
+					<ClientUpsertDialog client={client}>
+						<Button variant="outline">
+							<Pencil />
+							Editar
+						</Button>
+					</ClientUpsertDialog>
+
+					{client.isActive ? (
+						<AlertDialog>
+							<AlertDialogTrigger asChild>
+								<Button variant="outline">
+									<Trash2 />
+									Excluir
+								</Button>
+							</AlertDialogTrigger>
+							<AlertDialogContent>
+								<AlertDialogHeader>
+									<AlertDialogTitle>Excluir cliente?</AlertDialogTitle>
+									<AlertDialogDescription>
+										O cliente será marcado como inativo e deixará de aparecer na
+										listagem por padrão. Nenhum dado é apagado, e você pode
+										reativá-lo quando quiser.
+									</AlertDialogDescription>
+								</AlertDialogHeader>
+								<AlertDialogFooter>
+									<AlertDialogCancel>Cancelar</AlertDialogCancel>
+									<AlertDialogAction
+										variant="destructive"
+										disabled={isUpdating}
+										onClick={handleExclude}
+									>
+										{isUpdating ? "Excluindo..." : "Excluir"}
+									</AlertDialogAction>
+								</AlertDialogFooter>
+							</AlertDialogContent>
+						</AlertDialog>
+					) : (
+						<Button
+							variant="outline"
+							disabled={isUpdating}
+							onClick={handleReactivate}
+						>
+							<RotateCcw />
+							{isUpdating ? "Reativando..." : "Reativar"}
+						</Button>
+					)}
+				</div>
 			</div>
 
 			<Tabs value={activeTab} className="print:hidden">
 				<TabsList>
 					{CLIENT_TABS.map((tab) => (
 						<TabsTrigger key={tab.value} value={tab.value} asChild>
-							<Link to={tab.to} params={{ client_id: client.id }}>
+							<Link to={tab.to} params={{ client_id }}>
 								{tab.label}
 							</Link>
 						</TabsTrigger>

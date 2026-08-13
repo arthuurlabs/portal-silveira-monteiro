@@ -6,6 +6,7 @@ import { useGetMe } from "#/http/hooks/useGetMe";
 import { AppHeader } from "./-components/app-header";
 import { AppShellSkeleton } from "./-components/app-shell-skeleton";
 import { AppSidebar } from "./-components/app-sidebar";
+import { TourProvider } from "./-components/product-tour";
 
 const AppLayout = () => {
 	const { data: user, isPending } = useGetMe();
@@ -19,15 +20,17 @@ const AppLayout = () => {
 	}
 
 	return (
-		<SidebarProvider>
-			<AppSidebar user={user} />
-			<SidebarInset>
-				<AppHeader />
-				<div className="flex flex-1 flex-col gap-6 p-6 print:gap-0 print:p-0">
-					<Outlet />
-				</div>
-			</SidebarInset>
-		</SidebarProvider>
+		<TourProvider user={user}>
+			<SidebarProvider>
+				<AppSidebar user={user} />
+				<SidebarInset>
+					<AppHeader />
+					<div className="flex flex-1 flex-col gap-6 p-6 print:gap-0 print:p-0">
+						<Outlet />
+					</div>
+				</SidebarInset>
+			</SidebarProvider>
+		</TourProvider>
 	);
 };
 

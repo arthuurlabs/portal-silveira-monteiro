@@ -26,16 +26,41 @@ import type { GetMeStatus200 } from "#/http/types/GetMe";
 import { NavUser } from "./nav-user";
 
 const NAV_ITEMS = [
-	{ title: "Painel", to: "/", icon: LayoutDashboard, adminOnly: false },
-	{ title: "Clientes", to: "/clients", icon: UserSearch, adminOnly: false },
-	{ title: "Tarefas", to: "/tasks", icon: FolderIcon, adminOnly: false },
+	{
+		title: "Painel",
+		to: "/",
+		icon: LayoutDashboard,
+		adminOnly: false,
+		tourId: "nav-painel",
+	},
+	{
+		title: "Clientes",
+		to: "/clients",
+		icon: UserSearch,
+		adminOnly: false,
+		tourId: "nav-clientes",
+	},
+	{
+		title: "Tarefas",
+		to: "/tasks",
+		icon: FolderIcon,
+		adminOnly: false,
+		tourId: "nav-tarefas",
+	},
 	{
 		title: "Calendário",
 		to: "/calendar",
 		icon: CalendarDays,
 		adminOnly: false,
+		tourId: "nav-calendario",
 	},
-	{ title: "Usuários", to: "/users", icon: UserCog, adminOnly: true },
+	{
+		title: "Usuários",
+		to: "/users",
+		icon: UserCog,
+		adminOnly: true,
+		tourId: "nav-usuarios",
+	},
 ] as const;
 
 type AppSidebarProps = {
@@ -82,7 +107,7 @@ export const AppSidebar = ({ user }: AppSidebarProps) => {
 											isActive={isActive}
 											tooltip={item.title}
 										>
-											<Link to={item.to}>
+											<Link to={item.to} data-tour={item.tourId}>
 												<item.icon />
 												<span>{item.title}</span>
 											</Link>

@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { ChevronsUpDown, LogOut } from "lucide-react";
+import { ChevronsUpDown, HelpCircle, LogOut } from "lucide-react";
 import { toast } from "sonner";
 
 import { Avatar, AvatarFallback } from "#/components/ui/avatar";
@@ -21,6 +21,8 @@ import { useSignOut } from "#/http/hooks/useSignOut";
 import type { GetMeStatus200 } from "#/http/types/GetMe";
 import { getApiErrorMessage } from "#/lib/api-error";
 
+import { useTour } from "./product-tour";
+
 const ROLE_LABELS: Record<GetMeStatus200["role"], string> = {
 	ADMIN: "Administrador",
 	MEMBER: "Membro",
@@ -38,6 +40,7 @@ type NavUserProps = {
 export const NavUser = ({ user }: NavUserProps) => {
 	const { isMobile } = useSidebar();
 	const navigate = useNavigate();
+	const { startTour } = useTour();
 
 	const { mutate, isPending } = useSignOut({
 		mutation: {
@@ -59,6 +62,7 @@ export const NavUser = ({ user }: NavUserProps) => {
 					<DropdownMenuTrigger asChild>
 						<SidebarMenuButton
 							size="lg"
+							data-tour="nav-user-menu"
 							className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
 						>
 							<Avatar size="sm" className="rounded-md">
@@ -94,6 +98,15 @@ export const NavUser = ({ user }: NavUserProps) => {
 							</div>
 						</DropdownMenuLabel>
 						<DropdownMenuSeparator />
+						<DropdownMenuItem
+							onSelect={(event) => {
+								event.preventDefault();
+								startTour();
+							}}
+						>
+							<HelpCircle />
+							Tour guiado
+						</DropdownMenuItem>
 						<DropdownMenuItem
 							disabled={isPending}
 							onSelect={(event) => {
