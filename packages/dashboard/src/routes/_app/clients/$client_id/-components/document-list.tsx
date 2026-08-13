@@ -1,5 +1,6 @@
 import { FolderOpen } from "lucide-react";
 
+import { EmptyState } from "#/components/shared/empty-state";
 import { Skeleton } from "#/components/ui/skeleton";
 import type { ListDocumentsStatus200 } from "#/http/types/ListDocuments";
 
@@ -47,12 +48,7 @@ export const DocumentList = ({
 
 	if (!documents || documents.length === 0) {
 		return (
-			<div className="flex flex-col items-center gap-2 rounded-md border border-dashed border-border px-4 py-14 text-center">
-				<FolderOpen className="size-8 text-muted-foreground/60" />
-				<p className="text-sm text-muted-foreground">
-					Nenhum documento enviado ainda.
-				</p>
-			</div>
+			<EmptyState icon={FolderOpen} title="Nenhum documento enviado ainda." />
 		);
 	}
 

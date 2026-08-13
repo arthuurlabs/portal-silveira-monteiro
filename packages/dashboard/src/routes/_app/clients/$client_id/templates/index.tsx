@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { FileText } from "lucide-react";
 
+import { EmptyState } from "#/components/shared/empty-state";
 import {
 	Card,
 	CardDescription,
@@ -36,9 +38,7 @@ const ClientTemplatesRoute = () => {
 					))}
 				</div>
 			) : data.data.length === 0 ? (
-				<p className="rounded-md border border-dashed border-border px-4 py-10 text-center text-sm text-muted-foreground">
-					Nenhum modelo cadastrado ainda.
-				</p>
+				<EmptyState icon={FileText} title="Nenhum modelo cadastrado ainda." />
 			) : (
 				<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 					{data.data.map((template) => (

@@ -1,6 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { Plus } from "lucide-react";
+import { Plus, UserRound } from "lucide-react";
 
+import { EmptyState } from "#/components/shared/empty-state";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import { Skeleton } from "#/components/ui/skeleton";
@@ -58,9 +59,7 @@ const UsersRoute = () => {
 					))}
 				</div>
 			) : data.data.length === 0 ? (
-				<p className="rounded-md border border-dashed border-border px-4 py-10 text-center text-sm text-muted-foreground">
-					Nenhum usuário cadastrado ainda.
-				</p>
+				<EmptyState icon={UserRound} title="Nenhum usuário cadastrado ainda." />
 			) : (
 				<div className="rounded-md border border-border">
 					<Table>

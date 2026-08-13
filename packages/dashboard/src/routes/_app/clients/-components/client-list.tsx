@@ -1,4 +1,7 @@
 import { Link } from "@tanstack/react-router";
+import { Users } from "lucide-react";
+
+import { EmptyState } from "#/components/shared/empty-state";
 import { Skeleton } from "#/components/ui/skeleton";
 import {
 	Table,
@@ -46,11 +49,7 @@ export const ClientList = ({
 	}
 
 	if (!clients || clients.length === 0) {
-		return (
-			<p className="rounded-md border border-dashed border-border px-4 py-10 text-center text-sm text-muted-foreground">
-				Nenhum cliente cadastrado ainda.
-			</p>
-		);
+		return <EmptyState icon={Users} title="Nenhum cliente cadastrado ainda." />;
 	}
 
 	return (

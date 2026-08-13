@@ -1,3 +1,6 @@
+import { ClipboardList } from "lucide-react";
+
+import { EmptyState } from "#/components/shared/empty-state";
 import { Badge } from "#/components/ui/badge";
 import { Skeleton } from "#/components/ui/skeleton";
 import {
@@ -55,9 +58,10 @@ export const IntakeList = ({
 
 	if (!intakes || intakes.length === 0) {
 		return (
-			<p className="rounded-md border border-dashed border-border px-4 py-10 text-center text-sm text-muted-foreground">
-				Nenhum atendimento registrado ainda.
-			</p>
+			<EmptyState
+				icon={ClipboardList}
+				title="Nenhum atendimento registrado ainda."
+			/>
 		);
 	}
 
