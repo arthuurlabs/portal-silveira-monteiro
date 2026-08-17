@@ -10,7 +10,7 @@ export const ALLOWED_DOCUMENT_MIME_TYPES = [
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 ] as const;
 
-export const MAX_DOCUMENT_SIZE_BYTES = 20 * 1024 * 1024;
+export const MAX_DOCUMENT_SIZE_BYTES = 50 * 1024 * 1024;
 
 export const documentDetailSchema = z.object({
     id: z.string(),

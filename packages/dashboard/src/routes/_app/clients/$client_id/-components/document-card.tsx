@@ -31,6 +31,7 @@ import {
 import { useDeleteDocument } from "#/http/hooks/useDeleteDocument";
 import { listDocumentsQueryKey } from "#/http/hooks/useListDocuments";
 import type { ListDocumentsStatus200 } from "#/http/types/ListDocuments";
+import { apiBaseUrl } from "#/lib/api-client";
 import { getApiErrorMessage } from "#/lib/api-error";
 import { cn } from "#/lib/utils";
 
@@ -104,7 +105,7 @@ export const DocumentCard = ({ clientId, document }: DocumentCardProps) => {
 	});
 
 	const { icon: Icon, tint } = getFileTypeStyle(document.mimeType);
-	const downloadUrl = `${import.meta.env.VITE_API_URL}/documents/${document.id}/download`;
+	const downloadUrl = `${apiBaseUrl}/documents/${document.id}/download`;
 
 	return (
 		<AlertDialog>

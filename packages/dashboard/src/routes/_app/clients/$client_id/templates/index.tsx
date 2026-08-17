@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, getRouteApi, Link } from "@tanstack/react-router";
 import { FileText } from "lucide-react";
 
 import { EmptyState } from "#/components/shared/empty-state";
@@ -13,8 +13,10 @@ import { useListTemplates } from "#/http/hooks/useListTemplates";
 
 const SKELETON_CARDS = ["card-1", "card-2", "card-3"];
 
+const clientRoute = getRouteApi("/_app/clients/$client_id");
+
 const ClientTemplatesRoute = () => {
-	const { client } = Route.useRouteContext();
+	const { client } = clientRoute.useLoaderData();
 	const { data, isPending, isError } = useListTemplates();
 
 	return (

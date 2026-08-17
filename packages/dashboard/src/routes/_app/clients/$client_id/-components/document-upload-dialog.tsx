@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { File as FileIcon, UploadCloud, X } from "lucide-react";
+import { CheckCircle2, File as FileIcon, UploadCloud, X } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -29,7 +29,7 @@ const ACCEPTED_EXTENSIONS = [
 	".xlsx",
 ];
 
-const MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024;
+const MAX_FILE_SIZE_BYTES = 50 * 1024 * 1024;
 
 const formatFileSize = (bytes: number) => {
 	if (bytes < 1024) return `${bytes} B`;
@@ -45,10 +45,20 @@ const validateFile = (file: File): string | null => {
 	}
 
 	if (file.size > MAX_FILE_SIZE_BYTES) {
-		return "Arquivo excede o tamanho máximo permitido (20MB).";
+		return "Arquivo excede o tamanho máximo permitido (50MB).";
 	}
 
 	return null;
+};
+
+type UploadItemStatus = "pending" | "uploading" | "done" | "error" | "invalid";
+
+type UploadItem = {
+	id: string;
+	file: File;
+	status: UploadItemStatus;
+	progress: number;
+	error?: string;
 };
 
 type DocumentUploadDialogProps = {
@@ -63,65 +73,108 @@ export const DocumentUploadDialog = ({
 	children,
 }: DocumentUploadDialogProps) => {
 	const [open, setOpen] = useState(false);
-	const [file, setFile] = useState<File | null>(null);
-	const [error, setError] = useState<string | null>(null);
+	const [items, setItems] = useState<UploadItem[]>([]);
 	const [isDraggingOver, setIsDraggingOver] = useState(false);
-	const [progress, setProgress] = useState(0);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const queryClient = useQueryClient();
 
 	const reset = () => {
-		setFile(null);
-		setError(null);
-		setProgress(0);
+		setItems([]);
 		setIsDraggingOver(false);
 	};
 
-	const { mutate, isPending } = useUploadDocument({
-		mutation: {
-			onSuccess: () => {
-				queryClient.invalidateQueries({
-					queryKey: listDocumentsQueryKey({ path: { clientId } }),
-				});
-				toast.success("Documento enviado com sucesso");
-				reset();
-				setOpen(false);
-			},
-			onError: (uploadError) => {
-				toast.error(
-					getApiErrorMessage(
-						uploadError,
-						"Não foi possível enviar o documento",
-					),
-				);
-				setProgress(0);
-			},
-		},
-	});
+	const { mutateAsync } = useUploadDocument();
 
-	const acceptFile = (candidate: File | undefined) => {
-		if (!candidate) {
-			return;
-		}
-
-		const validationError = validateFile(candidate);
-
-		if (validationError) {
-			setError(validationError);
-			setFile(null);
-			return;
-		}
-
-		setError(null);
-		setFile(candidate);
+	const updateItem = (id: string, patch: Partial<UploadItem>) => {
+		setItems((prev) =>
+			prev.map((item) => (item.id === id ? { ...item, ...patch } : item)),
+		);
 	};
 
-	const handleSubmit = () => {
-		if (!file) {
+	const acceptFiles = (candidates: FileList | null | undefined) => {
+		if (!candidates || candidates.length === 0) {
 			return;
 		}
 
-		mutate({ clientId, companyId, file, onProgress: setProgress });
+		const newItems: UploadItem[] = Array.from(candidates).map((file) => {
+			const validationError = validateFile(file);
+
+			return {
+				id: crypto.randomUUID(),
+				file,
+				status: validationError ? "invalid" : "pending",
+				progress: 0,
+				error: validationError ?? undefined,
+			};
+		});
+
+		setItems((prev) => [...prev, ...newItems]);
+	};
+
+	const isUploading = items.some((item) => item.status === "uploading");
+	const retryableItems = items.filter(
+		(item) => item.status === "pending" || item.status === "error",
+	);
+
+	const handleSubmit = async () => {
+		if (retryableItems.length === 0 || isUploading) {
+			return;
+		}
+
+		const retryableIds = new Set(retryableItems.map((item) => item.id));
+		setItems((prev) =>
+			prev.map((item) =>
+				retryableIds.has(item.id)
+					? { ...item, status: "uploading", progress: 0, error: undefined }
+					: item,
+			),
+		);
+
+		const results = await Promise.allSettled(
+			retryableItems.map((item) =>
+				mutateAsync({
+					clientId,
+					companyId,
+					file: item.file,
+					onProgress: (percent) => updateItem(item.id, { progress: percent }),
+				})
+					.then(() => updateItem(item.id, { status: "done", progress: 100 }))
+					.catch((uploadError) => {
+						updateItem(item.id, {
+							status: "error",
+							error: getApiErrorMessage(
+								uploadError,
+								"Não foi possível enviar o documento",
+							),
+						});
+						throw uploadError;
+					}),
+			),
+		);
+
+		queryClient.invalidateQueries({
+			queryKey: listDocumentsQueryKey({ path: { clientId } }),
+		});
+
+		const successCount = results.filter(
+			(result) => result.status === "fulfilled",
+		).length;
+
+		if (successCount === retryableItems.length) {
+			toast.success(
+				retryableItems.length === 1
+					? "Documento enviado com sucesso"
+					: `${retryableItems.length} documentos enviados com sucesso`,
+			);
+			reset();
+			setOpen(false);
+			return;
+		}
+
+		toast.error(
+			`${successCount} de ${retryableItems.length} documentos enviados`,
+		);
+		setItems((prev) => prev.filter((item) => item.status !== "done"));
 	};
 
 	return (
@@ -137,92 +190,124 @@ export const DocumentUploadDialog = ({
 			<DialogTrigger asChild>{children}</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Enviar documento</DialogTitle>
+					<DialogTitle>Enviar documentos</DialogTitle>
 				</DialogHeader>
 
 				<div className="flex flex-col gap-3">
-					{file ? (
-						<div className="flex items-center gap-3 rounded-xl border border-border bg-card p-3">
-							<span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-								<FileIcon className="size-5" />
-							</span>
-							<div className="min-w-0 flex-1">
-								<p className="truncate text-sm font-medium text-foreground">
-									{file.name}
-								</p>
-								<p className="text-xs text-muted-foreground">
-									{formatFileSize(file.size)}
-								</p>
-							</div>
-							{!isPending ? (
-								<Button
-									type="button"
-									variant="ghost"
-									size="icon"
-									className="size-8 shrink-0"
-									onClick={() => setFile(null)}
-									aria-label="Remover arquivo"
-								>
-									<X className="size-4" />
-								</Button>
-							) : null}
-						</div>
-					) : (
-						<button
-							type="button"
-							onClick={() => inputRef.current?.click()}
-							onDragEnter={(event) => {
-								event.preventDefault();
-								setIsDraggingOver(true);
-							}}
-							onDragOver={(event) => event.preventDefault()}
-							onDragLeave={() => setIsDraggingOver(false)}
-							onDrop={(event) => {
-								event.preventDefault();
-								setIsDraggingOver(false);
-								acceptFile(event.dataTransfer.files?.[0]);
-							}}
+					<button
+						type="button"
+						onClick={() => inputRef.current?.click()}
+						onDragEnter={(event) => {
+							event.preventDefault();
+							setIsDraggingOver(true);
+						}}
+						onDragOver={(event) => event.preventDefault()}
+						onDragLeave={() => setIsDraggingOver(false)}
+						onDrop={(event) => {
+							event.preventDefault();
+							setIsDraggingOver(false);
+							acceptFiles(event.dataTransfer.files);
+						}}
+						className={cn(
+							"flex flex-col items-center gap-2 rounded-xl border-2 border-dashed border-border px-4 py-8 text-center transition-colors",
+							isDraggingOver
+								? "border-primary bg-primary/5"
+								: "hover:border-primary/40 hover:bg-muted/40",
+						)}
+					>
+						<UploadCloud
 							className={cn(
-								"flex flex-col items-center gap-2 rounded-xl border-2 border-dashed border-border px-4 py-10 text-center transition-colors",
-								isDraggingOver
-									? "border-primary bg-primary/5"
-									: "hover:border-primary/40 hover:bg-muted/40",
+								"size-8",
+								isDraggingOver ? "text-primary" : "text-muted-foreground",
 							)}
-						>
-							<UploadCloud
-								className={cn(
-									"size-8",
-									isDraggingOver ? "text-primary" : "text-muted-foreground",
-								)}
-							/>
-							<p className="text-sm font-medium text-foreground">
-								Arraste um arquivo aqui
-							</p>
-							<p className="text-xs text-muted-foreground">
-								ou clique para selecionar — PDF, imagem, Word ou Excel, até 20MB
-							</p>
-						</button>
-					)}
+						/>
+						<p className="text-sm font-medium text-foreground">
+							Arraste um ou mais arquivos aqui
+						</p>
+						<p className="text-xs text-muted-foreground">
+							ou clique para selecionar — PDF, imagem, Word ou Excel, até 50MB
+							cada
+						</p>
+					</button>
 
 					<input
 						ref={inputRef}
 						type="file"
+						multiple
 						className="hidden"
 						accept={ACCEPTED_EXTENSIONS.join(",")}
-						onChange={(event) => acceptFile(event.target.files?.[0])}
+						onChange={(event) => {
+							acceptFiles(event.target.files);
+							event.target.value = "";
+						}}
 					/>
 
-					{error ? <p className="text-sm text-destructive">{error}</p> : null}
-
-					{isPending ? <Progress value={progress} /> : null}
+					{items.length > 0 ? (
+						<div className="flex max-h-64 flex-col gap-2 overflow-y-auto">
+							{items.map((item) => (
+								<div
+									key={item.id}
+									className="flex items-center gap-3 rounded-xl border border-border bg-card p-3"
+								>
+									<span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+										<FileIcon className="size-5" />
+									</span>
+									<div className="min-w-0 flex-1">
+										<p className="truncate text-sm font-medium text-foreground">
+											{item.file.name}
+										</p>
+										{item.status === "invalid" || item.status === "error" ? (
+											<p className="text-xs text-destructive">{item.error}</p>
+										) : (
+											<p className="text-xs text-muted-foreground">
+												{formatFileSize(item.file.size)}
+											</p>
+										)}
+										{item.status === "uploading" ? (
+											<Progress
+												value={item.progress}
+												className="mt-1.5 h-1.5"
+											/>
+										) : null}
+									</div>
+									{item.status === "done" ? (
+										<CheckCircle2 className="size-5 shrink-0 text-success" />
+									) : item.status === "uploading" ? (
+										<span className="shrink-0 text-xs text-muted-foreground">
+											{item.progress}%
+										</span>
+									) : (
+										<Button
+											type="button"
+											variant="ghost"
+											size="icon"
+											className="size-8 shrink-0"
+											onClick={() =>
+												setItems((prev) =>
+													prev.filter((current) => current.id !== item.id),
+												)
+											}
+											aria-label={`Remover ${item.file.name}`}
+										>
+											<X className="size-4" />
+										</Button>
+									)}
+								</div>
+							))}
+						</div>
+					) : null}
 
 					<Button
 						type="button"
-						disabled={!file || isPending}
+						disabled={retryableItems.length === 0 || isUploading}
 						onClick={handleSubmit}
 						className="mt-1"
 					>
-						{isPending ? `Enviando... ${progress}%` : "Enviar"}
+						{isUploading
+							? "Enviando..."
+							: retryableItems.length > 1
+								? `Enviar ${retryableItems.length} arquivos`
+								: "Enviar"}
 					</Button>
 				</div>
 			</DialogContent>

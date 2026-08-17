@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, getRouteApi } from "@tanstack/react-router";
 import { Upload } from "lucide-react";
 
 import { Button } from "#/components/ui/button";
@@ -7,8 +7,14 @@ import { useListDocuments } from "#/http/hooks/useListDocuments";
 import { DocumentList } from "../../../-components/document-list";
 import { DocumentUploadDialog } from "../../../-components/document-upload-dialog";
 
+const clientRoute = getRouteApi("/_app/clients/$client_id");
+const companyRoute = getRouteApi(
+	"/_app/clients/$client_id/companies/$company_id",
+);
+
 const CompanyFilesRoute = () => {
-	const { client, company } = Route.useRouteContext();
+	const { client } = clientRoute.useLoaderData();
+	const { company } = companyRoute.useLoaderData();
 
 	const { data, isPending, isError } = useListDocuments({
 		path: { clientId: client.id },

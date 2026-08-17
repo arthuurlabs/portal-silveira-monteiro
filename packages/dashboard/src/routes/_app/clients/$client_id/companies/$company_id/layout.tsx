@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import {
 	createFileRoute,
+	getRouteApi,
 	Link,
 	notFound,
 	Outlet,
@@ -26,14 +27,13 @@ import { Button, buttonVariants } from "#/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "#/components/ui/tabs";
 import { ResponseError } from "#/http/.kubb/client";
 import { useDeleteCompany } from "#/http/hooks/useDeleteCompany";
-import {
-	getCompanyQueryOptions,
-	useGetCompany,
-} from "#/http/hooks/useGetCompany";
+import { getCompanyQueryOptions } from "#/http/hooks/useGetCompany";
 import { getApiErrorMessage } from "#/lib/api-error";
 
 import { CompanyUpsertDialog } from "../-components/company-upsert-dialog";
 import { CompanySwitcher } from "./-components/company-switcher";
+
+const clientRoute = getRouteApi("/_app/clients/$client_id");
 
 const COMPANY_TABS = [
 	{
@@ -49,13 +49,11 @@ const COMPANY_TABS = [
 ] as const;
 
 const CompanyLayout = () => {
-	const { client } = Route.useRouteContext();
-	const { company_id } = Route.useParams();
+	const { client } = clientRoute.useLoaderData();
+	const { company } = Route.useLoaderData();
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const matchRoute = useMatchRoute();
-
-	const { data: company } = useGetCompany({ path: { id: company_id } });
 
 	const { mutate: deleteCompany, isPending: isDeleting } = useDeleteCompany({
 		mutation: {
@@ -76,10 +74,6 @@ const CompanyLayout = () => {
 			},
 		},
 	});
-
-	if (!company) {
-		return null;
-	}
 
 	const activeTab =
 		COMPANY_TABS.find((tab) =>
@@ -196,7 +190,7 @@ const CompanyNotFound = () => {
 export const Route = createFileRoute(
 	"/_app/clients/$client_id/companies/$company_id",
 )({
-	beforeLoad: async ({ context, params }) => {
+	loader: async ({ context, params }) => {
 		try {
 			const company = await context.queryClient.ensureQueryData({
 				...getCompanyQueryOptions({ path: { id: params.company_id } }),

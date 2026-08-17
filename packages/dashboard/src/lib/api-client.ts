@@ -6,8 +6,13 @@ if (!import.meta.env.VITE_API_URL) {
 	);
 }
 
+// Normalizada aqui porque `VITE_API_URL` pode vir com barra final dependendo do
+// ambiente (ex.: produção) — sem isso, uma URL montada manualmente como
+// `${apiBaseUrl}/documents/...` produzia barra dupla e 404 no Fastify.
+export const apiBaseUrl = import.meta.env.VITE_API_URL.replace(/\/+$/, "");
+
 client.setConfig({
-	baseURL: import.meta.env.VITE_API_URL,
+	baseURL: apiBaseUrl,
 	options: {
 		withCredentials: true,
 	},
@@ -30,6 +35,12 @@ if (import.meta.env.SSR) {
 
 		if (cookie) {
 			config.headers.set("cookie", cookie);
+		} else {
+			// Diagnóstico para o 401 esporádico visto em produção só ao dar F5 em
+			// certas rotas: não loga o valor do cookie, só a ausência dele e a
+			// URL, pra confirmar (ou descartar) se é o encaminhamento de cookie no
+			// SSR que está falhando pra essa requisição específica.
+			console.warn(`[ssr-cookie] sem cookie ao encaminhar para ${config.url}`);
 		}
 
 		return config;

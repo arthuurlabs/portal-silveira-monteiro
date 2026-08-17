@@ -1,4 +1,9 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	getRouteApi,
+	Link,
+	notFound,
+} from "@tanstack/react-router";
 import { Printer } from "lucide-react";
 import { useMemo } from "react";
 
@@ -9,8 +14,11 @@ import { getTemplateQueryOptions } from "#/http/hooks/useGetTemplate";
 
 import { buildTemplateItems } from "./-components/build-template-items";
 
+const clientRoute = getRouteApi("/_app/clients/$client_id");
+
 const ClientTemplatePreviewRoute = () => {
-	const { client, template } = Route.useRouteContext();
+	const { client } = clientRoute.useLoaderData();
+	const { template } = Route.useLoaderData();
 	const items = useMemo(
 		() => buildTemplateItems(template, client),
 		[template, client],
@@ -58,7 +66,7 @@ const TemplateNotFound = () => (
 export const Route = createFileRoute(
 	"/_app/clients/$client_id/templates/$template_id",
 )({
-	beforeLoad: async ({ context, params }) => {
+	loader: async ({ context, params }) => {
 		try {
 			const template = await context.queryClient.ensureQueryData({
 				...getTemplateQueryOptions({ path: { id: params.template_id } }),

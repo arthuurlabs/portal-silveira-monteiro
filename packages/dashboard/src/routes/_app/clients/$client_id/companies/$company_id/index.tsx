@@ -1,6 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
-
-import { useGetCompany } from "#/http/hooks/useGetCompany";
+import { createFileRoute, getRouteApi } from "@tanstack/react-router";
 
 type DetailFieldProps = {
 	label: string;
@@ -16,13 +14,12 @@ const DetailField = ({ label, value }: DetailFieldProps) => (
 	</div>
 );
 
-const CompanyOverviewRoute = () => {
-	const { company_id } = Route.useParams();
-	const { data: company } = useGetCompany({ path: { id: company_id } });
+const companyRoute = getRouteApi(
+	"/_app/clients/$client_id/companies/$company_id",
+);
 
-	if (!company) {
-		return null;
-	}
+const CompanyOverviewRoute = () => {
+	const { company } = companyRoute.useLoaderData();
 
 	return (
 		<div className="grid gap-6 rounded-md border border-border p-6 sm:grid-cols-2 lg:grid-cols-3">

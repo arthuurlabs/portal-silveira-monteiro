@@ -106,7 +106,7 @@ export const uploadDocument = (app: FastifyInstance) =>
             if (filePart.file.truncated) {
                 await deleteFromFtp(remotePath);
                 throw new BadRequestError(
-                    'Arquivo excede o tamanho máximo permitido (20MB)',
+                    'Arquivo excede o tamanho máximo permitido (50MB)',
                 );
             }
 

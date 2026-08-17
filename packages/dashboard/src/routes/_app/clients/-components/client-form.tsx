@@ -16,6 +16,7 @@ import {
 import { Input } from "#/components/ui/input";
 import { ResponseError } from "#/http/.kubb/client";
 import { useCreateClient } from "#/http/hooks/useCreateClient";
+import { getClientQueryOptions } from "#/http/hooks/useGetClient";
 import { useUpdateClient } from "#/http/hooks/useUpdateClient";
 import type { ListClientsStatus200 } from "#/http/types/ListClients";
 import { getApiErrorMessage } from "#/lib/api-error";
@@ -92,6 +93,14 @@ export const ClientForm = ({ client, onSuccess }: ClientFormProps) => {
 		mutation: {
 			onSuccess: () => {
 				invalidateClients();
+
+				if (client) {
+					queryClient.invalidateQueries({
+						queryKey: getClientQueryOptions({ path: { id: client.id } })
+							.queryKey,
+					});
+				}
+
 				toast.success("Cliente atualizado com sucesso");
 				onSuccess();
 			},
