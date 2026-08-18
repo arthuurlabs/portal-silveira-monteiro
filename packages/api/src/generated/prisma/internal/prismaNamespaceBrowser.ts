@@ -58,7 +58,9 @@ export const ModelName = {
   Document: 'Document',
   Template: 'Template',
   Task: 'Task',
-  Event: 'Event'
+  Event: 'Event',
+  Process: 'Process',
+  ProcessMovement: 'ProcessMovement'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -208,6 +210,32 @@ export const EventScalarFieldEnum = {
 } as const
 
 export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+export const ProcessScalarFieldEnum = {
+  id: 'id',
+  caseNumber: 'caseNumber',
+  clientId: 'clientId',
+  userId: 'userId',
+  plaintiff: 'plaintiff',
+  defendant: 'defendant',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProcessScalarFieldEnum = (typeof ProcessScalarFieldEnum)[keyof typeof ProcessScalarFieldEnum]
+
+
+export const ProcessMovementScalarFieldEnum = {
+  id: 'id',
+  processId: 'processId',
+  description: 'description',
+  occurredAt: 'occurredAt',
+  createdAt: 'createdAt'
+} as const
+
+export type ProcessMovementScalarFieldEnum = (typeof ProcessMovementScalarFieldEnum)[keyof typeof ProcessMovementScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -404,7 +404,9 @@ export const ModelName = {
   Document: 'Document',
   Template: 'Template',
   Task: 'Task',
-  Event: 'Event'
+  Event: 'Event',
+  Process: 'Process',
+  ProcessMovement: 'ProcessMovement'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -420,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "client" | "company" | "intake" | "document" | "template" | "task" | "event"
+    modelProps: "user" | "client" | "company" | "intake" | "document" | "template" | "task" | "event" | "process" | "processMovement"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1016,6 +1018,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Process: {
+      payload: Prisma.$ProcessPayload<ExtArgs>
+      fields: Prisma.ProcessFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProcessFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProcessFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>
+        }
+        findFirst: {
+          args: Prisma.ProcessFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProcessFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>
+        }
+        findMany: {
+          args: Prisma.ProcessFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>[]
+        }
+        create: {
+          args: Prisma.ProcessCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>
+        }
+        createMany: {
+          args: Prisma.ProcessCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProcessCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>[]
+        }
+        delete: {
+          args: Prisma.ProcessDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>
+        }
+        update: {
+          args: Prisma.ProcessUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProcessDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProcessUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProcessUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProcessUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>
+        }
+        aggregate: {
+          args: Prisma.ProcessAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProcess>
+        }
+        groupBy: {
+          args: Prisma.ProcessGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProcessGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProcessCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProcessCountAggregateOutputType> | number
+        }
+      }
+    }
+    ProcessMovement: {
+      payload: Prisma.$ProcessMovementPayload<ExtArgs>
+      fields: Prisma.ProcessMovementFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProcessMovementFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessMovementPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProcessMovementFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessMovementPayload>
+        }
+        findFirst: {
+          args: Prisma.ProcessMovementFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessMovementPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProcessMovementFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessMovementPayload>
+        }
+        findMany: {
+          args: Prisma.ProcessMovementFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessMovementPayload>[]
+        }
+        create: {
+          args: Prisma.ProcessMovementCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessMovementPayload>
+        }
+        createMany: {
+          args: Prisma.ProcessMovementCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProcessMovementCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessMovementPayload>[]
+        }
+        delete: {
+          args: Prisma.ProcessMovementDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessMovementPayload>
+        }
+        update: {
+          args: Prisma.ProcessMovementUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessMovementPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProcessMovementDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProcessMovementUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProcessMovementUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessMovementPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProcessMovementUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessMovementPayload>
+        }
+        aggregate: {
+          args: Prisma.ProcessMovementAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProcessMovement>
+        }
+        groupBy: {
+          args: Prisma.ProcessMovementGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProcessMovementGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProcessMovementCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProcessMovementCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1186,6 +1336,32 @@ export const EventScalarFieldEnum = {
 } as const
 
 export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+export const ProcessScalarFieldEnum = {
+  id: 'id',
+  caseNumber: 'caseNumber',
+  clientId: 'clientId',
+  userId: 'userId',
+  plaintiff: 'plaintiff',
+  defendant: 'defendant',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProcessScalarFieldEnum = (typeof ProcessScalarFieldEnum)[keyof typeof ProcessScalarFieldEnum]
+
+
+export const ProcessMovementScalarFieldEnum = {
+  id: 'id',
+  processId: 'processId',
+  description: 'description',
+  occurredAt: 'occurredAt',
+  createdAt: 'createdAt'
+} as const
+
+export type ProcessMovementScalarFieldEnum = (typeof ProcessMovementScalarFieldEnum)[keyof typeof ProcessMovementScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1539,6 +1715,8 @@ export type GlobalOmitConfig = {
   template?: Prisma.TemplateOmit
   task?: Prisma.TaskOmit
   event?: Prisma.EventOmit
+  process?: Prisma.ProcessOmit
+  processMovement?: Prisma.ProcessMovementOmit
 }
 
 /* Types for Logging */

@@ -57,3 +57,13 @@ export type Task = Prisma.TaskModel
  * 
  */
 export type Event = Prisma.EventModel
+/**
+ * Model Process
+ * 
+ */
+export type Process = Prisma.ProcessModel
+/**
+ * Model ProcessMovement
+ * 
+ */
+export type ProcessMovement = Prisma.ProcessMovementModel

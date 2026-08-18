@@ -26,6 +26,7 @@ model User {
   tasks     Task[]
   documents Document[]
   events    Event[]
+  processes Process[]
 
   @@map("users")
 }
@@ -48,6 +49,7 @@ model Client {
   intakes   Intake[]
   companies Company[]
   documents Document[]
+  processes Process[]
 
   @@index([fullName])
   @@map("clients")
@@ -203,4 +205,36 @@ model Event {
   @@index([userId, startAt])
   @@index([isGlobal, startAt])
   @@map("events")
+}
+
+model Process {
+  id         String   @id @default(cuid())
+  caseNumber String?  @map("case_number")
+  clientId   String   @map("client_id")
+  userId     String   @map("user_id")
+  plaintiff  String
+  defendant  String
+  notes      String?
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  client    Client            @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  user      User              @relation(fields: [userId], references: [id])
+  movements ProcessMovement[]
+
+  @@index([clientId, createdAt(sort: Desc)])
+  @@map("processes")
+}
+
+model ProcessMovement {
+  id          String   @id @default(cuid())
+  processId   String   @map("process_id")
+  description String
+  occurredAt  DateTime @map("occurred_at") @db.Date
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  process Process @relation(fields: [processId], references: [id], onDelete: Cascade)
+
+  @@index([processId, occurredAt(sort: Desc)])
+  @@map("process_movements")
 }

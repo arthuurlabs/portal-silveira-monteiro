@@ -210,6 +210,7 @@ export type UserWhereInput = {
   tasks?: Prisma.TaskListRelationFilter
   documents?: Prisma.DocumentListRelationFilter
   events?: Prisma.EventListRelationFilter
+  processes?: Prisma.ProcessListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -225,6 +226,7 @@ export type UserOrderByWithRelationInput = {
   tasks?: Prisma.TaskOrderByRelationAggregateInput
   documents?: Prisma.DocumentOrderByRelationAggregateInput
   events?: Prisma.EventOrderByRelationAggregateInput
+  processes?: Prisma.ProcessOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -243,6 +245,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   tasks?: Prisma.TaskListRelationFilter
   documents?: Prisma.DocumentListRelationFilter
   events?: Prisma.EventListRelationFilter
+  processes?: Prisma.ProcessListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -286,6 +289,7 @@ export type UserCreateInput = {
   tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutUserInput
+  processes?: Prisma.ProcessCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -301,6 +305,7 @@ export type UserUncheckedCreateInput = {
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutUserInput
+  processes?: Prisma.ProcessUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -316,6 +321,7 @@ export type UserUpdateInput = {
   tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutUserNestedInput
+  processes?: Prisma.ProcessUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -331,6 +337,7 @@ export type UserUncheckedUpdateInput = {
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutUserNestedInput
+  processes?: Prisma.ProcessUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -476,6 +483,20 @@ export type UserUpdateOneRequiredWithoutEventsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEventsInput, Prisma.UserUpdateWithoutEventsInput>, Prisma.UserUncheckedUpdateWithoutEventsInput>
 }
 
+export type UserCreateNestedOneWithoutProcessesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProcessesInput, Prisma.UserUncheckedCreateWithoutProcessesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProcessesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutProcessesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProcessesInput, Prisma.UserUncheckedCreateWithoutProcessesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProcessesInput
+  upsert?: Prisma.UserUpsertWithoutProcessesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProcessesInput, Prisma.UserUpdateWithoutProcessesInput>, Prisma.UserUncheckedUpdateWithoutProcessesInput>
+}
+
 export type UserCreateWithoutIntakesInput = {
   id?: string
   name: string
@@ -488,6 +509,7 @@ export type UserCreateWithoutIntakesInput = {
   tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutUserInput
+  processes?: Prisma.ProcessCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutIntakesInput = {
@@ -502,6 +524,7 @@ export type UserUncheckedCreateWithoutIntakesInput = {
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutUserInput
+  processes?: Prisma.ProcessUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutIntakesInput = {
@@ -532,6 +555,7 @@ export type UserUpdateWithoutIntakesInput = {
   tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutUserNestedInput
+  processes?: Prisma.ProcessUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutIntakesInput = {
@@ -546,6 +570,7 @@ export type UserUncheckedUpdateWithoutIntakesInput = {
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutUserNestedInput
+  processes?: Prisma.ProcessUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDocumentsInput = {
@@ -560,6 +585,7 @@ export type UserCreateWithoutDocumentsInput = {
   intakes?: Prisma.IntakeCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutUserInput
+  processes?: Prisma.ProcessCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDocumentsInput = {
@@ -574,6 +600,7 @@ export type UserUncheckedCreateWithoutDocumentsInput = {
   intakes?: Prisma.IntakeUncheckedCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutUserInput
+  processes?: Prisma.ProcessUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDocumentsInput = {
@@ -604,6 +631,7 @@ export type UserUpdateWithoutDocumentsInput = {
   intakes?: Prisma.IntakeUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutUserNestedInput
+  processes?: Prisma.ProcessUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDocumentsInput = {
@@ -618,6 +646,7 @@ export type UserUncheckedUpdateWithoutDocumentsInput = {
   intakes?: Prisma.IntakeUncheckedUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutUserNestedInput
+  processes?: Prisma.ProcessUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTasksInput = {
@@ -632,6 +661,7 @@ export type UserCreateWithoutTasksInput = {
   intakes?: Prisma.IntakeCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutUserInput
+  processes?: Prisma.ProcessCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTasksInput = {
@@ -646,6 +676,7 @@ export type UserUncheckedCreateWithoutTasksInput = {
   intakes?: Prisma.IntakeUncheckedCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutUserInput
+  processes?: Prisma.ProcessUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTasksInput = {
@@ -676,6 +707,7 @@ export type UserUpdateWithoutTasksInput = {
   intakes?: Prisma.IntakeUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutUserNestedInput
+  processes?: Prisma.ProcessUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTasksInput = {
@@ -690,6 +722,7 @@ export type UserUncheckedUpdateWithoutTasksInput = {
   intakes?: Prisma.IntakeUncheckedUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutUserNestedInput
+  processes?: Prisma.ProcessUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEventsInput = {
@@ -704,6 +737,7 @@ export type UserCreateWithoutEventsInput = {
   intakes?: Prisma.IntakeCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
+  processes?: Prisma.ProcessCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEventsInput = {
@@ -718,6 +752,7 @@ export type UserUncheckedCreateWithoutEventsInput = {
   intakes?: Prisma.IntakeUncheckedCreateNestedManyWithoutUserInput
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
+  processes?: Prisma.ProcessUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEventsInput = {
@@ -748,6 +783,7 @@ export type UserUpdateWithoutEventsInput = {
   intakes?: Prisma.IntakeUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
+  processes?: Prisma.ProcessUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventsInput = {
@@ -762,6 +798,83 @@ export type UserUncheckedUpdateWithoutEventsInput = {
   intakes?: Prisma.IntakeUncheckedUpdateManyWithoutUserNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
+  processes?: Prisma.ProcessUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutProcessesInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  intakes?: Prisma.IntakeCreateNestedManyWithoutUserInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutUserInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUserInput
+  events?: Prisma.EventCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutProcessesInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  intakes?: Prisma.IntakeUncheckedCreateNestedManyWithoutUserInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutUserInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUserInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutProcessesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutProcessesInput, Prisma.UserUncheckedCreateWithoutProcessesInput>
+}
+
+export type UserUpsertWithoutProcessesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutProcessesInput, Prisma.UserUncheckedUpdateWithoutProcessesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutProcessesInput, Prisma.UserUncheckedCreateWithoutProcessesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutProcessesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutProcessesInput, Prisma.UserUncheckedUpdateWithoutProcessesInput>
+}
+
+export type UserUpdateWithoutProcessesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  intakes?: Prisma.IntakeUpdateManyWithoutUserNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutUserNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUserNestedInput
+  events?: Prisma.EventUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutProcessesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  intakes?: Prisma.IntakeUncheckedUpdateManyWithoutUserNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutUserNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUserNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -774,6 +887,7 @@ export type UserCountOutputType = {
   tasks: number
   documents: number
   events: number
+  processes: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -781,6 +895,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   tasks?: boolean | UserCountOutputTypeCountTasksArgs
   documents?: boolean | UserCountOutputTypeCountDocumentsArgs
   events?: boolean | UserCountOutputTypeCountEventsArgs
+  processes?: boolean | UserCountOutputTypeCountProcessesArgs
 }
 
 /**
@@ -821,6 +936,13 @@ export type UserCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Types.Ext
   where?: Prisma.EventWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountProcessesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProcessWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -835,6 +957,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   tasks?: boolean | Prisma.User$tasksArgs<ExtArgs>
   documents?: boolean | Prisma.User$documentsArgs<ExtArgs>
   events?: boolean | Prisma.User$eventsArgs<ExtArgs>
+  processes?: boolean | Prisma.User$processesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -877,6 +1000,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   tasks?: boolean | Prisma.User$tasksArgs<ExtArgs>
   documents?: boolean | Prisma.User$documentsArgs<ExtArgs>
   events?: boolean | Prisma.User$eventsArgs<ExtArgs>
+  processes?: boolean | Prisma.User$processesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -889,6 +1013,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     tasks: Prisma.$TaskPayload<ExtArgs>[]
     documents: Prisma.$DocumentPayload<ExtArgs>[]
     events: Prisma.$EventPayload<ExtArgs>[]
+    processes: Prisma.$ProcessPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1297,6 +1422,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   tasks<T extends Prisma.User$tasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   documents<T extends Prisma.User$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   events<T extends Prisma.User$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  processes<T extends Prisma.User$processesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$processesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProcessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1820,6 +1946,30 @@ export type User$eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.EventScalarFieldEnum | Prisma.EventScalarFieldEnum[]
+}
+
+/**
+ * User.processes
+ */
+export type User$processesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Process
+   */
+  select?: Prisma.ProcessSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Process
+   */
+  omit?: Prisma.ProcessOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProcessInclude<ExtArgs> | null
+  where?: Prisma.ProcessWhereInput
+  orderBy?: Prisma.ProcessOrderByWithRelationInput | Prisma.ProcessOrderByWithRelationInput[]
+  cursor?: Prisma.ProcessWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProcessScalarFieldEnum | Prisma.ProcessScalarFieldEnum[]
 }
 
 /**

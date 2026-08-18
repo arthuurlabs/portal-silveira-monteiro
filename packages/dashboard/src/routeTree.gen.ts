@@ -15,11 +15,13 @@ import { Route as PreviewTokenRouteImport } from './routes/preview/$token'
 import { Route as AppCalendarIndexRouteImport } from './routes/_app/calendar/index'
 import { Route as AppClientsIndexRouteImport } from './routes/_app/clients/index'
 import { Route as AppClientsClient_idLayoutRouteImport } from './routes/_app/clients/$client_id/layout'
+import { Route as AppProcessesIndexRouteImport } from './routes/_app/processes/index'
 import { Route as AppTasksIndexRouteImport } from './routes/_app/tasks/index'
 import { Route as AppUsersIndexRouteImport } from './routes/_app/users/index'
 import { Route as AuthActivateTokenRouteImport } from './routes/_auth/activate/$token'
 import { Route as AuthSignInIndexRouteImport } from './routes/_auth/sign-in/index'
 import { Route as AppClientsClient_idIndexRouteImport } from './routes/_app/clients/$client_id/index'
+import { Route as AppProcessesProcess_idIndexRouteImport } from './routes/_app/processes/$process_id/index'
 import { Route as AppClientsClient_idCompaniesCompany_idLayoutRouteImport } from './routes/_app/clients/$client_id/companies/$company_id/layout'
 import { Route as AppClientsClient_idFilesIndexRouteImport } from './routes/_app/clients/$client_id/files/index'
 import { Route as AppClientsClient_idIntakesIndexRouteImport } from './routes/_app/clients/$client_id/intakes/index'
@@ -58,6 +60,11 @@ const AppClientsClient_idLayoutRoute =
     path: '/clients/$client_id',
     getParentRoute: () => AppLayoutRoute,
   } as any)
+const AppProcessesIndexRoute = AppProcessesIndexRouteImport.update({
+  id: '/processes/',
+  path: '/processes/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
 const AppTasksIndexRoute = AppTasksIndexRouteImport.update({
   id: '/tasks/',
   path: '/tasks/',
@@ -83,6 +90,12 @@ const AppClientsClient_idIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AppClientsClient_idLayoutRoute,
+  } as any)
+const AppProcessesProcess_idIndexRoute =
+  AppProcessesProcess_idIndexRouteImport.update({
+    id: '/processes/$process_id/',
+    path: '/processes/$process_id/',
+    getParentRoute: () => AppLayoutRoute,
   } as any)
 const AppClientsClient_idCompaniesCompany_idLayoutRoute =
   AppClientsClient_idCompaniesCompany_idLayoutRouteImport.update({
@@ -134,10 +147,12 @@ export interface FileRoutesByFullPath {
   '/activate/$token': typeof AuthActivateTokenRoute
   '/calendar/': typeof AppCalendarIndexRoute
   '/clients/': typeof AppClientsIndexRoute
+  '/processes/': typeof AppProcessesIndexRoute
   '/tasks/': typeof AppTasksIndexRoute
   '/users/': typeof AppUsersIndexRoute
   '/sign-in/': typeof AuthSignInIndexRoute
   '/clients/$client_id/': typeof AppClientsClient_idIndexRoute
+  '/processes/$process_id/': typeof AppProcessesProcess_idIndexRoute
   '/clients/$client_id/companies/$company_id': typeof AppClientsClient_idCompaniesCompany_idLayoutRouteWithChildren
   '/clients/$client_id/templates/$template_id': typeof AppClientsClient_idTemplatesTemplate_idRoute
   '/clients/$client_id/files/': typeof AppClientsClient_idFilesIndexRoute
@@ -152,10 +167,12 @@ export interface FileRoutesByTo {
   '/activate/$token': typeof AuthActivateTokenRoute
   '/calendar': typeof AppCalendarIndexRoute
   '/clients': typeof AppClientsIndexRoute
+  '/processes': typeof AppProcessesIndexRoute
   '/tasks': typeof AppTasksIndexRoute
   '/users': typeof AppUsersIndexRoute
   '/sign-in': typeof AuthSignInIndexRoute
   '/clients/$client_id': typeof AppClientsClient_idIndexRoute
+  '/processes/$process_id': typeof AppProcessesProcess_idIndexRoute
   '/clients/$client_id/templates/$template_id': typeof AppClientsClient_idTemplatesTemplate_idRoute
   '/clients/$client_id/files': typeof AppClientsClient_idFilesIndexRoute
   '/clients/$client_id/intakes': typeof AppClientsClient_idIntakesIndexRoute
@@ -172,10 +189,12 @@ export interface FileRoutesById {
   '/_auth/activate/$token': typeof AuthActivateTokenRoute
   '/_app/calendar/': typeof AppCalendarIndexRoute
   '/_app/clients/': typeof AppClientsIndexRoute
+  '/_app/processes/': typeof AppProcessesIndexRoute
   '/_app/tasks/': typeof AppTasksIndexRoute
   '/_app/users/': typeof AppUsersIndexRoute
   '/_auth/sign-in/': typeof AuthSignInIndexRoute
   '/_app/clients/$client_id/': typeof AppClientsClient_idIndexRoute
+  '/_app/processes/$process_id/': typeof AppProcessesProcess_idIndexRoute
   '/_app/clients/$client_id/companies/$company_id': typeof AppClientsClient_idCompaniesCompany_idLayoutRouteWithChildren
   '/_app/clients/$client_id/templates/$template_id': typeof AppClientsClient_idTemplatesTemplate_idRoute
   '/_app/clients/$client_id/files/': typeof AppClientsClient_idFilesIndexRoute
@@ -193,10 +212,12 @@ export interface FileRouteTypes {
     | '/activate/$token'
     | '/calendar/'
     | '/clients/'
+    | '/processes/'
     | '/tasks/'
     | '/users/'
     | '/sign-in/'
     | '/clients/$client_id/'
+    | '/processes/$process_id/'
     | '/clients/$client_id/companies/$company_id'
     | '/clients/$client_id/templates/$template_id'
     | '/clients/$client_id/files/'
@@ -211,10 +232,12 @@ export interface FileRouteTypes {
     | '/activate/$token'
     | '/calendar'
     | '/clients'
+    | '/processes'
     | '/tasks'
     | '/users'
     | '/sign-in'
     | '/clients/$client_id'
+    | '/processes/$process_id'
     | '/clients/$client_id/templates/$template_id'
     | '/clients/$client_id/files'
     | '/clients/$client_id/intakes'
@@ -230,10 +253,12 @@ export interface FileRouteTypes {
     | '/_auth/activate/$token'
     | '/_app/calendar/'
     | '/_app/clients/'
+    | '/_app/processes/'
     | '/_app/tasks/'
     | '/_app/users/'
     | '/_auth/sign-in/'
     | '/_app/clients/$client_id/'
+    | '/_app/processes/$process_id/'
     | '/_app/clients/$client_id/companies/$company_id'
     | '/_app/clients/$client_id/templates/$template_id'
     | '/_app/clients/$client_id/files/'
@@ -294,6 +319,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppClientsClient_idLayoutRouteImport
       parentRoute: typeof AppLayoutRoute
     }
+    '/_app/processes/': {
+      id: '/_app/processes/'
+      path: '/processes'
+      fullPath: '/processes/'
+      preLoaderRoute: typeof AppProcessesIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
     '/_app/tasks/': {
       id: '/_app/tasks/'
       path: '/tasks'
@@ -328,6 +360,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/clients/$client_id/'
       preLoaderRoute: typeof AppClientsClient_idIndexRouteImport
       parentRoute: typeof AppClientsClient_idLayoutRoute
+    }
+    '/_app/processes/$process_id/': {
+      id: '/_app/processes/$process_id/'
+      path: '/processes/$process_id'
+      fullPath: '/processes/$process_id/'
+      preLoaderRoute: typeof AppProcessesProcess_idIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
     }
     '/_app/clients/$client_id/companies/$company_id': {
       id: '/_app/clients/$client_id/companies/$company_id'
@@ -431,8 +470,10 @@ interface AppLayoutRouteChildren {
   AppClientsClient_idLayoutRoute: typeof AppClientsClient_idLayoutRouteWithChildren
   AppCalendarIndexRoute: typeof AppCalendarIndexRoute
   AppClientsIndexRoute: typeof AppClientsIndexRoute
+  AppProcessesIndexRoute: typeof AppProcessesIndexRoute
   AppTasksIndexRoute: typeof AppTasksIndexRoute
   AppUsersIndexRoute: typeof AppUsersIndexRoute
+  AppProcessesProcess_idIndexRoute: typeof AppProcessesProcess_idIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
@@ -440,8 +481,10 @@ const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppClientsClient_idLayoutRoute: AppClientsClient_idLayoutRouteWithChildren,
   AppCalendarIndexRoute: AppCalendarIndexRoute,
   AppClientsIndexRoute: AppClientsIndexRoute,
+  AppProcessesIndexRoute: AppProcessesIndexRoute,
   AppTasksIndexRoute: AppTasksIndexRoute,
   AppUsersIndexRoute: AppUsersIndexRoute,
+  AppProcessesProcess_idIndexRoute: AppProcessesProcess_idIndexRoute,
 }
 
 const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
