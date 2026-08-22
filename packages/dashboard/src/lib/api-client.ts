@@ -1,51 +1,21 @@
-import { client } from "#/http/.kubb/client";
+import { client } from '#/http/.kubb/client';
 
 if (!import.meta.env.VITE_API_URL) {
-	throw new Error(
-		"VITE_API_URL não está definida. Sem ela, as requisições caem na própria origem do app em vez da API — configure a variável de ambiente antes do build.",
-	);
+    throw new Error(
+        'VITE_API_URL não está definida. Sem ela, as requisições caem na própria origem do app em vez da API — configure a variável de ambiente antes do build.'
+    );
 }
 
-// Normalizada aqui porque `VITE_API_URL` pode vir com barra final dependendo do
-// ambiente (ex.: produção) — sem isso, uma URL montada manualmente como
-// `${apiBaseUrl}/documents/...` produzia barra dupla e 404 no Fastify.
-export const apiBaseUrl = import.meta.env.VITE_API_URL.replace(/\/+$/, "");
+export const apiBaseUrl = import.meta.env.VITE_API_URL.replace(/\/+$/, '');
 
 client.setConfig({
-	baseURL: apiBaseUrl,
-	options: {
-		withCredentials: true,
-	},
-	// Generated hooks call with `throwOnError: true`, which is meant to leave `validateStatus`
-	// unset so it falls back to axios's own 2xx-only default. In practice an explicit
-	// `validateStatus: undefined` on the per-call config makes axios accept any status instead
-	// (it only falls back to the instance default when the key is absent, not merely `undefined`),
-	// so every non-2xx response was resolving as "success" with empty data instead of throwing.
-	// Setting it here, explicitly, is what actually restores the 2xx-only behavior.
-	validateStatus: (status) => status >= 200 && status < 300,
+    baseURL: apiBaseUrl,
+    options: {
+        withCredentials: true,
+    },
+
+    validateStatus: (status) => status >= 200 && status < 300,
 });
-
-if (import.meta.env.SSR) {
-	// `withCredentials` only makes the browser attach cookies; on the server there's no
-	// browser, so the incoming request's cookie needs to be forwarded by hand or every
-	// protected loader/beforeLoad call gets a 401 during SSR.
-	client.interceptors.request.use(async (config) => {
-		const { getRequestHeader } = await import("@tanstack/react-start/server");
-		const cookie = getRequestHeader("cookie");
-
-		if (cookie) {
-			config.headers.set("cookie", cookie);
-		} else {
-			// Diagnóstico para o 401 esporádico visto em produção só ao dar F5 em
-			// certas rotas: não loga o valor do cookie, só a ausência dele e a
-			// URL, pra confirmar (ou descartar) se é o encaminhamento de cookie no
-			// SSR que está falhando pra essa requisição específica.
-			console.warn(`[ssr-cookie] sem cookie ao encaminhar para ${config.url}`);
-		}
-
-		return config;
-	});
-}
 
 export { client };
 

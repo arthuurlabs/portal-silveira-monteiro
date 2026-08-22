@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap');
 
 @import 'tailwindcss';
 
@@ -11,6 +11,7 @@
 @theme inline {
     --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
     --font-display: 'Fraunces', Georgia, serif;
+    --font-data: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
     --font-document: Arial, Helvetica, sans-serif;
 
     --color-background: var(--background);
@@ -33,7 +34,10 @@
     --color-success-foreground: var(--success-foreground);
     --color-warning: var(--warning);
     --color-warning-foreground: var(--warning-foreground);
+    --color-info: var(--info);
+    --color-info-foreground: var(--info-foreground);
     --color-border: var(--border);
+    --color-border-strong: var(--border-strong);
     --color-input: var(--input);
     --color-ring: var(--ring);
     --color-sidebar: var(--sidebar);
@@ -51,92 +55,158 @@
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) + 4px);
-    --radius-2xl: calc(var(--radius) + 8px);
+    --radius-xl: calc(var(--radius) + 2px);
+    --radius-2xl: calc(var(--radius) + 6px);
 
-    --shadow-soft: 0 1px 2px rgb(18 35 44 / 4%), 0 10px 30px rgb(18 35 44 / 6%);
-    --shadow-raised: 0 2px 4px rgb(18 35 44 / 6%), 0 18px 48px rgb(18 35 44 / 10%);
+    --shadow-soft: 0 1px 2px rgb(20 42 49 / 4%), 0 8px 24px rgb(20 42 49 / 5%);
+    --shadow-raised: 0 2px 5px rgb(9 26 32 / 8%), 0 18px 42px rgb(9 26 32 / 14%);
 }
 
 :root {
     color-scheme: light;
+
+    /* Geometry */
     --radius: 0.625rem;
-    --background: #f4f7f7;
-    --foreground: #16272f;
+
+    /* Application surfaces */
+    --background: #f5f7f7;
+    --foreground: #182c33;
     --card: #ffffff;
-    --card-foreground: #16272f;
+    --card-foreground: #182c33;
     --popover: #ffffff;
-    --popover-foreground: #16272f;
-    --primary: #123d4a;
+    --popover-foreground: #182c33;
+
+    /* Brand + actions */
+    --primary: #173f49;
     --primary-foreground: #f8fbfb;
-    --secondary: #e6eef0;
-    --secondary-foreground: #183b46;
-    --muted: #eaf0f1;
-    --muted-foreground: #61747b;
-    --accent: #a7653f;
+    --secondary: #e7eef0;
+    --secondary-foreground: #1a3d46;
+    --muted: #edf1f2;
+    --muted-foreground: #64767c;
+    --accent: #b4683f;
     --accent-foreground: #ffffff;
-    --destructive: #b63d3d;
+
+    /* Semantic states */
+    --destructive: #b54242;
     --destructive-foreground: #ffffff;
-    --success: #26705a;
+    --success: #2f755f;
     --success-foreground: #ffffff;
-    --warning: #9b681d;
+    --warning: #a56c1d;
     --warning-foreground: #ffffff;
-    --border: #d6e0e2;
-    --input: #c7d4d7;
-    --ring: #39798a;
-    --sidebar: #102e38;
-    --sidebar-foreground: #e8f0f1;
-    --sidebar-primary: #d2946e;
-    --sidebar-primary-foreground: #18313a;
-    --sidebar-accent: #1a414c;
+    --info: #356d86;
+    --info-foreground: #ffffff;
+
+    /* Lines + focus */
+    --border: #d7e0e2;
+    --border-strong: #b9c9cd;
+    --input: #c8d4d7;
+    --ring: #3e7b88;
+
+    /* Sidebar */
+    --sidebar: #102f38;
+    --sidebar-foreground: #eaf1f2;
+    --sidebar-primary: #d09672;
+    --sidebar-primary-foreground: #183139;
+    --sidebar-accent: #1a424c;
     --sidebar-accent-foreground: #ffffff;
-    --sidebar-border: #2d5059;
-    --sidebar-ring: #88b7c1;
+    --sidebar-border: #2c5059;
+    --sidebar-ring: #8ab9c3;
+
+    /* Status surfaces */
+    --status-success-bg: #e7f2ed;
+    --status-success-fg: #245c4b;
+    --status-warning-bg: #f8efdf;
+    --status-warning-fg: #815414;
+    --status-danger-bg: #f8e8e8;
+    --status-danger-fg: #923535;
+    --status-info-bg: #e7f0f4;
+    --status-info-fg: #2c6077;
+    --status-neutral-bg: #edf1f2;
+    --status-neutral-fg: #596b71;
+
+    /* Spacing */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+
+    /* Layout */
+    --sidebar-width: 15.5rem;
+    --sidebar-width-collapsed: 4.5rem;
+    --content-max: 80rem;
+    --content-wide-max: 90rem;
+
+    /* Motion */
+    --duration-fast: 140ms;
+    --duration-normal: 180ms;
+    --duration-slow: 220ms;
+    --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
 
     /* Papel de documento — não segue o tema. Uma folha impressa continua branca
        mesmo com o app em dark mode, por isso os mesmos valores se repetem em .dark. */
     --paper: #ffffff;
-    --paper-foreground: #16272f;
-    --ink: #16272f;
+    --paper-foreground: #182c33;
+    --ink: #182c33;
 }
 
 .dark {
     color-scheme: dark;
-    --background: #0c2027;
-    --foreground: #edf3f3;
-    --card: #122c35;
-    --card-foreground: #edf3f3;
-    --popover: #16333c;
-    --popover-foreground: #edf3f3;
-    --primary: #8fc0c9;
-    --primary-foreground: #0c242c;
+    --background: #0c2026;
+    --foreground: #eef3f4;
+    --card: #122c34;
+    --card-foreground: #eef3f4;
+    --popover: #16343d;
+    --popover-foreground: #eef3f4;
+    --primary: #93c4cd;
+    --primary-foreground: #0b242b;
     --secondary: #21424b;
-    --secondary-foreground: #edf3f3;
+    --secondary-foreground: #eef3f4;
     --muted: #193740;
-    --muted-foreground: #a7babf;
-    --accent: #d2946e;
-    --accent-foreground: #27160e;
-    --destructive: #df6c68;
-    --destructive-foreground: #2c0b0b;
-    --success: #69b99d;
+    --muted-foreground: #a7b9be;
+    --accent: #d5936f;
+    --accent-foreground: #29160e;
+    --destructive: #df716d;
+    --destructive-foreground: #2d0b0b;
+    --success: #6ebb9f;
     --success-foreground: #08271e;
-    --warning: #dfb468;
+    --warning: #e0b66d;
     --warning-foreground: #2b1b05;
-    --border: #2b4a53;
-    --input: #385761;
-    --ring: #8fc0c9;
+    --info: #7cb6cf;
+    --info-foreground: #08212b;
+    --border: #2b4b54;
+    --border-strong: #3a5b64;
+    --input: #3a5962;
+    --ring: #93c4cd;
     --sidebar: #081b21;
-    --sidebar-foreground: #edf3f3;
-    --sidebar-primary: #d2946e;
-    --sidebar-primary-foreground: #27160e;
+    --sidebar-foreground: #eef3f4;
+    --sidebar-primary: #d5936f;
+    --sidebar-primary-foreground: #29160e;
     --sidebar-accent: #163640;
     --sidebar-accent-foreground: #ffffff;
     --sidebar-border: #24444d;
-    --sidebar-ring: #8fc0c9;
+    --sidebar-ring: #93c4cd;
+
+    --status-success-bg: #163a31;
+    --status-success-fg: #89d0b6;
+    --status-warning-bg: #44351f;
+    --status-warning-fg: #efc77d;
+    --status-danger-bg: #482728;
+    --status-danger-fg: #f19a96;
+    --status-info-bg: #173744;
+    --status-info-fg: #99cee2;
+    --status-neutral-bg: #1d3941;
+    --status-neutral-fg: #b4c4c8;
 
     --paper: #ffffff;
-    --paper-foreground: #16272f;
-    --ink: #16272f;
+    --paper-foreground: #182c33;
+    --ink: #182c33;
 }
 
 @layer base {
@@ -150,20 +220,35 @@
 
     body {
         @apply min-h-screen bg-background font-sans text-foreground antialiased;
+        font-variant-numeric: proportional-nums;
     }
 
     ::selection {
-        @apply bg-accent/25 text-foreground;
+        @apply bg-accent/20 text-foreground;
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
     }
 }
 
 @layer components {
     .sm-eyebrow {
-        @apply text-[0.6875rem] font-bold uppercase tracking-[0.16em] text-muted-foreground;
+        @apply text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-muted-foreground;
     }
 
     .sm-display {
-        @apply font-display text-4xl leading-[1.05] font-medium tracking-[-0.025em] text-foreground md:text-5xl;
+        @apply font-display text-4xl leading-[1.08] font-medium tracking-[-0.025em] text-foreground md:text-5xl;
+    }
+
+    .sm-page-title {
+        @apply text-[1.75rem] leading-[1.2] font-semibold tracking-[-0.02em] text-foreground;
+    }
+
+    .sm-data {
+        @apply font-data text-[0.8125rem] leading-[1.45];
+        font-variant-numeric: tabular-nums;
     }
 
     .sm-rule {
@@ -171,7 +256,60 @@
         height: 5px;
         width: 4rem;
         border-top: 1px solid var(--accent);
-        border-bottom: 1px solid color-mix(in oklab, var(--accent) 45%, transparent);
+        border-bottom: 1px solid color-mix(in oklab, var(--accent) 42%, transparent);
+    }
+
+    /* Assinatura do sistema: use somente para relações sequenciais/reais. */
+    .sm-case-spine {
+        position: relative;
+        padding-left: 1.75rem;
+    }
+
+    .sm-case-spine::before {
+        content: '';
+        position: absolute;
+        left: 0.4375rem;
+        top: 0.5rem;
+        bottom: 0.5rem;
+        width: 1px;
+        background: var(--border-strong);
+    }
+
+    .sm-case-spine-item {
+        position: relative;
+    }
+
+    .sm-case-spine-item::before {
+        content: '';
+        position: absolute;
+        left: -1.5625rem;
+        top: 0.55rem;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 999px;
+        border: 2px solid var(--card);
+        background: var(--accent);
+        box-shadow: 0 0 0 1px var(--border-strong);
+    }
+
+    .sm-a4-document {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 20mm;
+        background: var(--paper);
+        color: var(--paper-foreground);
+        font-family: var(--font-document);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }
 
@@ -193,12 +331,29 @@
         background: #fff;
     }
 
-    [data-slot='sidebar'] {
+    [data-slot='sidebar'],
+    [data-print='hide'] {
         display: none !important;
     }
 
     [data-slot='sidebar-inset'] {
         margin: 0 !important;
         box-shadow: none !important;
+    }
+
+    .sm-a4-document {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0;
+        box-shadow: none !important;
+        break-after: page;
+    }
+
+    .sm-a4-document:last-child {
+        break-after: auto;
+    }
+
+    .sm-print-avoid-break {
+        break-inside: avoid;
     }
 }
