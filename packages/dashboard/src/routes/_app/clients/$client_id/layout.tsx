@@ -2,8 +2,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import {
     createFileRoute,
     Link,
+    Navigate,
     Outlet,
-    redirect,
     useMatchRoute,
     useNavigate,
 } from '@tanstack/react-router';
@@ -22,9 +22,9 @@ import {
     AlertDialogTrigger,
 } from '#/components/ui/alert-dialog';
 import { Button } from '#/components/ui/button';
+import { Skeleton } from '#/components/ui/skeleton';
 import { Tabs, TabsList, TabsTrigger } from '#/components/ui/tabs';
-import { ResponseError } from '#/http/.kubb/client';
-import { getClientQueryOptions } from '#/http/hooks/useGetClient';
+import { getClientQueryOptions, useGetClient } from '#/http/hooks/useGetClient';
 import { listClientsQueryKey } from '#/http/hooks/useListClients';
 import { useUpdateClient } from '#/http/hooks/useUpdateClient';
 import type { GetClientStatus200 } from '#/http/types/GetClient';
@@ -78,7 +78,11 @@ const ClientLayout = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
-    const { client } = Route.useLoaderData();
+    const {
+        data: client,
+        isPending: isClientPending,
+        isError: isClientError,
+    } = useGetClient({ path: { id: client_id } });
 
     const invalidateClients = () => {
         queryClient.invalidateQueries({
@@ -103,6 +107,20 @@ const ClientLayout = () => {
                 fuzzy: false,
             })
         )?.value ?? 'overview';
+
+    if (isClientPending) {
+        return (
+            <div className="flex flex-col gap-6">
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-24 w-full" />
+                <Skeleton className="h-10 w-full" />
+            </div>
+        );
+    }
+
+    if (isClientError || !client) {
+        return <Navigate to="/clients" replace />;
+    }
 
     const handleExclude = () => {
         updateClient(
@@ -215,19 +233,5 @@ const ClientLayout = () => {
 };
 
 export const Route = createFileRoute('/_app/clients/$client_id')({
-    loader: async ({ context, params }) => {
-        try {
-            const client = await context.queryClient.ensureQueryData({
-                ...getClientQueryOptions({ path: { id: params.client_id } }),
-                retry: false,
-            });
-            return { client };
-        } catch (error) {
-            if (error instanceof ResponseError && error.status === 404) {
-                throw redirect({ to: '/clients' });
-            }
-            throw error;
-        }
-    },
     component: ClientLayout,
 });

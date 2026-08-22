@@ -14,13 +14,12 @@ clients/
 └── $client_id/
     ├── index.tsx
     ├── intakes/
-    ├── files/
-    └── templates/
+    └── files/
 ```
 
 Use `$client_id/index.tsx` como visão geral do cliente.
 
-Mantenha `intakes`, `files`, `templates` e outras áreas vinculadas ao cliente dentro de `$client_id/`.
+Mantenha `intakes`, `files` e outras áreas vinculadas ao cliente dentro de `$client_id/`.
 
 ## Pessoa física e jurídica
 
@@ -39,353 +38,97 @@ Ramifique a interface por `client.personType` em vez de reintroduzir uma rota ou
 
 ---
 
-## Rota pai `$client_id`
+## Carregamento de dados: só hooks do Kubb, sem `loader`/`beforeLoad`
 
-A rota:
+Este módulo não usa `loader` nem `beforeLoad` do TanStack Router para buscar dados. Toda busca de dado — incluindo o cliente atual — acontece via hooks do Kubb chamados diretamente no componente, igual ao padrão já usado em `_app/layout.tsx` (`useGetMe()`).
 
-```text
-/_app/clients/$client_id
-```
+Não criar `loader`/`beforeLoad` com `ensureQueryData` para carregar o cliente, atendimentos, documentos ou qualquer outro dado deste módulo.
 
-é responsável por centralizar o carregamento do cliente atual.
-
-O cliente deve ser carregado no `loader` da rota pai usando o `queryClient` disponível no contexto do TanStack Router.
-
-Exemplo:
-
-```tsx
-export const Route = createFileRoute('/_app/clients/$client_id')({
-    loader: async ({ context, params }) => {
-        try {
-            const client = await context.queryClient.ensureQueryData({
-                ...getClientQueryOptions({
-                    path: { id: params.client_id },
-                }),
-                retry: false,
-            });
-
-            return { client };
-        } catch (error) {
-            if (error instanceof ResponseError && error.status === 404) {
-                throw redirect({
-                    to: '/clients',
-                });
-            }
-
-            throw error;
-        }
-    },
-
-    component: ClientLayout,
-});
-```
-
-Não buscar novamente o cliente individualmente em cada rota filha.
-
-Evite:
-
-```tsx
-const { data: client } = useGetClient({
-    path: { id: client_id },
-});
-```
-
-quando o cliente já estiver sendo carregado pelo `loader` de `$client_id`.
+`beforeLoad` continua reservado para guards que não buscam dado nenhum (ex.: nada neste módulo precisa disso hoje — a autenticação já é resolvida em `_app/layout.tsx`).
 
 ---
 
-## Acesso ao cliente nas rotas filhas
+## Acesso ao cliente atual em qualquer rota do grupo
 
-O cliente carregado pelo `loader` da rota pai não faz parte do `Route Context`.
-
-Portanto, as rotas filhas não devem usar:
-
-```tsx
-const { client } = Route.useRouteContext();
-```
-
-nem:
-
-```tsx
-const client = Route.useRouteContext();
-```
-
-Para acessar o cliente atual, use `getRouteApi` apontando para a rota pai:
-
-```tsx
-import { createFileRoute, getRouteApi } from '@tanstack/react-router';
-
-const clientRoute = getRouteApi('/_app/clients/$client_id');
-```
-
-Dentro do componente:
-
-```tsx
-const { client } = clientRoute.useLoaderData();
-```
-
-Este é o padrão obrigatório para todas as rotas abaixo de:
+Toda rota abaixo de:
 
 ```text
 /_app/clients/$client_id
 ```
 
-Exemplo:
+— incluindo o próprio `$client_id/layout.tsx` — pega o `client_id` do próprio `Route.useParams()` e chama `useGetClient` diretamente:
 
 ```tsx
-const clientRoute = getRouteApi('/_app/clients/$client_id');
+import { createFileRoute } from '@tanstack/react-router';
+
+import { useGetClient } from '#/http/hooks/useGetClient';
 
 const ClientIntakesRoute = () => {
-    const { client } = clientRoute.useLoaderData();
+    const { client_id } = Route.useParams();
+    const { data: client } = useGetClient({ path: { id: client_id } });
+
+    if (!client) {
+        return null;
+    }
 
     return <div>{client.fullName}</div>;
 };
 ```
 
----
+Não usar `getRouteApi(...).useLoaderData()`, `Route.useLoaderData()` nem `Route.useRouteContext()` para obter o cliente — essas APIs pressupõem um `loader`/`beforeLoad` que este módulo não tem.
 
-## Separação entre `beforeLoad` e `loader`
+Não criar React Context, Zustand ou outro estado global só para distribuir o cliente entre `$client_id/layout.tsx` e suas rotas filhas.
 
-Não usar `beforeLoad` para carregamento normal dos dados do cliente.
+Como a query key de `useGetClient` é a mesma (`path: { id: client_id }}`) em toda a árvore, chamar o hook em vários componentes ao mesmo tempo não gera requisições de rede duplicadas — o TanStack Query compartilha o cache pela chave. Cada componente só precisa lidar com seu próprio `isPending`/`isError`/guard de `undefined`.
 
-Use `beforeLoad` apenas para responsabilidades relacionadas à navegação, como:
-
-- autenticação;
-- autorização;
-- validação de acesso;
-- redirects;
-- enriquecimento real do `Route Context`, quando necessário.
-
-Use `loader` para buscar os dados necessários para a rota.
-
-Regra:
-
-```text
-beforeLoad
-→ posso entrar nesta rota?
-
-loader
-→ quais dados esta rota precisa?
-```
-
-O carregamento do cliente pertence ao `loader`.
+O guard `if (!client) return null;` é esperado e correto aqui — ele só resolve a tipagem (`Client | undefined`) do hook, não indica um problema de arquitetura.
 
 ---
 
-## TanStack Query no loader
+## Ordem dos hooks
 
-Dentro de `loader` e `beforeLoad`, não usar hooks React.
+Como não há mais `loader` populando dados antes da renderização, `$client_id/layout.tsx` e as rotas filhas plotam estados de carregamento (`Skeleton`) e redirecionamento (`<Navigate />`) dentro do próprio componente, sempre **depois** de todos os hooks (`useGetClient`, `useListIntakes`, `useListDocuments`, mutations, etc.) terem sido chamados — nunca antes, pra não violar a ordem de hooks do React.
 
-Nunca usar:
-
-```tsx
-useQuery(...)
-```
+Quando uma query secundária depende do cliente já ter sido resolvido (ex.: `useListIntakes` precisa de `client.id`), use `enabled` em vez de condicionar a própria chamada do hook:
 
 ```tsx
-useSuspenseQuery(...)
-```
+const { data: client } = useGetClient({ path: { id: client_id } });
 
-```tsx
-useGetClient(...)
-```
-
-Esses hooks só podem ser usados durante a renderização de componentes React.
-
-No `loader`, usar APIs imperativas do `QueryClient`, preferencialmente:
-
-```tsx
-context.queryClient.ensureQueryData(...)
-```
-
-Exemplo:
-
-```tsx
-const client = await context.queryClient.ensureQueryData(
-    getClientQueryOptions({
-        path: { id: params.client_id },
-    })
+const { data, isPending, isError } = useListIntakes(
+    { path: { clientId: client_id }, query: { page: 1, pageSize: 50 } },
+    { query: { enabled: Boolean(client) } }
 );
-```
 
----
-
-## Queries específicas das rotas filhas
-
-O fato de o cliente ser carregado no `loader` pai não significa que todas as queries das rotas filhas devem ser movidas para ele.
-
-Mantenha queries específicas da página dentro da própria rota ou componente quando apropriado.
-
-Exemplo em `intakes`:
-
-```tsx
-const { client } = clientRoute.useLoaderData();
-
-const { data, isPending, isError } = useListIntakes({
-    path: {
-        clientId: client.id,
-    },
-    query: {
-        page: 1,
-        pageSize: 50,
-    },
-});
-```
-
-Exemplo em `files`:
-
-```tsx
-const { client } = clientRoute.useLoaderData();
-
-const { data, isPending, isError } = useListDocuments({
-    path: {
-        clientId: client.id,
-    },
-});
-```
-
-Exemplo em `templates`:
-
-```tsx
-const { client } = clientRoute.useLoaderData();
-
-const { data, isPending, isError } = useListTemplates();
-```
-
-A divisão deve ser:
-
-```text
-$client_id loader
-└── dados estruturais do cliente
-
-intakes
-└── dados de atendimentos
-
-files
-└── dados de documentos
-
-templates
-└── dados de modelos
-```
-
-Não carregar no layout pai dados que pertencem exclusivamente a uma rota filha.
-
----
-
-## Redirecionamento para cliente inexistente
-
-Quando o `client_id` não existir, redirecionar para a listagem de clientes.
-
-Não é necessário criar `notFoundComponent` para esse fluxo.
-
-Use:
-
-```tsx
-if (error instanceof ResponseError && error.status === 404) {
-    throw redirect({
-        to: '/clients',
-    });
-}
-```
-
-O objetivo é proteger também acessos diretos por URL, bookmarks antigos e identificadores inválidos.
-
----
-
-## Erros HTTP
-
-Não transformar todos os erros em redirect para `/clients`.
-
-Tratar cada situação conforme sua responsabilidade.
-
-```text
-404
-→ cliente não existe
-→ /clients
-
-401
-→ problema de autenticação
-→ deve ser tratado preferencialmente pela rota protegida superior
-
-403
-→ usuário não possui acesso
-
-500+
-→ erro da aplicação/API
-→ deixar subir para o error boundary apropriado
-```
-
-Não esconder erros inesperados.
-
-Após tratar os casos conhecidos, relançar o erro:
-
-```tsx
-throw error;
-```
-
----
-
-## HttpOnly e loaders
-
-A autenticação da aplicação utiliza cookie HttpOnly.
-
-O `loader` não deve tentar ler o cookie diretamente.
-
-Não usar:
-
-```tsx
-document.cookie;
-```
-
-para autenticação.
-
-O client HTTP usado pelas queries do Kubb deve estar configurado para enviar credenciais desde sua criação.
-
-Exemplo com Axios:
-
-```tsx
-export const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
-    withCredentials: true,
-});
-```
-
-Não configurar `withCredentials` somente dentro de componente React, `useEffect` ou Provider que execute após o Router.
-
-Os loaders podem executar antes da renderização dos componentes.
-
----
-
-## Loading
-
-Quando os dados essenciais da rota forem carregados através de `loader`, não criar loading manual apenas para esses mesmos dados dentro do componente.
-
-Evite:
-
-```tsx
 if (!client) {
     return null;
 }
 ```
 
-e evite repetir:
+---
+
+## Cliente inexistente
+
+Quando `useGetClient` retornar erro (inclui 404) ou `data` vier `undefined` depois de resolvido, redirecionar para a listagem de clientes com `<Navigate />`:
 
 ```tsx
-if (isLoading) {
-    return <Skeleton />;
+const { data: client, isPending, isError } = useGetClient({ path: { id: client_id } });
+
+if (isPending) {
+    return <Skeleton className="h-24 w-full" />;
+}
+
+if (isError || !client) {
+    return <Navigate to="/clients" replace />;
 }
 ```
 
-para o cliente carregado pelo loader.
+Isso substitui o antigo redirect de `loader`; o efeito para o usuário é o mesmo (acesso direto por URL, bookmark antigo ou id inválido cai em `/clients`).
 
-Se for necessário mostrar estado visual durante a navegação, prefira configurar o estado de loading no próprio TanStack Router através de `pendingComponent`.
+---
 
-Queries secundárias específicas da página podem continuar utilizando normalmente:
+## HttpOnly
 
-```tsx
-isPending;
-isError;
-```
+A autenticação da aplicação utiliza cookie HttpOnly. O client HTTP usado pelas queries do Kubb deve estar configurado para enviar credenciais desde sua criação (`withCredentials: true` em `src/lib/api-client.ts`) — isso independe de loader ou hook, é configuração do cliente Axios.
 
 ---
 
@@ -397,63 +140,4 @@ Sempre que uma nova rota for criada dentro de:
 clients/$client_id/
 ```
 
-e precisar acessar o cliente atual, usar:
-
-```tsx
-const clientRoute = getRouteApi('/_app/clients/$client_id');
-
-const { client } = clientRoute.useLoaderData();
-```
-
-Não criar uma nova query de cliente.
-
-Não usar `Route.useRouteContext()` esperando encontrar `client`.
-
-Não criar React Context, Zustand ou outro estado global apenas para distribuir o cliente dentro dessa árvore de rotas.
-
-A rota `$client_id` já é responsável por resolver esse recurso.
-
----
-
-## Resumo obrigatório
-
-Para este grupo de rotas, seguir esta arquitetura:
-
-```text
-/_app
-└── beforeLoad
-    └── autenticação/autorização
-
-/clients/$client_id
-└── loader
-    └── ensureQueryData(client)
-
-/clients/$client_id/*
-└── getRouteApi("/_app/clients/$client_id")
-    └── useLoaderData()
-        └── client
-```
-
-Responsabilidades:
-
-```text
-Route Context
-→ dependências globais ou compartilhadas pela árvore
-
-beforeLoad
-→ guards, auth, permissões e redirects
-
-loader
-→ dados necessários para a rota
-
-ensureQueryData
-→ garantir dados no cache do TanStack Query
-
-useLoaderData
-→ acessar os dados carregados pela rota pai
-
-hooks do Kubb / useQuery
-→ queries específicas e reativas dos componentes
-```
-
-Manter essa separação em todas as implementações e refatorações dentro do módulo de clientes.
+e precisar do cliente atual, chamar `useGetClient({ path: { id: client_id } })` diretamente no componente, pegando `client_id` de `Route.useParams()`. Não criar loader, não usar `getRouteApi`/`useLoaderData`, não criar Context.

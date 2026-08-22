@@ -1,8 +1,7 @@
-import { createFileRoute, getRouteApi } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 
+import { useGetClient } from '#/http/hooks/useGetClient';
 import { formatCnpj, formatCpf } from '#/lib/masks';
-
-const clientRoute = getRouteApi('/_app/clients/$client_id');
 
 const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
     dateStyle: 'short',
@@ -25,7 +24,13 @@ const DetailField = ({ label, value }: DetailFieldProps) => (
 );
 
 const ClientOverviewRoute = () => {
-    const { client } = clientRoute.useLoaderData();
+    const { client_id } = Route.useParams();
+    const { data: client } = useGetClient({ path: { id: client_id } });
+
+    if (!client) {
+        return null;
+    }
+
     const isJuridica = client.personType === 'JURIDICA';
 
     return (
@@ -50,7 +55,9 @@ const ClientOverviewRoute = () => {
                         <DetailField
                             label="Data de nascimento"
                             value={
-                                client.birthDate ? dateFormatter.format(new Date(client.birthDate)) : null
+                                client.birthDate
+                                    ? dateFormatter.format(new Date(client.birthDate))
+                                    : null
                             }
                         />
 

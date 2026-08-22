@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, Navigate } from "@tanstack/react-router";
 import { Plus, UserRound } from "lucide-react";
 
 import { EmptyState } from "#/components/shared/empty-state";
@@ -13,9 +13,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "#/components/ui/table";
-import { getMeQueryOptions } from "#/http/hooks/useGetMe";
+import { useGetMe } from "#/http/hooks/useGetMe";
 import { useListUsers } from "#/http/hooks/useListUsers";
-import type { GetMeStatus200 } from "#/http/types/GetMe";
 
 import { UserUpsertDialog } from "./-components/user-upsert-dialog";
 
@@ -29,7 +28,22 @@ const SKELETON_ROWS = ["row-1", "row-2", "row-3"];
 const dateFormatter = new Intl.DateTimeFormat("pt-BR", { dateStyle: "short" });
 
 const UsersRoute = () => {
+	const { data: currentUser, isPending: isMePending } = useGetMe();
 	const { data, isPending, isError } = useListUsers();
+
+	if (isMePending) {
+		return (
+			<div className="flex flex-col gap-2">
+				{SKELETON_ROWS.map((row) => (
+					<Skeleton key={row} className="h-11 w-full" />
+				))}
+			</div>
+		);
+	}
+
+	if (currentUser && currentUser.role !== "ADMIN") {
+		return <Navigate to="/" replace />;
+	}
 
 	return (
 		<div className="flex flex-col gap-6">
@@ -97,22 +111,6 @@ const UsersRoute = () => {
 };
 
 export const Route = createFileRoute("/_app/users/")({
-	beforeLoad: async ({ context }) => {
-		let user: GetMeStatus200;
-
-		try {
-			user = await context.queryClient.ensureQueryData({
-				...getMeQueryOptions(),
-				retry: false,
-			});
-		} catch {
-			throw redirect({ to: "/sign-in" });
-		}
-
-		if (user.role !== "ADMIN") {
-			throw redirect({ to: "/" });
-		}
-	},
 	component: UsersRoute,
 	head: () => ({ meta: [{ title: "Usuários | Silveira & Monteiro" }] }),
 });

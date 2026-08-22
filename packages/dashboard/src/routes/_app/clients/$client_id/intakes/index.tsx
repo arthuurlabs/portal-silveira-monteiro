@@ -1,21 +1,28 @@
-import { createFileRoute, getRouteApi } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { Plus } from 'lucide-react';
 
 import { Button } from '#/components/ui/button';
+import { useGetClient } from '#/http/hooks/useGetClient';
 import { useListIntakes } from '#/http/hooks/useListIntakes';
 
 import { IntakeList } from './-components/intake-list';
 import { IntakeUpsertDialog } from './-components/intake-upsert-dialog';
 
-const clientRoute = getRouteApi('/_app/clients/$client_id');
-
 const ClientIntakesRoute = () => {
-    const { client } = clientRoute.useLoaderData();
+    const { client_id } = Route.useParams();
+    const { data: client } = useGetClient({ path: { id: client_id } });
 
-    const { data, isPending, isError } = useListIntakes({
-        path: { clientId: client.id },
-        query: { page: 1, pageSize: 50 },
-    });
+    const { data, isPending, isError } = useListIntakes(
+        {
+            path: { clientId: client_id },
+            query: { page: 1, pageSize: 50 },
+        },
+        { query: { enabled: Boolean(client) } }
+    );
+
+    if (!client) {
+        return null;
+    }
 
     return (
         <div className="flex flex-col gap-6">

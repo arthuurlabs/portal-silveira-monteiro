@@ -1,20 +1,25 @@
-import { createFileRoute, getRouteApi } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { Upload } from 'lucide-react';
 
 import { Button } from '#/components/ui/button';
+import { useGetClient } from '#/http/hooks/useGetClient';
 import { useListDocuments } from '#/http/hooks/useListDocuments';
 
 import { DocumentList } from '../-components/document-list';
 import { DocumentUploadDialog } from '../-components/document-upload-dialog';
 
-const clientRoute = getRouteApi('/_app/clients/$client_id');
-
 const ClientFilesRoute = () => {
-    const { client } = clientRoute.useLoaderData();
+    const { client_id } = Route.useParams();
+    const { data: client } = useGetClient({ path: { id: client_id } });
 
-    const { data, isPending, isError } = useListDocuments({
-        path: { clientId: client.id },
-    });
+    const { data, isPending, isError } = useListDocuments(
+        { path: { clientId: client_id } },
+        { query: { enabled: Boolean(client) } }
+    );
+
+    if (!client) {
+        return null;
+    }
 
     return (
         <div className="flex flex-col gap-6">
