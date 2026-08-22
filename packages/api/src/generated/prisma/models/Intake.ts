@@ -37,7 +37,6 @@ export type IntakeSumAggregateOutputType = {
 export type IntakeMinAggregateOutputType = {
   id: string | null
   clientId: string | null
-  companyId: string | null
   userId: string | null
   practiceAreaOther: string | null
   clientReport: string | null
@@ -56,7 +55,6 @@ export type IntakeMinAggregateOutputType = {
 export type IntakeMaxAggregateOutputType = {
   id: string | null
   clientId: string | null
-  companyId: string | null
   userId: string | null
   practiceAreaOther: string | null
   clientReport: string | null
@@ -75,7 +73,6 @@ export type IntakeMaxAggregateOutputType = {
 export type IntakeCountAggregateOutputType = {
   id: number
   clientId: number
-  companyId: number
   userId: number
   practiceAreas: number
   practiceAreaOther: number
@@ -106,7 +103,6 @@ export type IntakeSumAggregateInputType = {
 export type IntakeMinAggregateInputType = {
   id?: true
   clientId?: true
-  companyId?: true
   userId?: true
   practiceAreaOther?: true
   clientReport?: true
@@ -125,7 +121,6 @@ export type IntakeMinAggregateInputType = {
 export type IntakeMaxAggregateInputType = {
   id?: true
   clientId?: true
-  companyId?: true
   userId?: true
   practiceAreaOther?: true
   clientReport?: true
@@ -144,7 +139,6 @@ export type IntakeMaxAggregateInputType = {
 export type IntakeCountAggregateInputType = {
   id?: true
   clientId?: true
-  companyId?: true
   userId?: true
   practiceAreas?: true
   practiceAreaOther?: true
@@ -252,7 +246,6 @@ export type IntakeGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type IntakeGroupByOutputType = {
   id: string
   clientId: string
-  companyId: string | null
   userId: string
   practiceAreas: $Enums.PracticeArea[]
   practiceAreaOther: string | null
@@ -296,7 +289,6 @@ export type IntakeWhereInput = {
   NOT?: Prisma.IntakeWhereInput | Prisma.IntakeWhereInput[]
   id?: Prisma.StringFilter<"Intake"> | string
   clientId?: Prisma.StringFilter<"Intake"> | string
-  companyId?: Prisma.StringNullableFilter<"Intake"> | string | null
   userId?: Prisma.StringFilter<"Intake"> | string
   practiceAreas?: Prisma.EnumPracticeAreaNullableListFilter<"Intake">
   practiceAreaOther?: Prisma.StringNullableFilter<"Intake"> | string | null
@@ -313,14 +305,12 @@ export type IntakeWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Intake"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Intake"> | Date | string
   client?: Prisma.XOR<Prisma.ClientScalarRelationFilter, Prisma.ClientWhereInput>
-  company?: Prisma.XOR<Prisma.CompanyNullableScalarRelationFilter, Prisma.CompanyWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type IntakeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   clientId?: Prisma.SortOrder
-  companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   practiceAreas?: Prisma.SortOrder
   practiceAreaOther?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -337,7 +327,6 @@ export type IntakeOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   client?: Prisma.ClientOrderByWithRelationInput
-  company?: Prisma.CompanyOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -347,7 +336,6 @@ export type IntakeWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.IntakeWhereInput[]
   NOT?: Prisma.IntakeWhereInput | Prisma.IntakeWhereInput[]
   clientId?: Prisma.StringFilter<"Intake"> | string
-  companyId?: Prisma.StringNullableFilter<"Intake"> | string | null
   userId?: Prisma.StringFilter<"Intake"> | string
   practiceAreas?: Prisma.EnumPracticeAreaNullableListFilter<"Intake">
   practiceAreaOther?: Prisma.StringNullableFilter<"Intake"> | string | null
@@ -364,14 +352,12 @@ export type IntakeWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Intake"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Intake"> | Date | string
   client?: Prisma.XOR<Prisma.ClientScalarRelationFilter, Prisma.ClientWhereInput>
-  company?: Prisma.XOR<Prisma.CompanyNullableScalarRelationFilter, Prisma.CompanyWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type IntakeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   clientId?: Prisma.SortOrder
-  companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   practiceAreas?: Prisma.SortOrder
   practiceAreaOther?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -400,7 +386,6 @@ export type IntakeScalarWhereWithAggregatesInput = {
   NOT?: Prisma.IntakeScalarWhereWithAggregatesInput | Prisma.IntakeScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Intake"> | string
   clientId?: Prisma.StringWithAggregatesFilter<"Intake"> | string
-  companyId?: Prisma.StringNullableWithAggregatesFilter<"Intake"> | string | null
   userId?: Prisma.StringWithAggregatesFilter<"Intake"> | string
   practiceAreas?: Prisma.EnumPracticeAreaNullableListFilter<"Intake">
   practiceAreaOther?: Prisma.StringNullableWithAggregatesFilter<"Intake"> | string | null
@@ -435,14 +420,12 @@ export type IntakeCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   client: Prisma.ClientCreateNestedOneWithoutIntakesInput
-  company?: Prisma.CompanyCreateNestedOneWithoutIntakesInput
   user: Prisma.UserCreateNestedOneWithoutIntakesInput
 }
 
 export type IntakeUncheckedCreateInput = {
   id?: string
   clientId: string
-  companyId?: string | null
   userId: string
   practiceAreas?: Prisma.IntakeCreatepracticeAreasInput | $Enums.PracticeArea[]
   practiceAreaOther?: string | null
@@ -477,14 +460,12 @@ export type IntakeUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   client?: Prisma.ClientUpdateOneRequiredWithoutIntakesNestedInput
-  company?: Prisma.CompanyUpdateOneWithoutIntakesNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutIntakesNestedInput
 }
 
 export type IntakeUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   clientId?: Prisma.StringFieldUpdateOperationsInput | string
-  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   practiceAreas?: Prisma.IntakeUpdatepracticeAreasInput | $Enums.PracticeArea[]
   practiceAreaOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -505,7 +486,6 @@ export type IntakeUncheckedUpdateInput = {
 export type IntakeCreateManyInput = {
   id?: string
   clientId: string
-  companyId?: string | null
   userId: string
   practiceAreas?: Prisma.IntakeCreatepracticeAreasInput | $Enums.PracticeArea[]
   practiceAreaOther?: string | null
@@ -544,7 +524,6 @@ export type IntakeUpdateManyMutationInput = {
 export type IntakeUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   clientId?: Prisma.StringFieldUpdateOperationsInput | string
-  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   practiceAreas?: Prisma.IntakeUpdatepracticeAreasInput | $Enums.PracticeArea[]
   practiceAreaOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -591,7 +570,6 @@ export type EnumNextStepNullableListFilter<$PrismaModel = never> = {
 export type IntakeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   clientId?: Prisma.SortOrder
-  companyId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   practiceAreas?: Prisma.SortOrder
   practiceAreaOther?: Prisma.SortOrder
@@ -616,7 +594,6 @@ export type IntakeAvgOrderByAggregateInput = {
 export type IntakeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   clientId?: Prisma.SortOrder
-  companyId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   practiceAreaOther?: Prisma.SortOrder
   clientReport?: Prisma.SortOrder
@@ -635,7 +612,6 @@ export type IntakeMaxOrderByAggregateInput = {
 export type IntakeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   clientId?: Prisma.SortOrder
-  companyId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   practiceAreaOther?: Prisma.SortOrder
   clientReport?: Prisma.SortOrder
@@ -739,48 +715,6 @@ export type IntakeUncheckedUpdateManyWithoutClientNestedInput = {
   deleteMany?: Prisma.IntakeScalarWhereInput | Prisma.IntakeScalarWhereInput[]
 }
 
-export type IntakeCreateNestedManyWithoutCompanyInput = {
-  create?: Prisma.XOR<Prisma.IntakeCreateWithoutCompanyInput, Prisma.IntakeUncheckedCreateWithoutCompanyInput> | Prisma.IntakeCreateWithoutCompanyInput[] | Prisma.IntakeUncheckedCreateWithoutCompanyInput[]
-  connectOrCreate?: Prisma.IntakeCreateOrConnectWithoutCompanyInput | Prisma.IntakeCreateOrConnectWithoutCompanyInput[]
-  createMany?: Prisma.IntakeCreateManyCompanyInputEnvelope
-  connect?: Prisma.IntakeWhereUniqueInput | Prisma.IntakeWhereUniqueInput[]
-}
-
-export type IntakeUncheckedCreateNestedManyWithoutCompanyInput = {
-  create?: Prisma.XOR<Prisma.IntakeCreateWithoutCompanyInput, Prisma.IntakeUncheckedCreateWithoutCompanyInput> | Prisma.IntakeCreateWithoutCompanyInput[] | Prisma.IntakeUncheckedCreateWithoutCompanyInput[]
-  connectOrCreate?: Prisma.IntakeCreateOrConnectWithoutCompanyInput | Prisma.IntakeCreateOrConnectWithoutCompanyInput[]
-  createMany?: Prisma.IntakeCreateManyCompanyInputEnvelope
-  connect?: Prisma.IntakeWhereUniqueInput | Prisma.IntakeWhereUniqueInput[]
-}
-
-export type IntakeUpdateManyWithoutCompanyNestedInput = {
-  create?: Prisma.XOR<Prisma.IntakeCreateWithoutCompanyInput, Prisma.IntakeUncheckedCreateWithoutCompanyInput> | Prisma.IntakeCreateWithoutCompanyInput[] | Prisma.IntakeUncheckedCreateWithoutCompanyInput[]
-  connectOrCreate?: Prisma.IntakeCreateOrConnectWithoutCompanyInput | Prisma.IntakeCreateOrConnectWithoutCompanyInput[]
-  upsert?: Prisma.IntakeUpsertWithWhereUniqueWithoutCompanyInput | Prisma.IntakeUpsertWithWhereUniqueWithoutCompanyInput[]
-  createMany?: Prisma.IntakeCreateManyCompanyInputEnvelope
-  set?: Prisma.IntakeWhereUniqueInput | Prisma.IntakeWhereUniqueInput[]
-  disconnect?: Prisma.IntakeWhereUniqueInput | Prisma.IntakeWhereUniqueInput[]
-  delete?: Prisma.IntakeWhereUniqueInput | Prisma.IntakeWhereUniqueInput[]
-  connect?: Prisma.IntakeWhereUniqueInput | Prisma.IntakeWhereUniqueInput[]
-  update?: Prisma.IntakeUpdateWithWhereUniqueWithoutCompanyInput | Prisma.IntakeUpdateWithWhereUniqueWithoutCompanyInput[]
-  updateMany?: Prisma.IntakeUpdateManyWithWhereWithoutCompanyInput | Prisma.IntakeUpdateManyWithWhereWithoutCompanyInput[]
-  deleteMany?: Prisma.IntakeScalarWhereInput | Prisma.IntakeScalarWhereInput[]
-}
-
-export type IntakeUncheckedUpdateManyWithoutCompanyNestedInput = {
-  create?: Prisma.XOR<Prisma.IntakeCreateWithoutCompanyInput, Prisma.IntakeUncheckedCreateWithoutCompanyInput> | Prisma.IntakeCreateWithoutCompanyInput[] | Prisma.IntakeUncheckedCreateWithoutCompanyInput[]
-  connectOrCreate?: Prisma.IntakeCreateOrConnectWithoutCompanyInput | Prisma.IntakeCreateOrConnectWithoutCompanyInput[]
-  upsert?: Prisma.IntakeUpsertWithWhereUniqueWithoutCompanyInput | Prisma.IntakeUpsertWithWhereUniqueWithoutCompanyInput[]
-  createMany?: Prisma.IntakeCreateManyCompanyInputEnvelope
-  set?: Prisma.IntakeWhereUniqueInput | Prisma.IntakeWhereUniqueInput[]
-  disconnect?: Prisma.IntakeWhereUniqueInput | Prisma.IntakeWhereUniqueInput[]
-  delete?: Prisma.IntakeWhereUniqueInput | Prisma.IntakeWhereUniqueInput[]
-  connect?: Prisma.IntakeWhereUniqueInput | Prisma.IntakeWhereUniqueInput[]
-  update?: Prisma.IntakeUpdateWithWhereUniqueWithoutCompanyInput | Prisma.IntakeUpdateWithWhereUniqueWithoutCompanyInput[]
-  updateMany?: Prisma.IntakeUpdateManyWithWhereWithoutCompanyInput | Prisma.IntakeUpdateManyWithWhereWithoutCompanyInput[]
-  deleteMany?: Prisma.IntakeScalarWhereInput | Prisma.IntakeScalarWhereInput[]
-}
-
 export type IntakeCreatepracticeAreasInput = {
   set: $Enums.PracticeArea[]
 }
@@ -828,13 +762,11 @@ export type IntakeCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   client: Prisma.ClientCreateNestedOneWithoutIntakesInput
-  company?: Prisma.CompanyCreateNestedOneWithoutIntakesInput
 }
 
 export type IntakeUncheckedCreateWithoutUserInput = {
   id?: string
   clientId: string
-  companyId?: string | null
   practiceAreas?: Prisma.IntakeCreatepracticeAreasInput | $Enums.PracticeArea[]
   practiceAreaOther?: string | null
   clientReport?: string | null
@@ -883,7 +815,6 @@ export type IntakeScalarWhereInput = {
   NOT?: Prisma.IntakeScalarWhereInput | Prisma.IntakeScalarWhereInput[]
   id?: Prisma.StringFilter<"Intake"> | string
   clientId?: Prisma.StringFilter<"Intake"> | string
-  companyId?: Prisma.StringNullableFilter<"Intake"> | string | null
   userId?: Prisma.StringFilter<"Intake"> | string
   practiceAreas?: Prisma.EnumPracticeAreaNullableListFilter<"Intake">
   practiceAreaOther?: Prisma.StringNullableFilter<"Intake"> | string | null
@@ -917,13 +848,11 @@ export type IntakeCreateWithoutClientInput = {
   lgpdConsent?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  company?: Prisma.CompanyCreateNestedOneWithoutIntakesInput
   user: Prisma.UserCreateNestedOneWithoutIntakesInput
 }
 
 export type IntakeUncheckedCreateWithoutClientInput = {
   id?: string
-  companyId?: string | null
   userId: string
   practiceAreas?: Prisma.IntakeCreatepracticeAreasInput | $Enums.PracticeArea[]
   practiceAreaOther?: string | null
@@ -967,76 +896,9 @@ export type IntakeUpdateManyWithWhereWithoutClientInput = {
   data: Prisma.XOR<Prisma.IntakeUpdateManyMutationInput, Prisma.IntakeUncheckedUpdateManyWithoutClientInput>
 }
 
-export type IntakeCreateWithoutCompanyInput = {
-  id?: string
-  practiceAreas?: Prisma.IntakeCreatepracticeAreasInput | $Enums.PracticeArea[]
-  practiceAreaOther?: string | null
-  clientReport?: string | null
-  lawyerAnalysis?: string | null
-  nextSteps?: Prisma.IntakeCreatenextStepsInput | $Enums.NextStep[]
-  nextStepsOther?: string | null
-  feeAmount?: number | null
-  paymentMethod?: string | null
-  referralSource?: $Enums.ReferralSource | null
-  referredByName?: string | null
-  referralSourceOther?: string | null
-  lgpdConsent?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  client: Prisma.ClientCreateNestedOneWithoutIntakesInput
-  user: Prisma.UserCreateNestedOneWithoutIntakesInput
-}
-
-export type IntakeUncheckedCreateWithoutCompanyInput = {
-  id?: string
-  clientId: string
-  userId: string
-  practiceAreas?: Prisma.IntakeCreatepracticeAreasInput | $Enums.PracticeArea[]
-  practiceAreaOther?: string | null
-  clientReport?: string | null
-  lawyerAnalysis?: string | null
-  nextSteps?: Prisma.IntakeCreatenextStepsInput | $Enums.NextStep[]
-  nextStepsOther?: string | null
-  feeAmount?: number | null
-  paymentMethod?: string | null
-  referralSource?: $Enums.ReferralSource | null
-  referredByName?: string | null
-  referralSourceOther?: string | null
-  lgpdConsent?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type IntakeCreateOrConnectWithoutCompanyInput = {
-  where: Prisma.IntakeWhereUniqueInput
-  create: Prisma.XOR<Prisma.IntakeCreateWithoutCompanyInput, Prisma.IntakeUncheckedCreateWithoutCompanyInput>
-}
-
-export type IntakeCreateManyCompanyInputEnvelope = {
-  data: Prisma.IntakeCreateManyCompanyInput | Prisma.IntakeCreateManyCompanyInput[]
-  skipDuplicates?: boolean
-}
-
-export type IntakeUpsertWithWhereUniqueWithoutCompanyInput = {
-  where: Prisma.IntakeWhereUniqueInput
-  update: Prisma.XOR<Prisma.IntakeUpdateWithoutCompanyInput, Prisma.IntakeUncheckedUpdateWithoutCompanyInput>
-  create: Prisma.XOR<Prisma.IntakeCreateWithoutCompanyInput, Prisma.IntakeUncheckedCreateWithoutCompanyInput>
-}
-
-export type IntakeUpdateWithWhereUniqueWithoutCompanyInput = {
-  where: Prisma.IntakeWhereUniqueInput
-  data: Prisma.XOR<Prisma.IntakeUpdateWithoutCompanyInput, Prisma.IntakeUncheckedUpdateWithoutCompanyInput>
-}
-
-export type IntakeUpdateManyWithWhereWithoutCompanyInput = {
-  where: Prisma.IntakeScalarWhereInput
-  data: Prisma.XOR<Prisma.IntakeUpdateManyMutationInput, Prisma.IntakeUncheckedUpdateManyWithoutCompanyInput>
-}
-
 export type IntakeCreateManyUserInput = {
   id?: string
   clientId: string
-  companyId?: string | null
   practiceAreas?: Prisma.IntakeCreatepracticeAreasInput | $Enums.PracticeArea[]
   practiceAreaOther?: string | null
   clientReport?: string | null
@@ -1070,13 +932,11 @@ export type IntakeUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   client?: Prisma.ClientUpdateOneRequiredWithoutIntakesNestedInput
-  company?: Prisma.CompanyUpdateOneWithoutIntakesNestedInput
 }
 
 export type IntakeUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   clientId?: Prisma.StringFieldUpdateOperationsInput | string
-  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceAreas?: Prisma.IntakeUpdatepracticeAreasInput | $Enums.PracticeArea[]
   practiceAreaOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clientReport?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1096,7 +956,6 @@ export type IntakeUncheckedUpdateWithoutUserInput = {
 export type IntakeUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   clientId?: Prisma.StringFieldUpdateOperationsInput | string
-  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceAreas?: Prisma.IntakeUpdatepracticeAreasInput | $Enums.PracticeArea[]
   practiceAreaOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clientReport?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1115,7 +974,6 @@ export type IntakeUncheckedUpdateManyWithoutUserInput = {
 
 export type IntakeCreateManyClientInput = {
   id?: string
-  companyId?: string | null
   userId: string
   practiceAreas?: Prisma.IntakeCreatepracticeAreasInput | $Enums.PracticeArea[]
   practiceAreaOther?: string | null
@@ -1149,13 +1007,11 @@ export type IntakeUpdateWithoutClientInput = {
   lgpdConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  company?: Prisma.CompanyUpdateOneWithoutIntakesNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutIntakesNestedInput
 }
 
 export type IntakeUncheckedUpdateWithoutClientInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   practiceAreas?: Prisma.IntakeUpdatepracticeAreasInput | $Enums.PracticeArea[]
   practiceAreaOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1175,87 +1031,6 @@ export type IntakeUncheckedUpdateWithoutClientInput = {
 
 export type IntakeUncheckedUpdateManyWithoutClientInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  practiceAreas?: Prisma.IntakeUpdatepracticeAreasInput | $Enums.PracticeArea[]
-  practiceAreaOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientReport?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lawyerAnalysis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nextSteps?: Prisma.IntakeUpdatenextStepsInput | $Enums.NextStep[]
-  nextStepsOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  feeAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  referralSource?: Prisma.NullableEnumReferralSourceFieldUpdateOperationsInput | $Enums.ReferralSource | null
-  referredByName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  referralSourceOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lgpdConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type IntakeCreateManyCompanyInput = {
-  id?: string
-  clientId: string
-  userId: string
-  practiceAreas?: Prisma.IntakeCreatepracticeAreasInput | $Enums.PracticeArea[]
-  practiceAreaOther?: string | null
-  clientReport?: string | null
-  lawyerAnalysis?: string | null
-  nextSteps?: Prisma.IntakeCreatenextStepsInput | $Enums.NextStep[]
-  nextStepsOther?: string | null
-  feeAmount?: number | null
-  paymentMethod?: string | null
-  referralSource?: $Enums.ReferralSource | null
-  referredByName?: string | null
-  referralSourceOther?: string | null
-  lgpdConsent?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type IntakeUpdateWithoutCompanyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  practiceAreas?: Prisma.IntakeUpdatepracticeAreasInput | $Enums.PracticeArea[]
-  practiceAreaOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientReport?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lawyerAnalysis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nextSteps?: Prisma.IntakeUpdatenextStepsInput | $Enums.NextStep[]
-  nextStepsOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  feeAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  referralSource?: Prisma.NullableEnumReferralSourceFieldUpdateOperationsInput | $Enums.ReferralSource | null
-  referredByName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  referralSourceOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lgpdConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  client?: Prisma.ClientUpdateOneRequiredWithoutIntakesNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutIntakesNestedInput
-}
-
-export type IntakeUncheckedUpdateWithoutCompanyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  practiceAreas?: Prisma.IntakeUpdatepracticeAreasInput | $Enums.PracticeArea[]
-  practiceAreaOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientReport?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lawyerAnalysis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nextSteps?: Prisma.IntakeUpdatenextStepsInput | $Enums.NextStep[]
-  nextStepsOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  feeAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  paymentMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  referralSource?: Prisma.NullableEnumReferralSourceFieldUpdateOperationsInput | $Enums.ReferralSource | null
-  referredByName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  referralSourceOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lgpdConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type IntakeUncheckedUpdateManyWithoutCompanyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   practiceAreas?: Prisma.IntakeUpdatepracticeAreasInput | $Enums.PracticeArea[]
   practiceAreaOther?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1278,7 +1053,6 @@ export type IntakeUncheckedUpdateManyWithoutCompanyInput = {
 export type IntakeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   clientId?: boolean
-  companyId?: boolean
   userId?: boolean
   practiceAreas?: boolean
   practiceAreaOther?: boolean
@@ -1295,14 +1069,12 @@ export type IntakeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   createdAt?: boolean
   updatedAt?: boolean
   client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
-  company?: boolean | Prisma.Intake$companyArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["intake"]>
 
 export type IntakeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   clientId?: boolean
-  companyId?: boolean
   userId?: boolean
   practiceAreas?: boolean
   practiceAreaOther?: boolean
@@ -1319,14 +1091,12 @@ export type IntakeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   createdAt?: boolean
   updatedAt?: boolean
   client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
-  company?: boolean | Prisma.Intake$companyArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["intake"]>
 
 export type IntakeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   clientId?: boolean
-  companyId?: boolean
   userId?: boolean
   practiceAreas?: boolean
   practiceAreaOther?: boolean
@@ -1343,14 +1113,12 @@ export type IntakeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   createdAt?: boolean
   updatedAt?: boolean
   client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
-  company?: boolean | Prisma.Intake$companyArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["intake"]>
 
 export type IntakeSelectScalar = {
   id?: boolean
   clientId?: boolean
-  companyId?: boolean
   userId?: boolean
   practiceAreas?: boolean
   practiceAreaOther?: boolean
@@ -1368,20 +1136,17 @@ export type IntakeSelectScalar = {
   updatedAt?: boolean
 }
 
-export type IntakeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "clientId" | "companyId" | "userId" | "practiceAreas" | "practiceAreaOther" | "clientReport" | "lawyerAnalysis" | "nextSteps" | "nextStepsOther" | "feeAmount" | "paymentMethod" | "referralSource" | "referredByName" | "referralSourceOther" | "lgpdConsent" | "createdAt" | "updatedAt", ExtArgs["result"]["intake"]>
+export type IntakeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "clientId" | "userId" | "practiceAreas" | "practiceAreaOther" | "clientReport" | "lawyerAnalysis" | "nextSteps" | "nextStepsOther" | "feeAmount" | "paymentMethod" | "referralSource" | "referredByName" | "referralSourceOther" | "lgpdConsent" | "createdAt" | "updatedAt", ExtArgs["result"]["intake"]>
 export type IntakeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
-  company?: boolean | Prisma.Intake$companyArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type IntakeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
-  company?: boolean | Prisma.Intake$companyArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type IntakeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   client?: boolean | Prisma.ClientDefaultArgs<ExtArgs>
-  company?: boolean | Prisma.Intake$companyArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
@@ -1389,13 +1154,11 @@ export type $IntakePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Intake"
   objects: {
     client: Prisma.$ClientPayload<ExtArgs>
-    company: Prisma.$CompanyPayload<ExtArgs> | null
     user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     clientId: string
-    companyId: string | null
     userId: string
     practiceAreas: $Enums.PracticeArea[]
     practiceAreaOther: string | null
@@ -1806,7 +1569,6 @@ readonly fields: IntakeFieldRefs;
 export interface Prisma__IntakeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   client<T extends Prisma.ClientDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClientDefaultArgs<ExtArgs>>): Prisma.Prisma__ClientClient<runtime.Types.Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  company<T extends Prisma.Intake$companyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Intake$companyArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1839,7 +1601,6 @@ export interface Prisma__IntakeClient<T, Null = never, ExtArgs extends runtime.T
 export interface IntakeFieldRefs {
   readonly id: Prisma.FieldRef<"Intake", 'String'>
   readonly clientId: Prisma.FieldRef<"Intake", 'String'>
-  readonly companyId: Prisma.FieldRef<"Intake", 'String'>
   readonly userId: Prisma.FieldRef<"Intake", 'String'>
   readonly practiceAreas: Prisma.FieldRef<"Intake", 'PracticeArea[]'>
   readonly practiceAreaOther: Prisma.FieldRef<"Intake", 'String'>
@@ -2253,25 +2014,6 @@ export type IntakeDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Intakes to delete.
    */
   limit?: number
-}
-
-/**
- * Intake.company
- */
-export type Intake$companyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Company
-   */
-  select?: Prisma.CompanySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Company
-   */
-  omit?: Prisma.CompanyOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CompanyInclude<ExtArgs> | null
-  where?: Prisma.CompanyWhereInput
 }
 
 /**

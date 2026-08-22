@@ -56,17 +56,9 @@ export const uploadDocument = (app: FastifyInstance) =>
                 throw new NotFoundError('Cliente não encontrado');
             }
 
-            let companyId: string | null = null;
             let filePart: MultipartFile | null = null;
 
             for await (const part of request.parts()) {
-                if (part.type === 'field' && part.fieldname === 'companyId') {
-                    if (typeof part.value === 'string' && part.value.trim()) {
-                        companyId = part.value.trim();
-                    }
-                    continue;
-                }
-
                 if (part.type === 'file') {
                     filePart = part;
                     break;
@@ -79,17 +71,6 @@ export const uploadDocument = (app: FastifyInstance) =>
 
             if (!ALLOWED_DOCUMENT_MIME_TYPES.includes(filePart.mimetype as (typeof ALLOWED_DOCUMENT_MIME_TYPES)[number])) {
                 throw new BadRequestError('Tipo de arquivo não permitido');
-            }
-
-            if (companyId) {
-                const company = await db.company.findUnique({
-                    where: { id: companyId },
-                    select: { legalRepresentativeId: true },
-                });
-
-                if (!company || company.legalRepresentativeId !== clientId) {
-                    throw new NotFoundError('Empresa não encontrada');
-                }
             }
 
             const extension = EXTENSION_BY_MIME_TYPE[filePart.mimetype] ?? '';
@@ -113,7 +94,6 @@ export const uploadDocument = (app: FastifyInstance) =>
             const document = (await db.document.create({
                 data: {
                     clientId,
-                    companyId,
                     userId: request.user.id,
                     originalName: filePart.filename,
                     remotePath,

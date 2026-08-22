@@ -6,10 +6,29 @@
 export type CreateClientStatus201 = {
     id: string;
     fullName: string;
-    cpf: string;
+    cpf: string | null;
+    cnpj: string | null;
 };
 
-export type CreateClientBody = {
+export type CreateClientBody = ({
+    /**
+     * @maxLength 30
+     * @type string | undefined
+    */
+    phone?: string;
+    /**
+     * @description
+     * Format: `email`
+     * @type string | undefined
+    */
+    email?: string;
+    /**
+     * @maxLength 255
+     * @type string | undefined
+    */
+    address?: string;
+    isActive?: boolean;
+    personType: "FISICA";
     /**
      * @minLength 1
      * @maxLength 180
@@ -43,6 +62,7 @@ export type CreateClientBody = {
      * @type string | undefined
     */
     profession?: string;
+} | {
     /**
      * @maxLength 30
      * @type string | undefined
@@ -60,7 +80,25 @@ export type CreateClientBody = {
     */
     address?: string;
     isActive?: boolean;
-};
+    personType: "JURIDICA";
+    /**
+     * @minLength 14
+     * @maxLength 18
+     * @type string
+    */
+    cnpj: string;
+    /**
+     * @minLength 1
+     * @maxLength 180
+     * @type string
+    */
+    razaoSocial: string;
+    /**
+     * @maxLength 180
+     * @type string | undefined
+    */
+    nomeFantasia?: string;
+});
 
 export type CreateClientOptions = {
     body: CreateClientBody;

@@ -20,14 +20,45 @@ export const createClient = (app: FastifyInstance) =>
                     201: z.object({
                         id: z.string(),
                         fullName: z.string(),
-                        cpf: z.string(),
+                        cpf: z.string().nullable(),
+                        cnpj: z.string().nullable(),
                     }),
                 },
             },
             preHandler: [async (request) => request.authenticate()],
         },
         async (request, reply) => {
-            const { birthDate, ...rest } = request.body;
+            const body = request.body;
+
+            if (body.personType === 'JURIDICA') {
+                const existingClient = await db.client.findUnique({
+                    where: { cnpj: body.cnpj },
+                    select: { id: true },
+                });
+
+                if (existingClient) {
+                    throw new ConflictError('Já existe um cliente com este CNPJ');
+                }
+
+                const client = await db.client.create({
+                    data: {
+                        personType: body.personType,
+                        fullName: body.razaoSocial,
+                        cnpj: body.cnpj,
+                        razaoSocial: body.razaoSocial,
+                        nomeFantasia: body.nomeFantasia,
+                        phone: body.phone,
+                        email: body.email,
+                        address: body.address,
+                        isActive: body.isActive,
+                    },
+                    select: { id: true, fullName: true, cpf: true, cnpj: true },
+                });
+
+                return reply.status(201).send(client);
+            }
+
+            const { birthDate, ...rest } = body;
 
             const existingClient = await db.client.findUnique({
                 where: { cpf: rest.cpf },
@@ -43,7 +74,7 @@ export const createClient = (app: FastifyInstance) =>
                     ...rest,
                     birthDate: birthDate ? new Date(birthDate) : undefined,
                 },
-                select: { id: true, fullName: true, cpf: true },
+                select: { id: true, fullName: true, cpf: true, cnpj: true },
             });
 
             return reply.status(201).send(client);

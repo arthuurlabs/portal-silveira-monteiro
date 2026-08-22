@@ -47,6 +47,13 @@ export const getPublicPreviewStatus200IntakeReferralSourceEnum = {
 
 export type GetPublicPreviewStatus200IntakeReferralSourceEnumKey = (typeof getPublicPreviewStatus200IntakeReferralSourceEnum)[keyof typeof getPublicPreviewStatus200IntakeReferralSourceEnum];
 
+export const getPublicPreviewStatus200ClientPersonTypeEnum = {
+    FISICA: "FISICA",
+    JURIDICA: "JURIDICA"
+} as const;
+
+export type GetPublicPreviewStatus200ClientPersonTypeEnumKey = (typeof getPublicPreviewStatus200ClientPersonTypeEnum)[keyof typeof getPublicPreviewStatus200ClientPersonTypeEnum];
+
 export type GetPublicPreviewStatus200 = {
     type: "intake";
     intake: {
@@ -83,8 +90,9 @@ export type GetPublicPreviewStatus200 = {
     };
     client: {
         id: string;
+        personType: GetPublicPreviewStatus200ClientPersonTypeEnumKey;
         fullName: string;
-        cpf: string;
+        cpf: string | null;
         rg: string | null;
         /**
          * @description
@@ -94,6 +102,9 @@ export type GetPublicPreviewStatus200 = {
         birthDate: string | null;
         maritalStatus: string | null;
         profession: string | null;
+        cnpj: string | null;
+        razaoSocial: string | null;
+        nomeFantasia: string | null;
         phone: string | null;
         email: string | null;
         address: string | null;

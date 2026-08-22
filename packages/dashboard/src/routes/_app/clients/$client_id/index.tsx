@@ -1,11 +1,6 @@
 import { createFileRoute, getRouteApi } from '@tanstack/react-router';
-import { Plus } from 'lucide-react';
 
-import { Button } from '#/components/ui/button';
-import { useListCompanies } from '#/http/hooks/useListCompanies';
-
-import { CompanyCardList } from './companies/-components/company-card-list';
-import { CompanyUpsertDialog } from './companies/-components/company-upsert-dialog';
+import { formatCnpj, formatCpf } from '#/lib/masks';
 
 const clientRoute = getRouteApi('/_app/clients/$client_id');
 
@@ -31,62 +26,45 @@ const DetailField = ({ label, value }: DetailFieldProps) => (
 
 const ClientOverviewRoute = () => {
     const { client } = clientRoute.useLoaderData();
-
-    const {
-        data: companiesData,
-        isPending: isCompaniesPending,
-        isError: isCompaniesError,
-    } = useListCompanies({
-        path: {
-            clientId: client.id,
-        },
-    });
+    const isJuridica = client.personType === 'JURIDICA';
 
     return (
         <div className="flex flex-col gap-6">
             <div className="grid gap-6 rounded-md border border-border p-6 sm:grid-cols-2 lg:grid-cols-3">
-                <DetailField label="Nome completo" value={client.fullName} />
+                {isJuridica ? (
+                    <>
+                        <DetailField label="Razão social" value={client.razaoSocial} />
 
-                <DetailField label="CPF" value={client.cpf} />
+                        <DetailField label="Nome fantasia" value={client.nomeFantasia} />
 
-                <DetailField label="RG" value={client.rg} />
+                        <DetailField label="CNPJ" value={formatCnpj(client.cnpj)} />
+                    </>
+                ) : (
+                    <>
+                        <DetailField label="Nome completo" value={client.fullName} />
 
-                <DetailField
-                    label="Data de nascimento"
-                    value={
-                        client.birthDate ? dateFormatter.format(new Date(client.birthDate)) : null
-                    }
-                />
+                        <DetailField label="CPF" value={formatCpf(client.cpf)} />
 
-                <DetailField label="Estado civil" value={client.maritalStatus} />
+                        <DetailField label="RG" value={client.rg} />
 
-                <DetailField label="Profissão" value={client.profession} />
+                        <DetailField
+                            label="Data de nascimento"
+                            value={
+                                client.birthDate ? dateFormatter.format(new Date(client.birthDate)) : null
+                            }
+                        />
+
+                        <DetailField label="Estado civil" value={client.maritalStatus} />
+
+                        <DetailField label="Profissão" value={client.profession} />
+                    </>
+                )}
 
                 <DetailField label="Telefone" value={client.phone} />
 
                 <DetailField label="E-mail" value={client.email} />
 
                 <DetailField label="Endereço" value={client.address} />
-            </div>
-
-            <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between gap-4">
-                    <p className="sm-eyebrow">Empresas</p>
-
-                    <CompanyUpsertDialog clientId={client.id}>
-                        <Button>
-                            <Plus />
-                            Nova empresa
-                        </Button>
-                    </CompanyUpsertDialog>
-                </div>
-
-                <CompanyCardList
-                    clientId={client.id}
-                    companies={companiesData?.data}
-                    isPending={isCompaniesPending}
-                    isError={isCompaniesError}
-                />
             </div>
         </div>
     );

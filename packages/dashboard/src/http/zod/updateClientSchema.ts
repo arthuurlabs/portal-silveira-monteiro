@@ -10,20 +10,34 @@ export const updateClientPathIdSchema = z.string()
 export const updateClientStatus200Schema = z.object({
   id: z.string(),
   fullName: z.string(),
-  cpf: z.string(),
+  cpf: z.string().nullable(),
+  cnpj: z.string().nullable(),
 }).strict()
 
 export const updateClientResponseSchema = updateClientStatus200Schema
 
-export const updateClientBodySchema = z.object({
-  fullName: z.string().min(1).max(180),
-  cpf: z.string().min(11).max(14),
-  rg: z.string().max(20).optional(),
-  birthDate: z.iso.date().optional(),
-  maritalStatus: z.string().max(60).optional(),
-  profession: z.string().max(120).optional(),
-  phone: z.string().max(30).optional(),
-  email: z.email().optional(),
-  address: z.string().max(255).optional(),
-  isActive: z.boolean().optional(),
-})
+export const updateClientBodySchema = z.union([
+  z.object({
+    phone: z.string().max(30).optional(),
+    email: z.email().optional(),
+    address: z.string().max(255).optional(),
+    isActive: z.boolean().optional(),
+    personType: z.enum(['FISICA']),
+    fullName: z.string().min(1).max(180),
+    cpf: z.string().min(11).max(14),
+    rg: z.string().max(20).optional(),
+    birthDate: z.iso.date().optional(),
+    maritalStatus: z.string().max(60).optional(),
+    profession: z.string().max(120).optional(),
+  }).strict(),
+  z.object({
+    phone: z.string().max(30).optional(),
+    email: z.email().optional(),
+    address: z.string().max(255).optional(),
+    isActive: z.boolean().optional(),
+    personType: z.enum(['JURIDICA']),
+    cnpj: z.string().min(14).max(18),
+    razaoSocial: z.string().min(1).max(180),
+    nomeFantasia: z.string().max(180).optional(),
+  }).strict(),
+])

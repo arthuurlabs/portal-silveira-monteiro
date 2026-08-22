@@ -17,6 +17,14 @@ export const UserRole = {
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
+export const PersonType = {
+  FISICA: 'FISICA',
+  JURIDICA: 'JURIDICA'
+} as const
+
+export type PersonType = (typeof PersonType)[keyof typeof PersonType]
+
+
 export const PracticeArea = {
   PREVIDENCIARIO: 'PREVIDENCIARIO',
   TRABALHISTA: 'TRABALHISTA',

@@ -9,32 +9,32 @@ import type { ListDocumentsOptions, ListDocumentsStatus200 } from '../types/List
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import { listDocuments } from '../clients/listDocuments'
 
-export const listDocumentsQueryKey = ({ path, query }: Omit<ListDocumentsOptions, 'headers'>) => [{ url: '/clients/:clientId/documents', params: path }, ...(query ? [query] : [])] as const
+export const listDocumentsQueryKey = ({ path }: Omit<ListDocumentsOptions, 'headers'>) => [{ url: '/clients/:clientId/documents', params: path }] as const
 
 type ListDocumentsQueryKey = ReturnType<typeof listDocumentsQueryKey>
 
-export function listDocumentsQueryOptions({ path, query }: ListDocumentsOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
-  const queryKey = listDocumentsQueryKey({ path, query })
+export function listDocumentsQueryOptions({ path }: ListDocumentsOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = listDocumentsQueryKey({ path })
   return queryOptions<ListDocumentsStatus200, ResponseErrorConfig<Error>, ListDocumentsStatus200, typeof queryKey>({
    queryKey,
    queryFn: async ({ signal }) => {
-      const { data } = await listDocuments({ ...config, path, query, signal: config.signal ?? signal, throwOnError: true })
+      const { data } = await listDocuments({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
       return data
    },
   })
 }
 
 /**
- * @summary Listar documentos do cliente ou de uma empresa
+ * @summary Listar documentos do cliente
  * {@link /clients/:clientId/documents}
  */
-export function useListDocuments<TData = ListDocumentsStatus200, TQueryData = ListDocumentsStatus200, TQueryKey extends QueryKey = ListDocumentsQueryKey>({ path, query }: { path: ListDocumentsOptions['path'] | (() => ListDocumentsOptions['path']); query?: ListDocumentsOptions['query'] | (() => ListDocumentsOptions['query']) }, options: {
+export function useListDocuments<TData = ListDocumentsStatus200, TQueryData = ListDocumentsStatus200, TQueryKey extends QueryKey = ListDocumentsQueryKey>({ path }: { path: ListDocumentsOptions['path'] | (() => ListDocumentsOptions['path']) }, options: {
   query?: Partial<QueryObserverOptions<ListDocumentsStatus200, ResponseErrorConfig<Error>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
 } = {}) {
   const { query: queryConfig = {}, client: config = {} } = options ?? {}
   const { client: queryClient, ...resolvedOptions } = queryConfig
-  const resolvedParams = { path: typeof path === 'function' ? path() : path, query: typeof query === 'function' ? query() : query }
+  const resolvedParams = { path: typeof path === 'function' ? path() : path }
   const queryKey = resolvedOptions?.queryKey ?? listDocumentsQueryKey(resolvedParams)
 
   const queryResult = useQuery({

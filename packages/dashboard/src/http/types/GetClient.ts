@@ -7,10 +7,18 @@ export type GetClientPath = {
     id: string;
 };
 
+export const getClientStatus200PersonTypeEnum = {
+    FISICA: "FISICA",
+    JURIDICA: "JURIDICA"
+} as const;
+
+export type GetClientStatus200PersonTypeEnumKey = (typeof getClientStatus200PersonTypeEnum)[keyof typeof getClientStatus200PersonTypeEnum];
+
 export type GetClientStatus200 = {
     id: string;
+    personType: GetClientStatus200PersonTypeEnumKey;
     fullName: string;
-    cpf: string;
+    cpf: string | null;
     rg: string | null;
     /**
      * @description
@@ -20,6 +28,9 @@ export type GetClientStatus200 = {
     birthDate: string | null;
     maritalStatus: string | null;
     profession: string | null;
+    cnpj: string | null;
+    razaoSocial: string | null;
+    nomeFantasia: string | null;
     phone: string | null;
     email: string | null;
     address: string | null;

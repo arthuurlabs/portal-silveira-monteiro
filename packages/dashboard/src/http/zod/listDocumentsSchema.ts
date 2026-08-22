@@ -5,15 +5,12 @@
 
 import * as z from 'zod'
 
-export const listDocumentsQueryCompanyIdSchema = z.string().optional()
-
 export const listDocumentsPathClientIdSchema = z.string()
 
 export const listDocumentsStatus200Schema = z.object({
   data: z.array(z.object({
     id: z.string(),
     clientId: z.string(),
-    companyId: z.string().nullable(),
     originalName: z.string(),
     mimeType: z.string(),
     size: z.number(),

@@ -30,48 +30,35 @@ model User {
   @@map("users")
 }
 
+enum PersonType {
+  FISICA
+  JURIDICA
+}
+
 model Client {
-  id            String    @id @default(cuid())
-  fullName      String    @map("full_name")
-  cpf           String    @unique
+  id            String     @id @default(cuid())
+  personType    PersonType @default(FISICA) @map("person_type")
+  fullName      String     @map("full_name")
+  cpf           String?    @unique
   rg            String?
-  birthDate     DateTime? @map("birth_date") @db.Date
-  maritalStatus String?   @map("marital_status")
+  birthDate     DateTime?  @map("birth_date") @db.Date
+  maritalStatus String?    @map("marital_status")
   profession    String?
+  cnpj          String?    @unique
+  razaoSocial   String?    @map("razao_social")
+  nomeFantasia  String?    @map("nome_fantasia")
   phone         String?
   email         String?
   address       String?
-  isActive      Boolean   @default(true) @map("is_active")
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  isActive      Boolean    @default(true) @map("is_active")
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
 
   intakes   Intake[]
-  companies Company[]
   documents Document[]
 
   @@index([fullName])
   @@map("clients")
-}
-
-model Company {
-  id                    String   @id @default(cuid())
-  cnpj                  String   @unique
-  razaoSocial           String   @map("razao_social")
-  nomeFantasia          String?  @map("nome_fantasia")
-  phone                 String?
-  email                 String?
-  address               String?
-  isActive              Boolean  @default(true) @map("is_active")
-  legalRepresentativeId String   @map("legal_representative_id")
-  createdAt             DateTime @default(now()) @map("created_at")
-  updatedAt             DateTime @updatedAt @map("updated_at")
-
-  legalRepresentative Client     @relation(fields: [legalRepresentativeId], references: [id], onDelete: Restrict)
-  intakes             Intake[]
-  documents           Document[]
-
-  @@index([legalRepresentativeId])
-  @@map("companies")
 }
 
 enum PracticeArea {
@@ -107,7 +94,6 @@ enum ReferralSource {
 model Intake {
   id                  String          @id @default(cuid())
   clientId            String          @map("client_id")
-  companyId           String?         @map("company_id")
   userId              String          @map("user_id")
   practiceAreas       PracticeArea[]  @map("practice_areas")
   practiceAreaOther   String?         @map("practice_area_other")
@@ -125,7 +111,6 @@ model Intake {
   updatedAt           DateTime        @updatedAt @map("updated_at")
 
   client  Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  company Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
   user    User     @relation(fields: [userId], references: [id])
 
   @@index([clientId, createdAt(sort: Desc)])
@@ -135,7 +120,6 @@ model Intake {
 model Document {
   id           String   @id @default(cuid())
   clientId     String   @map("client_id")
-  companyId    String?  @map("company_id")
   userId       String   @map("user_id")
   originalName String   @map("original_name")
   remotePath   String   @map("remote_path")
@@ -144,10 +128,9 @@ model Document {
   createdAt    DateTime @default(now()) @map("created_at")
 
   client  Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  company Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
   user    User     @relation(fields: [userId], references: [id])
 
-  @@index([clientId, companyId, createdAt(sort: Desc)])
+  @@index([clientId, createdAt(sort: Desc)])
   @@map("documents")
 }
 

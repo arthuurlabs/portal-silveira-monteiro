@@ -10,10 +10,29 @@ export type UpdateClientPath = {
 export type UpdateClientStatus200 = {
     id: string;
     fullName: string;
-    cpf: string;
+    cpf: string | null;
+    cnpj: string | null;
 };
 
-export type UpdateClientBody = {
+export type UpdateClientBody = ({
+    /**
+     * @maxLength 30
+     * @type string | undefined
+    */
+    phone?: string;
+    /**
+     * @description
+     * Format: `email`
+     * @type string | undefined
+    */
+    email?: string;
+    /**
+     * @maxLength 255
+     * @type string | undefined
+    */
+    address?: string;
+    isActive?: boolean;
+    personType: "FISICA";
     /**
      * @minLength 1
      * @maxLength 180
@@ -47,6 +66,7 @@ export type UpdateClientBody = {
      * @type string | undefined
     */
     profession?: string;
+} | {
     /**
      * @maxLength 30
      * @type string | undefined
@@ -64,7 +84,25 @@ export type UpdateClientBody = {
     */
     address?: string;
     isActive?: boolean;
-};
+    personType: "JURIDICA";
+    /**
+     * @minLength 14
+     * @maxLength 18
+     * @type string
+    */
+    cnpj: string;
+    /**
+     * @minLength 1
+     * @maxLength 180
+     * @type string
+    */
+    razaoSocial: string;
+    /**
+     * @maxLength 180
+     * @type string | undefined
+    */
+    nomeFantasia?: string;
+});
 
 export type UpdateClientOptions = {
     body: UpdateClientBody;

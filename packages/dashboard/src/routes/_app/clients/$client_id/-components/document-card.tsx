@@ -39,7 +39,6 @@ type DocumentListItem = ListDocumentsStatus200["data"][number];
 
 type DocumentCardProps = {
 	clientId: string;
-	companyId?: string;
 	document: DocumentListItem;
 };
 

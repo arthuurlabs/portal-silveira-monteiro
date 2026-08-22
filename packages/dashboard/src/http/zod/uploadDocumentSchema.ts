@@ -10,7 +10,6 @@ export const uploadDocumentPathClientIdSchema = z.string()
 export const uploadDocumentStatus201Schema = z.object({
   id: z.string(),
   clientId: z.string(),
-  companyId: z.string().nullable(),
   originalName: z.string(),
   mimeType: z.string(),
   size: z.number(),

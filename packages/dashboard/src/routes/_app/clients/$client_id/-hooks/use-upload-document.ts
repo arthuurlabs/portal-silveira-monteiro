@@ -5,22 +5,16 @@ import type { UploadDocumentStatus201 } from "#/http/types/UploadDocument";
 
 type UploadDocumentInput = {
 	clientId: string;
-	companyId?: string;
 	file: File;
 	onProgress?: (percent: number) => void;
 };
 
 const uploadDocument = async ({
 	clientId,
-	companyId,
 	file,
 	onProgress,
 }: UploadDocumentInput): Promise<UploadDocumentStatus201> => {
 	const formData = new FormData();
-
-	if (companyId) {
-		formData.append("companyId", companyId);
-	}
 
 	formData.append("file", file);
 

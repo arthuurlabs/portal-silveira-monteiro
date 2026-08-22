@@ -50,6 +50,7 @@ export const listClients = (app: FastifyInstance) =>
                           OR: [
                               { fullName: { contains: search, mode: 'insensitive' as const } },
                               { cpf: { contains: search } },
+                              { cnpj: { contains: search } },
                           ],
                       }
                     : {}),

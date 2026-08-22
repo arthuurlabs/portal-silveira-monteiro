@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Users } from "lucide-react";
 
 import { EmptyState } from "#/components/shared/empty-state";
+import { Badge } from "#/components/ui/badge";
 import { Skeleton } from "#/components/ui/skeleton";
 import {
 	Table,
@@ -12,6 +13,7 @@ import {
 	TableRow,
 } from "#/components/ui/table";
 import type { ListClientsStatus200 } from "#/http/types/ListClients";
+import { formatCnpj, formatCpf } from "#/lib/masks";
 
 type ClientListItem = ListClientsStatus200["data"][number];
 
@@ -58,32 +60,47 @@ export const ClientList = ({
 				<TableHeader>
 					<TableRow>
 						<TableHead>Nome</TableHead>
-						<TableHead>CPF</TableHead>
+						<TableHead>Tipo</TableHead>
+						<TableHead>Documento</TableHead>
 						<TableHead>Telefone</TableHead>
 						<TableHead>E-mail</TableHead>
 						<TableHead>Cadastrado em</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{clients.map((client) => (
-						<TableRow key={client.id}>
-							<TableCell className="font-medium text-foreground">
-								<Link
-									to="/clients/$client_id"
-									params={{ client_id: client.id }}
-									className="hover:underline"
-								>
-									{client.fullName}
-								</Link>
-							</TableCell>
-							<TableCell>{client.cpf}</TableCell>
-							<TableCell>{client.phone ?? "—"}</TableCell>
-							<TableCell>{client.email ?? "—"}</TableCell>
-							<TableCell>
-								{dateFormatter.format(new Date(client.createdAt))}
-							</TableCell>
-						</TableRow>
-					))}
+					{clients.map((client) => {
+						const isJuridica = client.personType === "JURIDICA";
+
+						return (
+							<TableRow key={client.id}>
+								<TableCell className="font-medium text-foreground">
+									<Link
+										to="/clients/$client_id"
+										params={{ client_id: client.id }}
+										className="hover:underline"
+									>
+										{isJuridica ? client.razaoSocial : client.fullName}
+									</Link>
+									{isJuridica && client.nomeFantasia ? (
+										<span className="block text-xs font-normal text-muted-foreground">
+											{client.nomeFantasia}
+										</span>
+									) : null}
+								</TableCell>
+								<TableCell>
+									<Badge variant="neutral">{isJuridica ? "PJ" : "PF"}</Badge>
+								</TableCell>
+								<TableCell>
+									{isJuridica ? formatCnpj(client.cnpj) : formatCpf(client.cpf)}
+								</TableCell>
+								<TableCell>{client.phone ?? "—"}</TableCell>
+								<TableCell>{client.email ?? "—"}</TableCell>
+								<TableCell>
+									{dateFormatter.format(new Date(client.createdAt))}
+								</TableCell>
+							</TableRow>
+						);
+					})}
 				</TableBody>
 			</Table>
 		</div>

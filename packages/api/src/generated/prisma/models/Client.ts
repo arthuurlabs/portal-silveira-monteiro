@@ -26,12 +26,16 @@ export type AggregateClient = {
 
 export type ClientMinAggregateOutputType = {
   id: string | null
+  personType: $Enums.PersonType | null
   fullName: string | null
   cpf: string | null
   rg: string | null
   birthDate: Date | null
   maritalStatus: string | null
   profession: string | null
+  cnpj: string | null
+  razaoSocial: string | null
+  nomeFantasia: string | null
   phone: string | null
   email: string | null
   address: string | null
@@ -42,12 +46,16 @@ export type ClientMinAggregateOutputType = {
 
 export type ClientMaxAggregateOutputType = {
   id: string | null
+  personType: $Enums.PersonType | null
   fullName: string | null
   cpf: string | null
   rg: string | null
   birthDate: Date | null
   maritalStatus: string | null
   profession: string | null
+  cnpj: string | null
+  razaoSocial: string | null
+  nomeFantasia: string | null
   phone: string | null
   email: string | null
   address: string | null
@@ -58,12 +66,16 @@ export type ClientMaxAggregateOutputType = {
 
 export type ClientCountAggregateOutputType = {
   id: number
+  personType: number
   fullName: number
   cpf: number
   rg: number
   birthDate: number
   maritalStatus: number
   profession: number
+  cnpj: number
+  razaoSocial: number
+  nomeFantasia: number
   phone: number
   email: number
   address: number
@@ -76,12 +88,16 @@ export type ClientCountAggregateOutputType = {
 
 export type ClientMinAggregateInputType = {
   id?: true
+  personType?: true
   fullName?: true
   cpf?: true
   rg?: true
   birthDate?: true
   maritalStatus?: true
   profession?: true
+  cnpj?: true
+  razaoSocial?: true
+  nomeFantasia?: true
   phone?: true
   email?: true
   address?: true
@@ -92,12 +108,16 @@ export type ClientMinAggregateInputType = {
 
 export type ClientMaxAggregateInputType = {
   id?: true
+  personType?: true
   fullName?: true
   cpf?: true
   rg?: true
   birthDate?: true
   maritalStatus?: true
   profession?: true
+  cnpj?: true
+  razaoSocial?: true
+  nomeFantasia?: true
   phone?: true
   email?: true
   address?: true
@@ -108,12 +128,16 @@ export type ClientMaxAggregateInputType = {
 
 export type ClientCountAggregateInputType = {
   id?: true
+  personType?: true
   fullName?: true
   cpf?: true
   rg?: true
   birthDate?: true
   maritalStatus?: true
   profession?: true
+  cnpj?: true
+  razaoSocial?: true
+  nomeFantasia?: true
   phone?: true
   email?: true
   address?: true
@@ -197,12 +221,16 @@ export type ClientGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type ClientGroupByOutputType = {
   id: string
+  personType: $Enums.PersonType
   fullName: string
-  cpf: string
+  cpf: string | null
   rg: string | null
   birthDate: Date | null
   maritalStatus: string | null
   profession: string | null
+  cnpj: string | null
+  razaoSocial: string | null
+  nomeFantasia: string | null
   phone: string | null
   email: string | null
   address: string | null
@@ -234,12 +262,16 @@ export type ClientWhereInput = {
   OR?: Prisma.ClientWhereInput[]
   NOT?: Prisma.ClientWhereInput | Prisma.ClientWhereInput[]
   id?: Prisma.StringFilter<"Client"> | string
+  personType?: Prisma.EnumPersonTypeFilter<"Client"> | $Enums.PersonType
   fullName?: Prisma.StringFilter<"Client"> | string
-  cpf?: Prisma.StringFilter<"Client"> | string
+  cpf?: Prisma.StringNullableFilter<"Client"> | string | null
   rg?: Prisma.StringNullableFilter<"Client"> | string | null
   birthDate?: Prisma.DateTimeNullableFilter<"Client"> | Date | string | null
   maritalStatus?: Prisma.StringNullableFilter<"Client"> | string | null
   profession?: Prisma.StringNullableFilter<"Client"> | string | null
+  cnpj?: Prisma.StringNullableFilter<"Client"> | string | null
+  razaoSocial?: Prisma.StringNullableFilter<"Client"> | string | null
+  nomeFantasia?: Prisma.StringNullableFilter<"Client"> | string | null
   phone?: Prisma.StringNullableFilter<"Client"> | string | null
   email?: Prisma.StringNullableFilter<"Client"> | string | null
   address?: Prisma.StringNullableFilter<"Client"> | string | null
@@ -247,18 +279,21 @@ export type ClientWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   intakes?: Prisma.IntakeListRelationFilter
-  companies?: Prisma.CompanyListRelationFilter
   documents?: Prisma.DocumentListRelationFilter
 }
 
 export type ClientOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  personType?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
-  cpf?: Prisma.SortOrder
+  cpf?: Prisma.SortOrderInput | Prisma.SortOrder
   rg?: Prisma.SortOrderInput | Prisma.SortOrder
   birthDate?: Prisma.SortOrderInput | Prisma.SortOrder
   maritalStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   profession?: Prisma.SortOrderInput | Prisma.SortOrder
+  cnpj?: Prisma.SortOrderInput | Prisma.SortOrder
+  razaoSocial?: Prisma.SortOrderInput | Prisma.SortOrder
+  nomeFantasia?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -266,21 +301,24 @@ export type ClientOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   intakes?: Prisma.IntakeOrderByRelationAggregateInput
-  companies?: Prisma.CompanyOrderByRelationAggregateInput
   documents?: Prisma.DocumentOrderByRelationAggregateInput
 }
 
 export type ClientWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   cpf?: string
+  cnpj?: string
   AND?: Prisma.ClientWhereInput | Prisma.ClientWhereInput[]
   OR?: Prisma.ClientWhereInput[]
   NOT?: Prisma.ClientWhereInput | Prisma.ClientWhereInput[]
+  personType?: Prisma.EnumPersonTypeFilter<"Client"> | $Enums.PersonType
   fullName?: Prisma.StringFilter<"Client"> | string
   rg?: Prisma.StringNullableFilter<"Client"> | string | null
   birthDate?: Prisma.DateTimeNullableFilter<"Client"> | Date | string | null
   maritalStatus?: Prisma.StringNullableFilter<"Client"> | string | null
   profession?: Prisma.StringNullableFilter<"Client"> | string | null
+  razaoSocial?: Prisma.StringNullableFilter<"Client"> | string | null
+  nomeFantasia?: Prisma.StringNullableFilter<"Client"> | string | null
   phone?: Prisma.StringNullableFilter<"Client"> | string | null
   email?: Prisma.StringNullableFilter<"Client"> | string | null
   address?: Prisma.StringNullableFilter<"Client"> | string | null
@@ -288,18 +326,21 @@ export type ClientWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   intakes?: Prisma.IntakeListRelationFilter
-  companies?: Prisma.CompanyListRelationFilter
   documents?: Prisma.DocumentListRelationFilter
-}, "id" | "cpf">
+}, "id" | "cpf" | "cnpj">
 
 export type ClientOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  personType?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
-  cpf?: Prisma.SortOrder
+  cpf?: Prisma.SortOrderInput | Prisma.SortOrder
   rg?: Prisma.SortOrderInput | Prisma.SortOrder
   birthDate?: Prisma.SortOrderInput | Prisma.SortOrder
   maritalStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   profession?: Prisma.SortOrderInput | Prisma.SortOrder
+  cnpj?: Prisma.SortOrderInput | Prisma.SortOrder
+  razaoSocial?: Prisma.SortOrderInput | Prisma.SortOrder
+  nomeFantasia?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -316,12 +357,16 @@ export type ClientScalarWhereWithAggregatesInput = {
   OR?: Prisma.ClientScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ClientScalarWhereWithAggregatesInput | Prisma.ClientScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Client"> | string
+  personType?: Prisma.EnumPersonTypeWithAggregatesFilter<"Client"> | $Enums.PersonType
   fullName?: Prisma.StringWithAggregatesFilter<"Client"> | string
-  cpf?: Prisma.StringWithAggregatesFilter<"Client"> | string
+  cpf?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   rg?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   birthDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Client"> | Date | string | null
   maritalStatus?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   profession?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
+  cnpj?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
+  razaoSocial?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
+  nomeFantasia?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   email?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   address?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
@@ -332,12 +377,16 @@ export type ClientScalarWhereWithAggregatesInput = {
 
 export type ClientCreateInput = {
   id?: string
+  personType?: $Enums.PersonType
   fullName: string
-  cpf: string
+  cpf?: string | null
   rg?: string | null
   birthDate?: Date | string | null
   maritalStatus?: string | null
   profession?: string | null
+  cnpj?: string | null
+  razaoSocial?: string | null
+  nomeFantasia?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -345,18 +394,21 @@ export type ClientCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   intakes?: Prisma.IntakeCreateNestedManyWithoutClientInput
-  companies?: Prisma.CompanyCreateNestedManyWithoutLegalRepresentativeInput
   documents?: Prisma.DocumentCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateInput = {
   id?: string
+  personType?: $Enums.PersonType
   fullName: string
-  cpf: string
+  cpf?: string | null
   rg?: string | null
   birthDate?: Date | string | null
   maritalStatus?: string | null
   profession?: string | null
+  cnpj?: string | null
+  razaoSocial?: string | null
+  nomeFantasia?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -364,18 +416,21 @@ export type ClientUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   intakes?: Prisma.IntakeUncheckedCreateNestedManyWithoutClientInput
-  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutLegalRepresentativeInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type ClientUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  personType?: Prisma.EnumPersonTypeFieldUpdateOperationsInput | $Enums.PersonType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  cpf?: Prisma.StringFieldUpdateOperationsInput | string
+  cpf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cnpj?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razaoSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nomeFantasia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -383,18 +438,21 @@ export type ClientUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   intakes?: Prisma.IntakeUpdateManyWithoutClientNestedInput
-  companies?: Prisma.CompanyUpdateManyWithoutLegalRepresentativeNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  personType?: Prisma.EnumPersonTypeFieldUpdateOperationsInput | $Enums.PersonType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  cpf?: Prisma.StringFieldUpdateOperationsInput | string
+  cpf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cnpj?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razaoSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nomeFantasia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -402,18 +460,21 @@ export type ClientUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   intakes?: Prisma.IntakeUncheckedUpdateManyWithoutClientNestedInput
-  companies?: Prisma.CompanyUncheckedUpdateManyWithoutLegalRepresentativeNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type ClientCreateManyInput = {
   id?: string
+  personType?: $Enums.PersonType
   fullName: string
-  cpf: string
+  cpf?: string | null
   rg?: string | null
   birthDate?: Date | string | null
   maritalStatus?: string | null
   profession?: string | null
+  cnpj?: string | null
+  razaoSocial?: string | null
+  nomeFantasia?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -424,12 +485,16 @@ export type ClientCreateManyInput = {
 
 export type ClientUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  personType?: Prisma.EnumPersonTypeFieldUpdateOperationsInput | $Enums.PersonType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  cpf?: Prisma.StringFieldUpdateOperationsInput | string
+  cpf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cnpj?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razaoSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nomeFantasia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -440,12 +505,16 @@ export type ClientUpdateManyMutationInput = {
 
 export type ClientUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  personType?: Prisma.EnumPersonTypeFieldUpdateOperationsInput | $Enums.PersonType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  cpf?: Prisma.StringFieldUpdateOperationsInput | string
+  cpf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cnpj?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razaoSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nomeFantasia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -456,12 +525,16 @@ export type ClientUncheckedUpdateManyInput = {
 
 export type ClientCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  personType?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   cpf?: Prisma.SortOrder
   rg?: Prisma.SortOrder
   birthDate?: Prisma.SortOrder
   maritalStatus?: Prisma.SortOrder
   profession?: Prisma.SortOrder
+  cnpj?: Prisma.SortOrder
+  razaoSocial?: Prisma.SortOrder
+  nomeFantasia?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   address?: Prisma.SortOrder
@@ -472,12 +545,16 @@ export type ClientCountOrderByAggregateInput = {
 
 export type ClientMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  personType?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   cpf?: Prisma.SortOrder
   rg?: Prisma.SortOrder
   birthDate?: Prisma.SortOrder
   maritalStatus?: Prisma.SortOrder
   profession?: Prisma.SortOrder
+  cnpj?: Prisma.SortOrder
+  razaoSocial?: Prisma.SortOrder
+  nomeFantasia?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   address?: Prisma.SortOrder
@@ -488,12 +565,16 @@ export type ClientMaxOrderByAggregateInput = {
 
 export type ClientMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  personType?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   cpf?: Prisma.SortOrder
   rg?: Prisma.SortOrder
   birthDate?: Prisma.SortOrder
   maritalStatus?: Prisma.SortOrder
   profession?: Prisma.SortOrder
+  cnpj?: Prisma.SortOrder
+  razaoSocial?: Prisma.SortOrder
+  nomeFantasia?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   address?: Prisma.SortOrder
@@ -507,26 +588,16 @@ export type ClientScalarRelationFilter = {
   isNot?: Prisma.ClientWhereInput
 }
 
+export type EnumPersonTypeFieldUpdateOperationsInput = {
+  set?: $Enums.PersonType
+}
+
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
-}
-
-export type ClientCreateNestedOneWithoutCompaniesInput = {
-  create?: Prisma.XOR<Prisma.ClientCreateWithoutCompaniesInput, Prisma.ClientUncheckedCreateWithoutCompaniesInput>
-  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutCompaniesInput
-  connect?: Prisma.ClientWhereUniqueInput
-}
-
-export type ClientUpdateOneRequiredWithoutCompaniesNestedInput = {
-  create?: Prisma.XOR<Prisma.ClientCreateWithoutCompaniesInput, Prisma.ClientUncheckedCreateWithoutCompaniesInput>
-  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutCompaniesInput
-  upsert?: Prisma.ClientUpsertWithoutCompaniesInput
-  connect?: Prisma.ClientWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ClientUpdateToOneWithWhereWithoutCompaniesInput, Prisma.ClientUpdateWithoutCompaniesInput>, Prisma.ClientUncheckedUpdateWithoutCompaniesInput>
 }
 
 export type ClientCreateNestedOneWithoutIntakesInput = {
@@ -557,127 +628,45 @@ export type ClientUpdateOneRequiredWithoutDocumentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ClientUpdateToOneWithWhereWithoutDocumentsInput, Prisma.ClientUpdateWithoutDocumentsInput>, Prisma.ClientUncheckedUpdateWithoutDocumentsInput>
 }
 
-export type ClientCreateWithoutCompaniesInput = {
-  id?: string
-  fullName: string
-  cpf: string
-  rg?: string | null
-  birthDate?: Date | string | null
-  maritalStatus?: string | null
-  profession?: string | null
-  phone?: string | null
-  email?: string | null
-  address?: string | null
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  intakes?: Prisma.IntakeCreateNestedManyWithoutClientInput
-  documents?: Prisma.DocumentCreateNestedManyWithoutClientInput
-}
-
-export type ClientUncheckedCreateWithoutCompaniesInput = {
-  id?: string
-  fullName: string
-  cpf: string
-  rg?: string | null
-  birthDate?: Date | string | null
-  maritalStatus?: string | null
-  profession?: string | null
-  phone?: string | null
-  email?: string | null
-  address?: string | null
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  intakes?: Prisma.IntakeUncheckedCreateNestedManyWithoutClientInput
-  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutClientInput
-}
-
-export type ClientCreateOrConnectWithoutCompaniesInput = {
-  where: Prisma.ClientWhereUniqueInput
-  create: Prisma.XOR<Prisma.ClientCreateWithoutCompaniesInput, Prisma.ClientUncheckedCreateWithoutCompaniesInput>
-}
-
-export type ClientUpsertWithoutCompaniesInput = {
-  update: Prisma.XOR<Prisma.ClientUpdateWithoutCompaniesInput, Prisma.ClientUncheckedUpdateWithoutCompaniesInput>
-  create: Prisma.XOR<Prisma.ClientCreateWithoutCompaniesInput, Prisma.ClientUncheckedCreateWithoutCompaniesInput>
-  where?: Prisma.ClientWhereInput
-}
-
-export type ClientUpdateToOneWithWhereWithoutCompaniesInput = {
-  where?: Prisma.ClientWhereInput
-  data: Prisma.XOR<Prisma.ClientUpdateWithoutCompaniesInput, Prisma.ClientUncheckedUpdateWithoutCompaniesInput>
-}
-
-export type ClientUpdateWithoutCompaniesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  cpf?: Prisma.StringFieldUpdateOperationsInput | string
-  rg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  intakes?: Prisma.IntakeUpdateManyWithoutClientNestedInput
-  documents?: Prisma.DocumentUpdateManyWithoutClientNestedInput
-}
-
-export type ClientUncheckedUpdateWithoutCompaniesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  cpf?: Prisma.StringFieldUpdateOperationsInput | string
-  rg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  intakes?: Prisma.IntakeUncheckedUpdateManyWithoutClientNestedInput
-  documents?: Prisma.DocumentUncheckedUpdateManyWithoutClientNestedInput
-}
-
 export type ClientCreateWithoutIntakesInput = {
   id?: string
+  personType?: $Enums.PersonType
   fullName: string
-  cpf: string
+  cpf?: string | null
   rg?: string | null
   birthDate?: Date | string | null
   maritalStatus?: string | null
   profession?: string | null
+  cnpj?: string | null
+  razaoSocial?: string | null
+  nomeFantasia?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  companies?: Prisma.CompanyCreateNestedManyWithoutLegalRepresentativeInput
   documents?: Prisma.DocumentCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateWithoutIntakesInput = {
   id?: string
+  personType?: $Enums.PersonType
   fullName: string
-  cpf: string
+  cpf?: string | null
   rg?: string | null
   birthDate?: Date | string | null
   maritalStatus?: string | null
   profession?: string | null
+  cnpj?: string | null
+  razaoSocial?: string | null
+  nomeFantasia?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutLegalRepresentativeInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutClientInput
 }
 
@@ -699,48 +688,58 @@ export type ClientUpdateToOneWithWhereWithoutIntakesInput = {
 
 export type ClientUpdateWithoutIntakesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  personType?: Prisma.EnumPersonTypeFieldUpdateOperationsInput | $Enums.PersonType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  cpf?: Prisma.StringFieldUpdateOperationsInput | string
+  cpf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cnpj?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razaoSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nomeFantasia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  companies?: Prisma.CompanyUpdateManyWithoutLegalRepresentativeNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateWithoutIntakesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  personType?: Prisma.EnumPersonTypeFieldUpdateOperationsInput | $Enums.PersonType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  cpf?: Prisma.StringFieldUpdateOperationsInput | string
+  cpf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cnpj?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razaoSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nomeFantasia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  companies?: Prisma.CompanyUncheckedUpdateManyWithoutLegalRepresentativeNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type ClientCreateWithoutDocumentsInput = {
   id?: string
+  personType?: $Enums.PersonType
   fullName: string
-  cpf: string
+  cpf?: string | null
   rg?: string | null
   birthDate?: Date | string | null
   maritalStatus?: string | null
   profession?: string | null
+  cnpj?: string | null
+  razaoSocial?: string | null
+  nomeFantasia?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -748,17 +747,20 @@ export type ClientCreateWithoutDocumentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   intakes?: Prisma.IntakeCreateNestedManyWithoutClientInput
-  companies?: Prisma.CompanyCreateNestedManyWithoutLegalRepresentativeInput
 }
 
 export type ClientUncheckedCreateWithoutDocumentsInput = {
   id?: string
+  personType?: $Enums.PersonType
   fullName: string
-  cpf: string
+  cpf?: string | null
   rg?: string | null
   birthDate?: Date | string | null
   maritalStatus?: string | null
   profession?: string | null
+  cnpj?: string | null
+  razaoSocial?: string | null
+  nomeFantasia?: string | null
   phone?: string | null
   email?: string | null
   address?: string | null
@@ -766,7 +768,6 @@ export type ClientUncheckedCreateWithoutDocumentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   intakes?: Prisma.IntakeUncheckedCreateNestedManyWithoutClientInput
-  companies?: Prisma.CompanyUncheckedCreateNestedManyWithoutLegalRepresentativeInput
 }
 
 export type ClientCreateOrConnectWithoutDocumentsInput = {
@@ -787,12 +788,16 @@ export type ClientUpdateToOneWithWhereWithoutDocumentsInput = {
 
 export type ClientUpdateWithoutDocumentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  personType?: Prisma.EnumPersonTypeFieldUpdateOperationsInput | $Enums.PersonType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  cpf?: Prisma.StringFieldUpdateOperationsInput | string
+  cpf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cnpj?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razaoSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nomeFantasia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -800,17 +805,20 @@ export type ClientUpdateWithoutDocumentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   intakes?: Prisma.IntakeUpdateManyWithoutClientNestedInput
-  companies?: Prisma.CompanyUpdateManyWithoutLegalRepresentativeNestedInput
 }
 
 export type ClientUncheckedUpdateWithoutDocumentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  personType?: Prisma.EnumPersonTypeFieldUpdateOperationsInput | $Enums.PersonType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  cpf?: Prisma.StringFieldUpdateOperationsInput | string
+  cpf?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   maritalStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profession?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cnpj?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  razaoSocial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nomeFantasia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -818,7 +826,6 @@ export type ClientUncheckedUpdateWithoutDocumentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   intakes?: Prisma.IntakeUncheckedUpdateManyWithoutClientNestedInput
-  companies?: Prisma.CompanyUncheckedUpdateManyWithoutLegalRepresentativeNestedInput
 }
 
 
@@ -828,13 +835,11 @@ export type ClientUncheckedUpdateWithoutDocumentsInput = {
 
 export type ClientCountOutputType = {
   intakes: number
-  companies: number
   documents: number
 }
 
 export type ClientCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   intakes?: boolean | ClientCountOutputTypeCountIntakesArgs
-  companies?: boolean | ClientCountOutputTypeCountCompaniesArgs
   documents?: boolean | ClientCountOutputTypeCountDocumentsArgs
 }
 
@@ -858,13 +863,6 @@ export type ClientCountOutputTypeCountIntakesArgs<ExtArgs extends runtime.Types.
 /**
  * ClientCountOutputType without action
  */
-export type ClientCountOutputTypeCountCompaniesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CompanyWhereInput
-}
-
-/**
- * ClientCountOutputType without action
- */
 export type ClientCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.DocumentWhereInput
 }
@@ -872,12 +870,16 @@ export type ClientCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Type
 
 export type ClientSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  personType?: boolean
   fullName?: boolean
   cpf?: boolean
   rg?: boolean
   birthDate?: boolean
   maritalStatus?: boolean
   profession?: boolean
+  cnpj?: boolean
+  razaoSocial?: boolean
+  nomeFantasia?: boolean
   phone?: boolean
   email?: boolean
   address?: boolean
@@ -885,19 +887,22 @@ export type ClientSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   createdAt?: boolean
   updatedAt?: boolean
   intakes?: boolean | Prisma.Client$intakesArgs<ExtArgs>
-  companies?: boolean | Prisma.Client$companiesArgs<ExtArgs>
   documents?: boolean | Prisma.Client$documentsArgs<ExtArgs>
   _count?: boolean | Prisma.ClientCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["client"]>
 
 export type ClientSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  personType?: boolean
   fullName?: boolean
   cpf?: boolean
   rg?: boolean
   birthDate?: boolean
   maritalStatus?: boolean
   profession?: boolean
+  cnpj?: boolean
+  razaoSocial?: boolean
+  nomeFantasia?: boolean
   phone?: boolean
   email?: boolean
   address?: boolean
@@ -908,12 +913,16 @@ export type ClientSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
 
 export type ClientSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  personType?: boolean
   fullName?: boolean
   cpf?: boolean
   rg?: boolean
   birthDate?: boolean
   maritalStatus?: boolean
   profession?: boolean
+  cnpj?: boolean
+  razaoSocial?: boolean
+  nomeFantasia?: boolean
   phone?: boolean
   email?: boolean
   address?: boolean
@@ -924,12 +933,16 @@ export type ClientSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 
 export type ClientSelectScalar = {
   id?: boolean
+  personType?: boolean
   fullName?: boolean
   cpf?: boolean
   rg?: boolean
   birthDate?: boolean
   maritalStatus?: boolean
   profession?: boolean
+  cnpj?: boolean
+  razaoSocial?: boolean
+  nomeFantasia?: boolean
   phone?: boolean
   email?: boolean
   address?: boolean
@@ -938,10 +951,9 @@ export type ClientSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ClientOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "cpf" | "rg" | "birthDate" | "maritalStatus" | "profession" | "phone" | "email" | "address" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["client"]>
+export type ClientOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "personType" | "fullName" | "cpf" | "rg" | "birthDate" | "maritalStatus" | "profession" | "cnpj" | "razaoSocial" | "nomeFantasia" | "phone" | "email" | "address" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["client"]>
 export type ClientInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   intakes?: boolean | Prisma.Client$intakesArgs<ExtArgs>
-  companies?: boolean | Prisma.Client$companiesArgs<ExtArgs>
   documents?: boolean | Prisma.Client$documentsArgs<ExtArgs>
   _count?: boolean | Prisma.ClientCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -952,17 +964,20 @@ export type $ClientPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Client"
   objects: {
     intakes: Prisma.$IntakePayload<ExtArgs>[]
-    companies: Prisma.$CompanyPayload<ExtArgs>[]
     documents: Prisma.$DocumentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    personType: $Enums.PersonType
     fullName: string
-    cpf: string
+    cpf: string | null
     rg: string | null
     birthDate: Date | null
     maritalStatus: string | null
     profession: string | null
+    cnpj: string | null
+    razaoSocial: string | null
+    nomeFantasia: string | null
     phone: string | null
     email: string | null
     address: string | null
@@ -1364,7 +1379,6 @@ readonly fields: ClientFieldRefs;
 export interface Prisma__ClientClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   intakes<T extends Prisma.Client$intakesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$intakesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IntakePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  companies<T extends Prisma.Client$companiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$companiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   documents<T extends Prisma.Client$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1396,12 +1410,16 @@ export interface Prisma__ClientClient<T, Null = never, ExtArgs extends runtime.T
  */
 export interface ClientFieldRefs {
   readonly id: Prisma.FieldRef<"Client", 'String'>
+  readonly personType: Prisma.FieldRef<"Client", 'PersonType'>
   readonly fullName: Prisma.FieldRef<"Client", 'String'>
   readonly cpf: Prisma.FieldRef<"Client", 'String'>
   readonly rg: Prisma.FieldRef<"Client", 'String'>
   readonly birthDate: Prisma.FieldRef<"Client", 'DateTime'>
   readonly maritalStatus: Prisma.FieldRef<"Client", 'String'>
   readonly profession: Prisma.FieldRef<"Client", 'String'>
+  readonly cnpj: Prisma.FieldRef<"Client", 'String'>
+  readonly razaoSocial: Prisma.FieldRef<"Client", 'String'>
+  readonly nomeFantasia: Prisma.FieldRef<"Client", 'String'>
   readonly phone: Prisma.FieldRef<"Client", 'String'>
   readonly email: Prisma.FieldRef<"Client", 'String'>
   readonly address: Prisma.FieldRef<"Client", 'String'>
@@ -1822,30 +1840,6 @@ export type Client$intakesArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.IntakeScalarFieldEnum | Prisma.IntakeScalarFieldEnum[]
-}
-
-/**
- * Client.companies
- */
-export type Client$companiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Company
-   */
-  select?: Prisma.CompanySelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Company
-   */
-  omit?: Prisma.CompanyOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CompanyInclude<ExtArgs> | null
-  where?: Prisma.CompanyWhereInput
-  orderBy?: Prisma.CompanyOrderByWithRelationInput | Prisma.CompanyOrderByWithRelationInput[]
-  cursor?: Prisma.CompanyWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CompanyScalarFieldEnum | Prisma.CompanyScalarFieldEnum[]
 }
 
 /**

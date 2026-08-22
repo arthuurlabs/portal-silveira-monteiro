@@ -22,6 +22,21 @@ Use `$client_id/index.tsx` como visão geral do cliente.
 
 Mantenha `intakes`, `files`, `templates` e outras áreas vinculadas ao cliente dentro de `$client_id/`.
 
+## Pessoa física e jurídica
+
+Não existe mais uma entidade separada de "empresa". Todo `Client` possui um campo `personType` (`FISICA` ou `JURIDICA`), que determina quais campos são relevantes:
+
+```text
+FISICA   → fullName, cpf, rg, birthDate, maritalStatus, profession
+JURIDICA → razaoSocial, cnpj, nomeFantasia
+```
+
+Campos compartilhados pelos dois tipos: `phone`, `email`, `address`, `isActive`.
+
+`personType` é imutável após a criação do cliente — a API rejeita alterações desse campo em `updateClient`.
+
+Ramifique a interface por `client.personType` em vez de reintroduzir uma rota ou entidade separada para pessoa jurídica.
+
 ---
 
 ## Rota pai `$client_id`

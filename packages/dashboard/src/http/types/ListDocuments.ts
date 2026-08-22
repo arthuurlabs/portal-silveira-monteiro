@@ -7,15 +7,10 @@ export type ListDocumentsPath = {
     clientId: string;
 };
 
-export type ListDocumentsQuery = {
-    companyId?: string;
-};
-
 export type ListDocumentsStatus200 = {
     data: {
         id: string;
         clientId: string;
-        companyId: string | null;
         originalName: string;
         mimeType: string;
         size: number;
@@ -31,7 +26,7 @@ export type ListDocumentsStatus200 = {
 export type ListDocumentsOptions = {
     body?: never;
     path: ListDocumentsPath;
-    query?: ListDocumentsQuery;
+    query?: never;
     headers?: never;
 };
 

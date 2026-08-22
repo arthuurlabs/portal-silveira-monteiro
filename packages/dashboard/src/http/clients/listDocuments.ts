@@ -8,7 +8,7 @@ import type { ListDocumentsOptions, ListDocumentsResponses } from '../types/List
 import { client } from '../.kubb/client'
 
 /**
- * @summary Listar documentos do cliente ou de uma empresa
+ * @summary Listar documentos do cliente
  * {@link /clients/:clientId/documents}
  */
 export function listDocuments<ThrowOnError extends boolean = true>(options: Options<ListDocumentsOptions, ThrowOnError>): Promise<RequestResult<ListDocumentsResponses, ThrowOnError>> {

@@ -1,13 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import {
-    createFileRoute,
-    Link,
-    Outlet,
-    redirect,
-    useMatchRoute,
-    useNavigate,
-    useRouterState,
-} from '@tanstack/react-router';
+import { createFileRoute, Link, Outlet, redirect, useMatchRoute, useNavigate } from '@tanstack/react-router';
 import { Pencil, RotateCcw, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -28,9 +20,40 @@ import { ResponseError } from '#/http/.kubb/client';
 import { getClientQueryOptions } from '#/http/hooks/useGetClient';
 import { listClientsQueryKey } from '#/http/hooks/useListClients';
 import { useUpdateClient } from '#/http/hooks/useUpdateClient';
+import type { GetClientStatus200 } from '#/http/types/GetClient';
 import { getApiErrorMessage } from '#/lib/api-error';
+import { formatCnpj, formatCpf } from '#/lib/masks';
 
 import { ClientUpsertDialog } from '../-components/client-upsert-dialog';
+
+const buildUpdateBody = (client: GetClientStatus200, isActive: boolean) => {
+    if (client.personType === 'JURIDICA') {
+        return {
+            personType: client.personType,
+            cnpj: client.cnpj ?? '',
+            razaoSocial: client.razaoSocial ?? '',
+            nomeFantasia: client.nomeFantasia ?? undefined,
+            phone: client.phone ?? undefined,
+            email: client.email ?? undefined,
+            address: client.address ?? undefined,
+            isActive,
+        } as const;
+    }
+
+    return {
+        personType: client.personType,
+        fullName: client.fullName,
+        cpf: client.cpf ?? '',
+        rg: client.rg ?? undefined,
+        birthDate: client.birthDate ?? undefined,
+        maritalStatus: client.maritalStatus ?? undefined,
+        profession: client.profession ?? undefined,
+        phone: client.phone ?? undefined,
+        email: client.email ?? undefined,
+        address: client.address ?? undefined,
+        isActive,
+    } as const;
+};
 
 const CLIENT_TABS = [
     { value: 'overview', label: 'Visão geral', to: '/clients/$client_id' },
@@ -75,32 +98,9 @@ const ClientLayout = () => {
             })
         )?.value ?? 'overview';
 
-    const pathname = useRouterState({
-        select: (state) => state.location.pathname,
-    });
-    const isCompanyRoute = pathname.startsWith(`/clients/${client_id}/companies/`);
-
-    if (isCompanyRoute) {
-        return <Outlet />;
-    }
-
     const handleExclude = () => {
         updateClient(
-            {
-                path: { id: client.id },
-                body: {
-                    fullName: client.fullName,
-                    cpf: client.cpf,
-                    rg: client.rg ?? undefined,
-                    birthDate: client.birthDate ?? undefined,
-                    maritalStatus: client.maritalStatus ?? undefined,
-                    profession: client.profession ?? undefined,
-                    phone: client.phone ?? undefined,
-                    email: client.email ?? undefined,
-                    address: client.address ?? undefined,
-                    isActive: false,
-                },
-            },
+            { path: { id: client.id }, body: buildUpdateBody(client, false) },
             {
                 onSuccess: () => {
                     invalidateClients();
@@ -113,21 +113,7 @@ const ClientLayout = () => {
 
     const handleReactivate = () => {
         updateClient(
-            {
-                path: { id: client.id },
-                body: {
-                    fullName: client.fullName,
-                    cpf: client.cpf,
-                    rg: client.rg ?? undefined,
-                    birthDate: client.birthDate ?? undefined,
-                    maritalStatus: client.maritalStatus ?? undefined,
-                    profession: client.profession ?? undefined,
-                    phone: client.phone ?? undefined,
-                    email: client.email ?? undefined,
-                    address: client.address ?? undefined,
-                    isActive: true,
-                },
-            },
+            { path: { id: client.id }, body: buildUpdateBody(client, true) },
             {
                 onSuccess: () => {
                     invalidateClients();
@@ -136,6 +122,10 @@ const ClientLayout = () => {
             }
         );
     };
+
+    const isJuridica = client.personType === 'JURIDICA';
+    const displayName = isJuridica ? (client.razaoSocial ?? client.fullName) : client.fullName;
+    const displayDocument = isJuridica ? formatCnpj(client.cnpj) : formatCpf(client.cpf);
 
     return (
         <div className="flex flex-col gap-6">
@@ -148,10 +138,10 @@ const ClientLayout = () => {
 
             <div className="flex items-center justify-between gap-4 print:hidden">
                 <div className="flex flex-col gap-2">
-                    <p className="sm-eyebrow">Cliente</p>
-                    <h1 className="sm-display text-3xl md:text-4xl">{client.fullName}</h1>
+                    <p className="sm-eyebrow">{isJuridica ? 'Pessoa jurídica' : 'Pessoa física'}</p>
+                    <h1 className="sm-display text-3xl md:text-4xl">{displayName}</h1>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <span>{client.cpf}</span>
+                        <span>{displayDocument}</span>
                     </div>
                 </div>
 

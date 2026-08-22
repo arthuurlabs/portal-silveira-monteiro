@@ -9,12 +9,16 @@ export const getClientPathIdSchema = z.string()
 
 export const getClientStatus200Schema = z.object({
   id: z.string(),
+  personType: z.enum(['FISICA', 'JURIDICA']),
   fullName: z.string(),
-  cpf: z.string(),
+  cpf: z.string().nullable(),
   rg: z.string().nullable(),
   birthDate: z.iso.date().nullable(),
   maritalStatus: z.string().nullable(),
   profession: z.string().nullable(),
+  cnpj: z.string().nullable(),
+  razaoSocial: z.string().nullable(),
+  nomeFantasia: z.string().nullable(),
   phone: z.string().nullable(),
   email: z.string().nullable(),
   address: z.string().nullable(),

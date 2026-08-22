@@ -10,7 +10,6 @@ export type UploadDocumentPath = {
 export type UploadDocumentStatus201 = {
     id: string;
     clientId: string;
-    companyId: string | null;
     originalName: string;
     mimeType: string;
     size: number;

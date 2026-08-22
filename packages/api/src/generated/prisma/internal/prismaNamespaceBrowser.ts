@@ -53,7 +53,6 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Client: 'Client',
-  Company: 'Company',
   Intake: 'Intake',
   Document: 'Document',
   Template: 'Template',
@@ -93,12 +92,16 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 
 export const ClientScalarFieldEnum = {
   id: 'id',
+  personType: 'personType',
   fullName: 'fullName',
   cpf: 'cpf',
   rg: 'rg',
   birthDate: 'birthDate',
   maritalStatus: 'maritalStatus',
   profession: 'profession',
+  cnpj: 'cnpj',
+  razaoSocial: 'razaoSocial',
+  nomeFantasia: 'nomeFantasia',
   phone: 'phone',
   email: 'email',
   address: 'address',
@@ -110,27 +113,9 @@ export const ClientScalarFieldEnum = {
 export type ClientScalarFieldEnum = (typeof ClientScalarFieldEnum)[keyof typeof ClientScalarFieldEnum]
 
 
-export const CompanyScalarFieldEnum = {
-  id: 'id',
-  cnpj: 'cnpj',
-  razaoSocial: 'razaoSocial',
-  nomeFantasia: 'nomeFantasia',
-  phone: 'phone',
-  email: 'email',
-  address: 'address',
-  isActive: 'isActive',
-  legalRepresentativeId: 'legalRepresentativeId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
-
-
 export const IntakeScalarFieldEnum = {
   id: 'id',
   clientId: 'clientId',
-  companyId: 'companyId',
   userId: 'userId',
   practiceAreas: 'practiceAreas',
   practiceAreaOther: 'practiceAreaOther',
@@ -154,7 +139,6 @@ export type IntakeScalarFieldEnum = (typeof IntakeScalarFieldEnum)[keyof typeof 
 export const DocumentScalarFieldEnum = {
   id: 'id',
   clientId: 'clientId',
-  companyId: 'companyId',
   userId: 'userId',
   originalName: 'originalName',
   remotePath: 'remotePath',

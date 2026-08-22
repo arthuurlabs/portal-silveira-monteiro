@@ -17,11 +17,10 @@ export const listDocuments = (app: FastifyInstance) =>
         {
             schema: {
                 tags: ['Documents'],
-                summary: 'Listar documentos do cliente ou de uma empresa',
+                summary: 'Listar documentos do cliente',
                 operationId: 'listDocuments',
                 security: [{ cookieAuth: [] }],
                 params: z.object({ clientId: z.string() }),
-                querystring: z.object({ companyId: z.string().optional() }),
                 response: {
                     200: z.object({
                         data: z.array(documentDetailSchema),
@@ -32,7 +31,6 @@ export const listDocuments = (app: FastifyInstance) =>
         },
         async (request, reply) => {
             const { clientId } = request.params;
-            const { companyId } = request.query;
 
             const client = await db.client.findUnique({
                 where: { id: clientId },
@@ -44,7 +42,7 @@ export const listDocuments = (app: FastifyInstance) =>
             }
 
             const documents = (await db.document.findMany({
-                where: { clientId, companyId: companyId ?? null },
+                where: { clientId },
                 select: DOCUMENT_DETAIL_SELECT,
                 orderBy: { createdAt: 'desc' },
             })) as DocumentDetailRow[];

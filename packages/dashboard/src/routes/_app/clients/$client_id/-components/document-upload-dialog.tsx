@@ -63,13 +63,11 @@ type UploadItem = {
 
 type DocumentUploadDialogProps = {
 	clientId: string;
-	companyId?: string;
 	children: React.ReactNode;
 };
 
 export const DocumentUploadDialog = ({
 	clientId,
-	companyId,
 	children,
 }: DocumentUploadDialogProps) => {
 	const [open, setOpen] = useState(false);
@@ -134,7 +132,6 @@ export const DocumentUploadDialog = ({
 			retryableItems.map((item) =>
 				mutateAsync({
 					clientId,
-					companyId,
 					file: item.file,
 					onProgress: (percent) => updateItem(item.id, { progress: percent }),
 				})

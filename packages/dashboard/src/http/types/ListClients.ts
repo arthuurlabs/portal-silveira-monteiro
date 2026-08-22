@@ -33,11 +33,19 @@ export type ListClientsQuery = {
     isActive?: ListClientsIsActiveKey;
 };
 
+export const listClientsStatus200DataPersonTypeEnum = {
+    FISICA: "FISICA",
+    JURIDICA: "JURIDICA"
+} as const;
+
+export type ListClientsStatus200DataPersonTypeEnumKey = (typeof listClientsStatus200DataPersonTypeEnum)[keyof typeof listClientsStatus200DataPersonTypeEnum];
+
 export type ListClientsStatus200 = {
     data: {
         id: string;
+        personType: ListClientsStatus200DataPersonTypeEnumKey;
         fullName: string;
-        cpf: string;
+        cpf: string | null;
         rg: string | null;
         /**
          * @description
@@ -47,6 +55,9 @@ export type ListClientsStatus200 = {
         birthDate: string | null;
         maritalStatus: string | null;
         profession: string | null;
+        cnpj: string | null;
+        razaoSocial: string | null;
+        nomeFantasia: string | null;
         phone: string | null;
         email: string | null;
         address: string | null;

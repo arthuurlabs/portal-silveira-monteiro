@@ -10,7 +10,6 @@ type DocumentListItem = ListDocumentsStatus200["data"][number];
 
 type DocumentListProps = {
 	clientId: string;
-	companyId?: string;
 	documents: DocumentListItem[] | undefined;
 	isPending: boolean;
 	isError: boolean;
@@ -23,7 +22,6 @@ const GRID_CLASSES =
 
 export const DocumentList = ({
 	clientId,
-	companyId,
 	documents,
 	isPending,
 	isError,
@@ -58,7 +56,6 @@ export const DocumentList = ({
 				<DocumentCard
 					key={document.id}
 					clientId={clientId}
-					companyId={companyId}
 					document={document}
 				/>
 			))}

@@ -15,7 +15,6 @@ export const MAX_DOCUMENT_SIZE_BYTES = 50 * 1024 * 1024;
 export const documentDetailSchema = z.object({
     id: z.string(),
     clientId: z.string(),
-    companyId: z.string().nullable(),
     originalName: z.string(),
     mimeType: z.string(),
     size: z.number(),
@@ -25,7 +24,6 @@ export const documentDetailSchema = z.object({
 export type DocumentDetailRow = {
     id: string;
     clientId: string;
-    companyId: string | null;
     originalName: string;
     mimeType: string;
     size: number;
@@ -35,7 +33,6 @@ export type DocumentDetailRow = {
 export const DOCUMENT_DETAIL_SELECT = {
     id: true,
     clientId: true,
-    companyId: true,
     originalName: true,
     mimeType: true,
     size: true,
