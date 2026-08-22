@@ -1,5 +1,12 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { createFileRoute, Link, Outlet, redirect, useMatchRoute, useNavigate } from '@tanstack/react-router';
+import {
+    createFileRoute,
+    Link,
+    Outlet,
+    redirect,
+    useMatchRoute,
+    useNavigate,
+} from '@tanstack/react-router';
 import { Pencil, RotateCcw, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -63,7 +70,6 @@ const CLIENT_TABS = [
         to: '/clients/$client_id/intakes',
     },
     { value: 'files', label: 'Arquivos', to: '/clients/$client_id/files' },
-    { value: 'templates', label: 'Modelos', to: '/clients/$client_id/templates' },
 ] as const;
 
 const ClientLayout = () => {

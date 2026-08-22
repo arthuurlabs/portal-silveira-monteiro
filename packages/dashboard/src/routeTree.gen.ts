@@ -22,8 +22,6 @@ import { Route as AuthSignInIndexRouteImport } from './routes/_auth/sign-in/inde
 import { Route as AppClientsClient_idIndexRouteImport } from './routes/_app/clients/$client_id/index'
 import { Route as AppClientsClient_idFilesIndexRouteImport } from './routes/_app/clients/$client_id/files/index'
 import { Route as AppClientsClient_idIntakesIndexRouteImport } from './routes/_app/clients/$client_id/intakes/index'
-import { Route as AppClientsClient_idTemplatesIndexRouteImport } from './routes/_app/clients/$client_id/templates/index'
-import { Route as AppClientsClient_idTemplatesTemplate_idRouteImport } from './routes/_app/clients/$client_id/templates/$template_id'
 
 const AppLayoutRoute = AppLayoutRouteImport.update({
   id: '/_app',
@@ -93,18 +91,6 @@ const AppClientsClient_idIntakesIndexRoute =
     path: '/intakes/',
     getParentRoute: () => AppClientsClient_idLayoutRoute,
   } as any)
-const AppClientsClient_idTemplatesIndexRoute =
-  AppClientsClient_idTemplatesIndexRouteImport.update({
-    id: '/templates/',
-    path: '/templates/',
-    getParentRoute: () => AppClientsClient_idLayoutRoute,
-  } as any)
-const AppClientsClient_idTemplatesTemplate_idRoute =
-  AppClientsClient_idTemplatesTemplate_idRouteImport.update({
-    id: '/templates/$template_id',
-    path: '/templates/$template_id',
-    getParentRoute: () => AppClientsClient_idLayoutRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
@@ -117,10 +103,8 @@ export interface FileRoutesByFullPath {
   '/users/': typeof AppUsersIndexRoute
   '/sign-in/': typeof AuthSignInIndexRoute
   '/clients/$client_id/': typeof AppClientsClient_idIndexRoute
-  '/clients/$client_id/templates/$template_id': typeof AppClientsClient_idTemplatesTemplate_idRoute
   '/clients/$client_id/files/': typeof AppClientsClient_idFilesIndexRoute
   '/clients/$client_id/intakes/': typeof AppClientsClient_idIntakesIndexRoute
-  '/clients/$client_id/templates/': typeof AppClientsClient_idTemplatesIndexRoute
 }
 export interface FileRoutesByTo {
   '/preview/$token': typeof PreviewTokenRoute
@@ -132,10 +116,8 @@ export interface FileRoutesByTo {
   '/users': typeof AppUsersIndexRoute
   '/sign-in': typeof AuthSignInIndexRoute
   '/clients/$client_id': typeof AppClientsClient_idIndexRoute
-  '/clients/$client_id/templates/$template_id': typeof AppClientsClient_idTemplatesTemplate_idRoute
   '/clients/$client_id/files': typeof AppClientsClient_idFilesIndexRoute
   '/clients/$client_id/intakes': typeof AppClientsClient_idIntakesIndexRoute
-  '/clients/$client_id/templates': typeof AppClientsClient_idTemplatesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -150,10 +132,8 @@ export interface FileRoutesById {
   '/_app/users/': typeof AppUsersIndexRoute
   '/_auth/sign-in/': typeof AuthSignInIndexRoute
   '/_app/clients/$client_id/': typeof AppClientsClient_idIndexRoute
-  '/_app/clients/$client_id/templates/$template_id': typeof AppClientsClient_idTemplatesTemplate_idRoute
   '/_app/clients/$client_id/files/': typeof AppClientsClient_idFilesIndexRoute
   '/_app/clients/$client_id/intakes/': typeof AppClientsClient_idIntakesIndexRoute
-  '/_app/clients/$client_id/templates/': typeof AppClientsClient_idTemplatesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -168,10 +148,8 @@ export interface FileRouteTypes {
     | '/users/'
     | '/sign-in/'
     | '/clients/$client_id/'
-    | '/clients/$client_id/templates/$template_id'
     | '/clients/$client_id/files/'
     | '/clients/$client_id/intakes/'
-    | '/clients/$client_id/templates/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/preview/$token'
@@ -183,10 +161,8 @@ export interface FileRouteTypes {
     | '/users'
     | '/sign-in'
     | '/clients/$client_id'
-    | '/clients/$client_id/templates/$template_id'
     | '/clients/$client_id/files'
     | '/clients/$client_id/intakes'
-    | '/clients/$client_id/templates'
   id:
     | '__root__'
     | '/_app'
@@ -200,10 +176,8 @@ export interface FileRouteTypes {
     | '/_app/users/'
     | '/_auth/sign-in/'
     | '/_app/clients/$client_id/'
-    | '/_app/clients/$client_id/templates/$template_id'
     | '/_app/clients/$client_id/files/'
     | '/_app/clients/$client_id/intakes/'
-    | '/_app/clients/$client_id/templates/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -306,40 +280,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppClientsClient_idIntakesIndexRouteImport
       parentRoute: typeof AppClientsClient_idLayoutRoute
     }
-    '/_app/clients/$client_id/templates/': {
-      id: '/_app/clients/$client_id/templates/'
-      path: '/templates'
-      fullPath: '/clients/$client_id/templates/'
-      preLoaderRoute: typeof AppClientsClient_idTemplatesIndexRouteImport
-      parentRoute: typeof AppClientsClient_idLayoutRoute
-    }
-    '/_app/clients/$client_id/templates/$template_id': {
-      id: '/_app/clients/$client_id/templates/$template_id'
-      path: '/templates/$template_id'
-      fullPath: '/clients/$client_id/templates/$template_id'
-      preLoaderRoute: typeof AppClientsClient_idTemplatesTemplate_idRouteImport
-      parentRoute: typeof AppClientsClient_idLayoutRoute
-    }
   }
 }
 
 interface AppClientsClient_idLayoutRouteChildren {
   AppClientsClient_idIndexRoute: typeof AppClientsClient_idIndexRoute
-  AppClientsClient_idTemplatesTemplate_idRoute: typeof AppClientsClient_idTemplatesTemplate_idRoute
   AppClientsClient_idFilesIndexRoute: typeof AppClientsClient_idFilesIndexRoute
   AppClientsClient_idIntakesIndexRoute: typeof AppClientsClient_idIntakesIndexRoute
-  AppClientsClient_idTemplatesIndexRoute: typeof AppClientsClient_idTemplatesIndexRoute
 }
 
 const AppClientsClient_idLayoutRouteChildren: AppClientsClient_idLayoutRouteChildren =
   {
     AppClientsClient_idIndexRoute: AppClientsClient_idIndexRoute,
-    AppClientsClient_idTemplatesTemplate_idRoute:
-      AppClientsClient_idTemplatesTemplate_idRoute,
     AppClientsClient_idFilesIndexRoute: AppClientsClient_idFilesIndexRoute,
     AppClientsClient_idIntakesIndexRoute: AppClientsClient_idIntakesIndexRoute,
-    AppClientsClient_idTemplatesIndexRoute:
-      AppClientsClient_idTemplatesIndexRoute,
   }
 
 const AppClientsClient_idLayoutRouteWithChildren =
