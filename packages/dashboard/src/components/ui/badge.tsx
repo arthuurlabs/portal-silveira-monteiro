@@ -9,10 +9,11 @@ const badgeVariants = cva(
 		variants: {
 			variant: {
 				default: "border-primary/15 bg-primary/8 text-primary",
-				neutral: "border-border bg-muted text-muted-foreground",
-				success: "border-success/20 bg-success/10 text-success",
-				warning: "border-warning/20 bg-warning/10 text-warning",
-				destructive: "border-destructive/20 bg-destructive/10 text-destructive",
+				neutral: "border-transparent bg-status-neutral-bg text-status-neutral-fg",
+				success: "border-transparent bg-status-success-bg text-status-success-fg",
+				warning: "border-transparent bg-status-warning-bg text-status-warning-fg",
+				destructive: "border-transparent bg-status-danger-bg text-status-danger-fg",
+				info: "border-transparent bg-status-info-bg text-status-info-fg",
 			},
 		},
 		defaultVariants: { variant: "default" },
@@ -22,6 +23,7 @@ const badgeVariants = cva(
 function Badge({
 	className,
 	variant,
+	children,
 	...props
 }: React.ComponentProps<"span"> & VariantProps<typeof badgeVariants>) {
 	return (
@@ -29,7 +31,10 @@ function Badge({
 			data-slot="badge"
 			className={cn(badgeVariants({ variant }), className)}
 			{...props}
-		/>
+		>
+			<span aria-hidden="true" className="mr-1.5 size-1.5 shrink-0 rounded-full bg-current" />
+			{children}
+		</span>
 	);
 }
 

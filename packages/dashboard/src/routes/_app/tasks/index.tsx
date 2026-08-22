@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AlertCircle } from "lucide-react";
 
+import { Alert, AlertDescription } from "#/components/ui/alert";
 import { Skeleton } from "#/components/ui/skeleton";
 import { useListTasks } from "#/http/hooks/useListTasks";
 
@@ -19,9 +21,12 @@ const TasksRoute = () => {
 			</div>
 
 			{isError ? (
-				<p className="rounded-md border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
-					Não foi possível carregar as tarefas. Tente novamente.
-				</p>
+				<Alert variant="danger">
+					<AlertCircle />
+					<AlertDescription>
+						Não foi possível carregar as tarefas. Tente novamente.
+					</AlertDescription>
+				</Alert>
 			) : isPending ? (
 				<div className="grid grid-cols-1 gap-4 md:grid-cols-3">
 					{SKELETON_COLUMNS.map((column) => (

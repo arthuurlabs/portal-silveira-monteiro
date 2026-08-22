@@ -1,6 +1,7 @@
-import { FolderOpen } from "lucide-react";
+import { AlertCircle, FolderOpen } from "lucide-react";
 
 import { EmptyState } from "#/components/shared/empty-state";
+import { Alert, AlertDescription } from "#/components/ui/alert";
 import { Skeleton } from "#/components/ui/skeleton";
 import type { ListDocumentsStatus200 } from "#/http/types/ListDocuments";
 
@@ -28,9 +29,12 @@ export const DocumentList = ({
 }: DocumentListProps) => {
 	if (isError) {
 		return (
-			<p className="rounded-md border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
-				Não foi possível carregar os documentos. Tente novamente.
-			</p>
+			<Alert variant="danger">
+				<AlertCircle />
+				<AlertDescription>
+					Não foi possível carregar os documentos. Tente novamente.
+				</AlertDescription>
+			</Alert>
 		);
 	}
 

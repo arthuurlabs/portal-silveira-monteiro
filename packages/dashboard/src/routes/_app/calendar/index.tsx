@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Plus } from "lucide-react";
+import { AlertCircle, Plus } from "lucide-react";
 import { useState } from "react";
 
+import { Alert, AlertDescription } from "#/components/ui/alert";
 import { Button } from "#/components/ui/button";
 import { useGetMe } from "#/http/hooks/useGetMe";
 import { useListEvents } from "#/http/hooks/useListEvents";
@@ -40,9 +41,12 @@ const CalendarRoute = () => {
 			</div>
 
 			{isError ? (
-				<p className="rounded-md border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
-					Não foi possível carregar os eventos. Tente novamente.
-				</p>
+				<Alert variant="danger">
+					<AlertCircle />
+					<AlertDescription>
+						Não foi possível carregar os eventos. Tente novamente.
+					</AlertDescription>
+				</Alert>
 			) : (
 				<CalendarMonthGrid
 					month={month}

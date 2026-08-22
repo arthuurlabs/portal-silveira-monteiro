@@ -16,7 +16,6 @@ import { Route as AppCalendarIndexRouteImport } from './routes/_app/calendar/ind
 import { Route as AppClientsIndexRouteImport } from './routes/_app/clients/index'
 import { Route as AppClientsClient_idLayoutRouteImport } from './routes/_app/clients/$client_id/layout'
 import { Route as AppTasksIndexRouteImport } from './routes/_app/tasks/index'
-import { Route as AppUsersIndexRouteImport } from './routes/_app/users/index'
 import { Route as AuthActivateTokenRouteImport } from './routes/_auth/activate/$token'
 import { Route as AuthSignInIndexRouteImport } from './routes/_auth/sign-in/index'
 import { Route as AppClientsClient_idIndexRouteImport } from './routes/_app/clients/$client_id/index'
@@ -58,11 +57,6 @@ const AppTasksIndexRoute = AppTasksIndexRouteImport.update({
   path: '/tasks/',
   getParentRoute: () => AppLayoutRoute,
 } as any)
-const AppUsersIndexRoute = AppUsersIndexRouteImport.update({
-  id: '/users/',
-  path: '/users/',
-  getParentRoute: () => AppLayoutRoute,
-} as any)
 const AuthActivateTokenRoute = AuthActivateTokenRouteImport.update({
   id: '/_auth/activate/$token',
   path: '/activate/$token',
@@ -100,7 +94,6 @@ export interface FileRoutesByFullPath {
   '/calendar/': typeof AppCalendarIndexRoute
   '/clients/': typeof AppClientsIndexRoute
   '/tasks/': typeof AppTasksIndexRoute
-  '/users/': typeof AppUsersIndexRoute
   '/sign-in/': typeof AuthSignInIndexRoute
   '/clients/$client_id/': typeof AppClientsClient_idIndexRoute
   '/clients/$client_id/files/': typeof AppClientsClient_idFilesIndexRoute
@@ -113,7 +106,6 @@ export interface FileRoutesByTo {
   '/calendar': typeof AppCalendarIndexRoute
   '/clients': typeof AppClientsIndexRoute
   '/tasks': typeof AppTasksIndexRoute
-  '/users': typeof AppUsersIndexRoute
   '/sign-in': typeof AuthSignInIndexRoute
   '/clients/$client_id': typeof AppClientsClient_idIndexRoute
   '/clients/$client_id/files': typeof AppClientsClient_idFilesIndexRoute
@@ -129,7 +121,6 @@ export interface FileRoutesById {
   '/_app/calendar/': typeof AppCalendarIndexRoute
   '/_app/clients/': typeof AppClientsIndexRoute
   '/_app/tasks/': typeof AppTasksIndexRoute
-  '/_app/users/': typeof AppUsersIndexRoute
   '/_auth/sign-in/': typeof AuthSignInIndexRoute
   '/_app/clients/$client_id/': typeof AppClientsClient_idIndexRoute
   '/_app/clients/$client_id/files/': typeof AppClientsClient_idFilesIndexRoute
@@ -145,7 +136,6 @@ export interface FileRouteTypes {
     | '/calendar/'
     | '/clients/'
     | '/tasks/'
-    | '/users/'
     | '/sign-in/'
     | '/clients/$client_id/'
     | '/clients/$client_id/files/'
@@ -158,7 +148,6 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/clients'
     | '/tasks'
-    | '/users'
     | '/sign-in'
     | '/clients/$client_id'
     | '/clients/$client_id/files'
@@ -173,7 +162,6 @@ export interface FileRouteTypes {
     | '/_app/calendar/'
     | '/_app/clients/'
     | '/_app/tasks/'
-    | '/_app/users/'
     | '/_auth/sign-in/'
     | '/_app/clients/$client_id/'
     | '/_app/clients/$client_id/files/'
@@ -238,13 +226,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTasksIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
-    '/_app/users/': {
-      id: '/_app/users/'
-      path: '/users'
-      fullPath: '/users/'
-      preLoaderRoute: typeof AppUsersIndexRouteImport
-      parentRoute: typeof AppLayoutRoute
-    }
     '/_auth/activate/$token': {
       id: '/_auth/activate/$token'
       path: '/activate/$token'
@@ -307,7 +288,6 @@ interface AppLayoutRouteChildren {
   AppCalendarIndexRoute: typeof AppCalendarIndexRoute
   AppClientsIndexRoute: typeof AppClientsIndexRoute
   AppTasksIndexRoute: typeof AppTasksIndexRoute
-  AppUsersIndexRoute: typeof AppUsersIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
@@ -316,7 +296,6 @@ const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppCalendarIndexRoute: AppCalendarIndexRoute,
   AppClientsIndexRoute: AppClientsIndexRoute,
   AppTasksIndexRoute: AppTasksIndexRoute,
-  AppUsersIndexRoute: AppUsersIndexRoute,
 }
 
 const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(

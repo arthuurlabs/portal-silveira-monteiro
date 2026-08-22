@@ -10,6 +10,8 @@ const buttonVariants = cva(
 			variant: {
 				default:
 					"bg-primary text-primary-foreground shadow-sm hover:bg-primary/90",
+				primary:
+					"bg-primary text-primary-foreground shadow-sm hover:bg-primary/90",
 				secondary:
 					"bg-secondary text-secondary-foreground hover:bg-secondary/70",
 				outline:
@@ -22,9 +24,9 @@ const buttonVariants = cva(
 			},
 			size: {
 				sm: "h-8 px-3 text-xs",
-				default: "h-10 px-4",
-				lg: "h-12 px-6",
-				icon: "size-10",
+				default: "h-9 px-4",
+				lg: "h-10 px-6",
+				icon: "size-9",
 			},
 		},
 		defaultVariants: { variant: "default", size: "default" },

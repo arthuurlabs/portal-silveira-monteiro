@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { CalendarDays, Megaphone } from "lucide-react";
+import { AlertCircle, CalendarDays, Megaphone } from "lucide-react";
 
 import { EmptyState } from "#/components/shared/empty-state";
+import { Alert, AlertDescription } from "#/components/ui/alert";
 import {
 	Card,
 	CardContent,
@@ -37,9 +38,12 @@ export const DashboardAgenda = () => {
 
 			<CardContent className="flex-1">
 				{isError ? (
-					<p className="rounded-md border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
-						Não foi possível carregar os compromissos. Tente novamente.
-					</p>
+					<Alert variant="danger">
+						<AlertCircle />
+						<AlertDescription>
+							Não foi possível carregar os compromissos. Tente novamente.
+						</AlertDescription>
+					</Alert>
 				) : isPending ? (
 					<div className="flex flex-col gap-3">
 						{SKELETON_ROWS.map((row) => (

@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { ListChecks } from "lucide-react";
+import { AlertCircle, ListChecks } from "lucide-react";
 
 import { EmptyState } from "#/components/shared/empty-state";
+import { Alert, AlertDescription } from "#/components/ui/alert";
 import { Badge } from "#/components/ui/badge";
 import {
 	Card,
@@ -40,9 +41,12 @@ export const DashboardTasks = () => {
 
 			<CardContent className="flex-1">
 				{isError ? (
-					<p className="rounded-md border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
-						Não foi possível carregar as tarefas. Tente novamente.
-					</p>
+					<Alert variant="danger">
+						<AlertCircle />
+						<AlertDescription>
+							Não foi possível carregar as tarefas. Tente novamente.
+						</AlertDescription>
+					</Alert>
 				) : isPending ? (
 					<div className="flex flex-col gap-3">
 						{SKELETON_ROWS.map((row) => (
